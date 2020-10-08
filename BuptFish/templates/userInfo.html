@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/boostrap.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/boostrap-theme.css' %}">
+    <script rel="stylesheet" src="{% static "js/bootstrap.js" %}"></script>
+    <script rel="stylesheet" src="{% static "js/bootstrap.min.js" %}"></script>
+
+</head>
+<body>
+    <div class="col-md-12" style="padding: 100px">
+        <div class="container">
+            <div class="col-md-6">
+                <h1>UserInfo</h1>
+                <div class="userInfo">
+                    <p>用户邮箱: {{ user.email }}</p>
+                    <p>性别：{{ user.gender }}</p>
+                    <p>注册时间：{{ user.register_time }}</p>
+                    <p>用户类型: {{ user.type_id }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
