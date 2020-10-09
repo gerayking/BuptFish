@@ -1,5 +1,5 @@
 """
-WSGI config for netdemo project.
+WSGI config for BuptFish project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'netdemo.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'BuptFish.settings')
 
 application = get_wsgi_application()

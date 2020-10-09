@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+
+</head>
+<body>
+{% if request.user.is_authenticated %}
+    <p>{{ request.user.username }} 您已經登入囉{{ request.user.last_login}}</p>
+    <a href="/restaurants_list/">餐廳列表</a>
+{% else %}
+    <p>您尚未登入喔~<a href="/accounts/login/">登入</a></p>
+{% endif %}
+</div>
+</body>
+</html>

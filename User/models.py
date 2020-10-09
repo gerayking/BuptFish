@@ -1,10 +1,12 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 
-
 # Create your models here.
+from BuptFish import settings
+
 
 class User(models.Model):
-    user_id = models.IntegerField()
+    user_id = models.IntegerField(auto_created=True)
     user_name = models.CharField(max_length=40, primary_key=True, default='')
     user_password = models.CharField(max_length=100, null=True)
     user_email = models.CharField(max_length=50)
@@ -20,7 +22,7 @@ class Goods(models.Model):
     goods_id = models.IntegerField(primary_key=True)  # 商品编号
     goods_name = models.CharField(max_length=50)  # 商品名称
     picture = models.CharField(max_length=100)  # 图片
-    class_id = models.ForeignKey(Type_id, on_delete=models.CASCADE, default='')  # 类型ID
+    Class = models.ForeignKey(Type_id, on_delete=models.CASCADE, default='')  # 类型ID
     price = models.FloatField()  # 原价
     secprice = models.FloatField()  # 二手价格
     condition = models.CharField(max_length=50)  # 新旧程度
@@ -63,5 +65,5 @@ class Orderdetail(models.Model):
 
 
 class favorites(models.Model):
-    goods_id = models.ForeignKey(Goods, on_delete=models.SET_NULL, default='', null=True)
-    user_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    goods = models.ForeignKey(Goods, on_delete=models.SET_NULL, default='', null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,null=True)

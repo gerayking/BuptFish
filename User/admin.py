@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from BuptFish.models import User, Goods, Type_id, Order, Orderdetail
+from User.models import User, Goods, Type_id, Order, Orderdetail
 
 admin.site.register(User)
 admin.site.register(Goods)
