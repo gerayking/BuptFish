@@ -11,7 +11,7 @@
 <body>
 <div class="row">
     <div class="col-lg-6 col-lg-offset-3 header">
-{#        <span class="header1">用户登录</span><span class="header2"><a href="{% url 'User:index' %}">回到首页</a></span>#}
+        <span class="header1">用户登录</span><span class="header2"><a href="{% url 'user:index' %}">回到首页</a></span>
     </div>
     <div class="col-lg-6 col-lg-offset-3 content">
         <div class="bodyleft"><img src="{% static 'img/register.jpg' %}"></div>
@@ -35,12 +35,14 @@
                         验证码
                     </div>
                 </div>
-
+<li><a target="_blank"  href="{% url 'user:gallery'%}">注册</a></li>
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-9">
                         <button type="button" class="btn btn-default" id="jsLoginBtn">用户登录</button>
                     </div>
                 </div>
+
+
                 <div class="form-group">
                     <span id="errorShow" class="errormsg">
 
@@ -67,10 +69,12 @@
             success: function(data){
                 data = JSON.parse(data);
                 if (data["status"] == 1){
-                     window.location = "/user/index/";
-                     {#$("#errorShow").html(data["msg"]).show();#}
+                    window.location.assign("{% url 'user:gallery' %}")
+                    {# window.location = this.url;#}
+                     $("#errorShow").html(data["msg"]).show();
                 }
                 else {
+                     {#window.location.assign("{% url 'user:index' %}")#}
                     $("#errorShow").html(data["msg"]).show();
                 }
             }

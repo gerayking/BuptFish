@@ -10,11 +10,29 @@
 </head>
 <body>
 {% if request.user.is_authenticated %}
-    <p>{{ request.user.username }} 您已經登入囉{{ request.user.last_login}}</p>
-    <a href="/restaurants_list/">餐廳列表</a>
+    <p>{{ request.user.username }} 您已登入{{ request.user.last_login}}</p>
+    <h1>{{ request.user.email }}</h1>
+
+
 {% else %}
-    <p>您尚未登入喔~<a href="/accounts/login/">登入</a></p>
+    <p>您尚未登入哦~<a href="{% url 'user:login' %}">登入</a></p>
 {% endif %}
 </div>
+ <ul>
+
+       <li> {{ order.order_id}}</li>
+       <li> {{ order.buyer_name}}</li>
+       <li> {{ order.seller_name}}</li>
+       <li> {{ order.rec_name}}</li>
+       <li> {{ order.address}}</li>
+       <li> {{ order.tel}}</li>
+       <li> {{ order.email}}</li>
+       <li> {{ order.order_time}}</li>
+       <li> {{ order.cost}}</li>
+       <li> {{ order.send}}</li>
+       <li> {{ order.state}}</li>
+
+
+    </ul>
 </body>
 </html>
