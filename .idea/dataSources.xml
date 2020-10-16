@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="BuptFish@localhost" uuid="d46d4a27-f8be-498b-96f9-af4d76ad87ac">
+    <data-source source="LOCAL" name="buptfish@localhost" uuid="8858946c-731f-43c1-a495-a2ee5391ea5f">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/BuptFish?serverTimezone=GMT</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/buptfish</jdbc-url>
     </data-source>
   </component>
 </project>
