@@ -6,9 +6,9 @@ from BuptFish import settings
 
 
 class Type_id(models.Model):
-    class_id = models.IntegerField()
+    class_id = models.IntegerField(default=0)
     class_name = models.CharField(max_length=50)
-    father_id = models.IntegerField()
+    father_id = models.IntegerField(default=0)
     class Meta:
         db_table = 'Type_id'
 
@@ -17,7 +17,8 @@ class Goods(models.Model):
     goods_id = models.IntegerField(primary_key=True)  # 商品编号
     goods_name = models.CharField(max_length=50)  # 商品名称
     picture = models.CharField(max_length=100)  # 图片
-    Class = models.ForeignKey(Type_id, on_delete=models.CASCADE, default='')  # 类型ID
+    class_id = models.IntegerField(default=0)
+    # Class = models.ForeignKey(Type_id, on_delete=models.CASCADE, default='')  # 类型ID
     price = models.FloatField()  # 原价
     secprice = models.FloatField()  # 二手价格
     condition = models.CharField(max_length=50)  # 新旧程度
@@ -33,7 +34,8 @@ class Messages(models.Model):
     user_name = models.CharField(max_length=50) # 留言所属用户名
     mes_content = models.CharField(max_length=200)  # 留言内容
     res_id = models.IntegerField(null=True)  # 留言回复id对应mes_id
-    goods = models.ForeignKey(Goods, on_delete=models.CASCADE, default='')
+    goods_id = models.IntegerField(default=0)
+    # goods = models.ForeignKey(Goods, on_delete=models.CASCADE, default='')
     mes_time = models.DateTimeField()
     class Meta:
         db_table = 'Messages'
@@ -57,8 +59,10 @@ class Order(models.Model):
 
 class Orderdetail(models.Model):
     detail_id = models.IntegerField()
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, default='')
-    goods = models.ForeignKey(Goods, on_delete=models.SET_NULL, default='', null=True)
+    order_id = models.IntegerField(default=0)
+    goods_id = models.IntegerField(default=0)
+    # order = models.ForeignKey(Order, on_delete=models.CASCADE, default='')
+    # goods = models.ForeignKey(Goods, on_delete=models.SET_NULL, default='', null=True)
     goods_name = models.CharField(max_length=20)
     goods_price = models.FloatField()
     goods_num = models.IntegerField()
@@ -68,7 +72,9 @@ class Orderdetail(models.Model):
 
 
 class favorites(models.Model):
-    goods = models.ForeignKey(Goods, on_delete=models.SET_NULL, default='', null=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,null=True)
+    goods_id = models.IntegerField(default=0)
+    user = models.IntegerField(default=0)
+    # goods = models.ForeignKey(Goods, on_delete=models.SET_NULL, default='', null=True)
+    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,null=True)
     class Meta:
         db_table = 'favorites'

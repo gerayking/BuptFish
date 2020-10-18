@@ -38,5 +38,5 @@ migratate
 ### Push
 push的过程中不要带上
 + .idea/
-+ __pycache__/  
++ \_\_pycache__/  
 这些是pycharm在生成项目过程的中间文件,存储起来是为了下次编译

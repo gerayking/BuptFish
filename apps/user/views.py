@@ -1,6 +1,6 @@
 import json
 
-from django.contrib.auth import authenticate, logout
+from django.contrib.auth import authenticate, logout, login
 from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
 from django.shortcuts import render
 
@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic, View
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
 
 from apps.user.models import Order
 from apps.user.models import Orderdetail
@@ -87,13 +88,14 @@ class IndexView(View):
 class LoginView(View):
     def get(self, request: HttpRequest):
         return render(request, 'User/login1.html')
+
     def post(self, request: HttpRequest):
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
         user = authenticate(username=username, password=password)
         print(username, password)
         if user is not None:
-            # login(request, user)
+            login(request, user)
             print("登陆成功！")
             return HttpResponse(json.dumps({"status": 1, "msg": "登录成功"}))
         else:
