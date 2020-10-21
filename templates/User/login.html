@@ -1,62 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     {% load static %}
-    <meta charset="UTF-8">
-    <title>登录</title>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Dashboard">
+    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <title>login</title>
 
+    <!--tab-->
+    <link rel="stylesheet" href="/static/css/main.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/style-responsive.css" rel="stylesheet">
+
+    <!-- =======================================================
+      Template Name: Dashio
+      Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
+      Author: TemplateMag.com
+      License: https://templatemag.com/license/
+    ======================================================= -->
 </head>
-<body>
-<div class="row">
-    <div class="col-lg-6 col-lg-offset-3 header">
-        <span class="header1">用户登录</span><span class="header2"><a href="{% url 'user:index' %}">回到首页</a></span>
+<body class="backstretch">
+<!-- **********************************************************************************************************************************************************
+    MAIN CONTENT
+    *********************************************************************************************************************************************************** -->
+<div id="login-page">
+    <div class="container">
+        <form class="form-login">
+            <h2 style="text-align: center;padding-top: 20px;">Login</h2>
+            <div class="login-wrap">
+                <div v-show="cur==0" class="Cbody_item">
+                    <input type="text" class="form-control" placeholder="用户名" autofocus name="username">
+                    <br>
+                    <input type="password" class="form-control" placeholder="密码" name="password"><br>
+                    <label class="checkbox">
+                        <input type="checkbox" value="remember-me"> 记住密码
+                        <span class="pull-right">
+            <a data-toggle="modal" href="login.html#myModal" class="forgot-password"> 忘记密码?</a>
+            </span><br><br>
+                    <button class="btn btn-theme btn-block" type="button" onclick="window.location.href='{% url 'user:register' %}'" >注册</button>
+                    <button class="btn btn-theme btn-block" id="jsLoginBtn" type="button">登录</button>
+                    </label>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="col-lg-6 col-lg-offset-3 content">
-        <div class="bodyleft"><img src="{% static 'img/register.jpg' %}"></div>
-        <div class="bodyright2">
-            <form class="form-horizontal" action="#" method="post" autocomplete="off">
-                <div class="form-group" style="margin-top: 20px">
-                    <label for="inputEmail3" class="col-sm-3 control-label">学号</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" id="inputEmail3" placeholder="学号" name="username">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-3 control-label">密码</label>
-                    <div class="col-sm-9">
-                        <input type="password" class="form-control" id="inputPassword3" placeholder="密码" name="password">
-                    </div>
-                </div>
-                <div class="form-group captcha1">
-                    <label for="inputEmail3" class="col-sm-3 control-label">验证码</label>
-                    <div class="col-sm-9">
-                        验证码
-                    </div>
-                </div>
-<li><a target="_blank"  href="{% url 'user:gallery'%}">注册</a></li>
-                <div class="form-group">
-                    <div class="col-sm-offset-3 col-sm-9">
-                        <button type="button" class="btn btn-default" id="jsLoginBtn">用户登录</button>
-                    </div>
-                </div>
-
-
-                <div class="form-group">
-                    <span id="errorShow" class="errormsg">
-
-                    </span>
-                    <span class="forget"><a href="#">忘记密码</a></span>
-                </div>
-                {% csrf_token %}
-            </form>
-        </div>
-    </div>
-
 </div>
-<script rel="stylesheet" src="{% static "js/jquery-1.11.1.js" %}"></script>
-<script rel="stylesheet" src="{% static "js/login.js" %}"></script>
+<script rel="stylesheet" src="/static/js/html5shiv.min.js"></script>
+<script rel="stylesheet" src="/static/js/vue.js"></script>
+<script rel="stylesheet" src="/static/js/jquery-1.11.1.js"></script>
+<script rel="stylesheet" src="/static/js/login.js"></script>
+<!-- js placed at the end of the document so the pages load faster -->
+<!--BACKSTRETCH-->
+<!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
+<script rel="stylesheet" src="/static/js/jquery.backstretch.min.js"></script>
 <script>
     $(function () {
         $("#jsLoginBtn").click(function () {
@@ -68,19 +70,22 @@
             async: true,
             success: function(data){
                 data = JSON.parse(data);
-                if (data["status"] == 1){
-                    window.location.assign("{% url 'user:gallery' %}")
-                    {# window.location = this.url;#}
-                     $("#errorShow").html(data["msg"]).show();
+                if (data["status"] == 200){
+                    alert(data["msg"]);
+                     window.location.href = "{% url 'user:index' %}" ;
                 }
                 else {
-                     {#window.location.assign("{% url 'user:index' %}")#}
-                    $("#errorShow").html(data["msg"]).show();
+                    alert(data["msg"]);
+                    window.location.href = "{% url 'user:login' %}";
                 }
+            },
+            error: function (){
+              alert("服务器错误,请联系管理员解决");
             }
         });
     });
     });
 </script>
 </body>
+
 </html>

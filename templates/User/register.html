@@ -1,10 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
+<head>
+    {% load static %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="Dashboard">
+  <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+  <title>register</title>
+
+  <!--tab-->
+  <link rel="stylesheet" href="/static/css/main.css">
+  <link rel="stylesheet" href="/static/main.css">
+  <!-- Bootstrap core CSS -->
+  <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.css" rel="stylesheet">
+  <link href="/static/css/style-responsive.css" rel="stylesheet">
+  <!-- =======================================================
+    Template Name: Dashio
+    Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
+    Author: TemplateMag.com
+    License: https://templatemag.com/license/
+  ======================================================= -->
+</head>
+
+<body>
+  <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+  <div id="register-page">
+    <div class="container">
+      <form class="form-login" >
+	<h2 style="text-align: center;padding-top: 20px">Register</h2>
+        <div class="login-wrap">
+          <div v-show="cur==0" class="Cbody_item">
+          <input type="text" class="form-control" placeholder="用户名" autofocus id="username" name="username"><br>
+          <input type="password" class="form-control" placeholder="密码" name="password" id="password"><br>
+          <input type="password" class="form-control" placeholder="确认密码" name="password-again" id="password-again">
+              <span id="password-msg" style="color: red"></span><br>
+          <input type="text" class="form-control" placeholder="邮箱" name="email" id="email">
+              <span id="email-msg" style="color: red"></span><br>
+          <button class="btn btn-theme btn-block" type="button" id="jsRegisBtn">
+              <i class="fa fa-lock"></i>注册</button><br>
+        </div>
+        </div>
+      </form>
+    </div>
+  </div>
+<script rel="stylesheet" src="/static/js/html5shiv.min.js"></script>
+<script rel="stylesheet" src="/static/js/vue.js"></script>
+<script rel="stylesheet" src="/static/js/jquery-1.11.1.js"></script>
+<script rel="stylesheet" src="/static/js/login.js"></script>
+  <!-- js placed at the end of the document so the pages load faster -->
+  <script src="/static/jquery/jquery.min.js"></script>
+  <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+  <!--BACKSTRETCH-->
+  <!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
+ <script rel="stylesheet" src="/static/js/jquery.backstretch.min.js"></script>
+  <script>
+
+</script>
+<script rel="stylesheet">
+	$(function () {
+        $("#email").bind("input propertychange",function (){
+            $("#email-msg").empty();
+          email = $("#email").val();
+          $("#email-msg").empty();
+            if (email != "") {
+            var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+                isok= reg.test(email);
+                console.log(isok);
+                if (!isok) {
+                    $("#email-msg").append("邮箱错误");
+                    document.getElementById("email").focus();
+                }
+            };
+      });
+        $("#password-again").bind("input propertychange", function (){
+           $("#password-msg").empty();
+           password = $("#password").val();
+           passwordagain = $("#password-again").val();
+           if(passwordagain != password){
+               $("#password-msg").append("两次密码不一致");
+               $("#password-again").focus();
+           }
+        });
+        $("#jsRegisBtn").click(function () {
+            var password = $("#password-again").val();
+            var passwordagain = $("#password-again").val();
+            if($("#username").val()==""||$("#username").val()==null){
+                console.log()
+                $("#username").focus();
+                alert("用户名不能为空");
+                return ;
+            }
+            else if(password == "" || password == null){
+                $("#password").focus();
+                return;
+            }
+            else if($("#email").val()=="" || $("#email").val()==null){
+                alert("请输入正确邮箱");
+                $("#email").focus();
+            }
+            else if (password != passwordagain){
+                alert("密码输入不一致");
+                $("#password-again").focus();
+                return ;
+            }
+            $.ajax({
+            cache: false,
+            url: "{% url 'user:register' %}",
+            data: $("form").serialize(),
+            type: "post",
+            async: true,
+            success: function(data){
+                data = JSON.parse(data);
+                if (data["status"] == 200){
+                    alert(data["msg"]);
+                    window.location.href = "{% url 'user:login' %}";
+                }
+                else {
+                    alert(data["msg"]);
+                }
+            },
+            error: function (){
+              alert("服务器错误,请联系管理员解决");
+            }
+        });
+    });
+    });
+</script>
 </body>
+
 </html>

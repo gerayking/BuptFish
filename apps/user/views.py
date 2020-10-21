@@ -10,7 +10,7 @@ from django.views import generic, View
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 
-from apps.user.models import Order
+from apps.user.models import Order, Goods
 from apps.user.models import Orderdetail
 
 
@@ -26,7 +26,7 @@ def userInfo(request):
 def gallery(request):
     orderDetail = Orderdetail.objects.get(detail_id=1)
     goods_comment = "我觉得不错"
-    return render(request, 'User/gallery.html', locals())
+    return render(request, 'User/index.html', locals())
 
 
 def search_goods(request):
@@ -52,7 +52,7 @@ class Search_goodsView(View):
 
 class GalleryView(View):
     def get(self, request: HttpRequest):
-        return render(request, 'User/gallery.html')
+        return render(request, 'User/index.html')
 
 
 class UserInfoView(View):
@@ -74,42 +74,60 @@ def register(request, useremail: str, username: str, password: str):
 
 
 class userinfo(generic.DetailView):
-    user = User.objects.get(id=1)
+    user = User.objects.filter(id=1)
     model = user
     template_name = 'User/userInfo.html'
 
 
 class IndexView(View):
     def get(self, request: HttpRequest):
-        order = Order.objects.get(order_id=1)
+        order = Order.objects.filter(order_id=1)
         return render(request, 'User/index.html', locals())
 
 
 class LoginView(View):
     def get(self, request: HttpRequest):
-        return render(request, 'User/login1.html')
+        return render(request, 'User/login.html')
 
     def post(self, request: HttpRequest):
-        username = request.POST.get('username', '')
-        password = request.POST.get('password', '')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
         user = authenticate(username=username, password=password)
         print(username, password)
         if user is not None:
             login(request, user)
-            print("登陆成功！")
-            return HttpResponse(json.dumps({"status": 1, "msg": "登录成功"}))
+            return HttpResponse(json.dumps({"status": 200, "msg": "登录成功"}))
         else:
-            print("登陆失败！用户未激活")
-            return HttpResponse(json.dumps({"status": 0, "msg": "用户未激活"}))
-
-
-class RegisterView(View):
-    def get(self, request):
-        return render(request, 'User/register.html')
-
+            return HttpResponse(json.dumps({"status": 201, "msg": "登录失败"}))
 
 
 class LogoutView(View):
-    def get(self, request):
+    def get(self, request:HttpRequest):
         logout(request)
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("user:index"))
+
+class RegisterView(View):
+    def get(self, request: HttpRequest):
+        return render(request, 'User/register.html')
+    def post(self, request: HttpRequest):
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        email = request.POST.get('email')
+        if username =="" or username is None:
+            return HttpResponse(json.dumps({"status": 201, "msg": "用户名不能为空"}))
+        if password =="" or password is None:
+            return HttpResponse(json.dumps({"status": 201, "msg": "密码不能为空"}))
+        if email == "" or email is None:
+            return HttpResponse(json.dumps({"status": 201, "msg": "邮箱不能为空"}))
+        user = User.objects.filter(email=email)
+        if len(user) != 0:
+            return HttpResponse(json.dumps({"status": 201, "msg": "邮箱已被使用"}))
+        user = User.objects.filter(username=username)
+        if len(user) !=0:
+            return HttpResponse(json.dumps({"status": 201, "msg": "用户名已注册"}))
+        user = User()
+        user.set_password(password)
+        user.username = username
+        user.email = email
+        user.save()
+        return HttpResponse(json.dumps({"status": 200, "msg": "注册成功"}))
