@@ -66,13 +66,13 @@
     <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-            <p class="centered"><a href="profile.html"><img src="/static/img/ui-sam.jpg" class="img-circle" width="80"></a>
+            <p class="centered"><a href="profile.html"><img src={% static 'img/ui-sam.jpg' %} class="img-circle" width="80"></a>
             </p>
             <h5 class="centered">{{ request.user.username }}</h5>
 
             <li class="sub-menu">
                 <a class="active" href="javascript:;">
-                    <span><a href="{% url 'user:gallery' %}"><h5>用户主页</h5></a></span>
+                    <span><a href="{% url 'user:index' %}"><h5>用户主页</h5></a></span>
                     <span><a href="{% url 'user:search_goods' %}"><h5>搜索</h5></a></span>
                 </a>
             </li>
@@ -117,7 +117,7 @@
             <!-- /col-md-4 -->
             <div class="col-md-4 centered">
                 <div class="profile-pic">
-                    <p><img src="/static/img/ui-sam.jpg" class="img-circle"></p>
+                    <p><img src="{% static 'img/ui-sam.jpg' %}" class="img-circle"></p>
                     <p>
                         <button class="btn btn-theme">Follow</button>
                         <button class="btn btn-theme02">Add</button>
@@ -135,8 +135,8 @@
                     <div class="project">
                         <div class="photo-wrapper">
                             <div class="photo">
-                                <a class="fancybox" href="{% static 'img/portfolio/port04.jpg' %}"><img
-                                        class="img-responsive" src="/static/img/portfolio/port04.jpg" alt=""></a>
+                                <a class="fancybox" href="{% static 'img/portfolio/port01.jpg' %}"><img
+                                        class="img-responsive" src="{% static 'img/portfolio/port01.jpg' %}" alt=""></a>
                             </div>
                             <div class="overlay"></div>
                         </div>
@@ -149,15 +149,14 @@
                     </div>
                 </div>
             </div>
-
             <!-- col-lg-4 -->
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
                 <div class="project-wrapper">
                     <div class="project">
                         <div class="photo-wrapper">
                             <div class="photo">
-                                <a class="fancybox" href="{% static 'img/portfolio/port04.jpg' %}"><img
-                                        class="img-responsive" src="/static/img/portfolio/port04.jpg" alt=""></a>
+                                <a class="fancybox" href="{% static 'img/portfolio/port02.jpg' %}"><img
+                                        class="img-responsive" src="{% static 'img/portfolio/port02.jpg' %}" alt=""></a>
                             </div>
                             <div class="overlay"></div>
                         </div>
@@ -175,8 +174,8 @@
                     <div class="project">
                         <div class="photo-wrapper">
                             <div class="photo">
-                                <a class="fancybox" href="{% static 'img/portfolio/port04.jpg' %}"><img
-                                        class="img-responsive" src="/static/img/portfolio/port04.jpg" alt=""></a>
+                                <a class="fancybox" href="{% static 'img/portfolio/port03.jpg' %}"><img
+                                        class="img-responsive" src="{% static 'img/portfolio/port03.jpg' %}" alt=""></a>
                             </div>
                             <div class="overlay"></div>
                         </div>
@@ -196,7 +195,7 @@
                         <div class="photo-wrapper">
                             <div class="photo">
                                 <a class="fancybox" href="{% static 'img/portfolio/port04.jpg' %}"><img
-                                        class="img-responsive" src="/static/img/portfolio/port04.jpg" alt=""></a>
+                                        class="img-responsive" src="{% static 'img/portfolio/port04.jpg' %}" alt=""></a>
                             </div>
                             <div class="overlay"></div>
                         </div>
@@ -212,8 +211,8 @@
                     <div class="project">
                         <div class="photo-wrapper">
                             <div class="photo">
-                                <a class="fancybox" href="{% static 'img/portfolio/port04.jpg' %}"><img
-                                        class="img-responsive" src="/static/img/portfolio/port04.jpg" alt=""></a>
+                                <a class="fancybox" href="{% static 'img/portfolio/port05.jpg' %}"><img
+                                        class="img-responsive" src="{% static 'img/portfolio/port05.jpg' %}" alt=""></a>
                             </div>
                             <div class="overlay"></div>
                         </div>
@@ -230,8 +229,8 @@
                     <div class="project">
                         <div class="photo-wrapper">
                             <div class="photo">
-                                <a class="fancybox" href="{% static 'img/portfolio/port04.jpg' %}"><img
-                                        class="img-responsive" src="/static/img/portfolio/port04.jpg" alt=""></a>
+                                <a class="fancybox" href="{% static 'img/portfolio/port06.jpg' %}"><img
+                                        class="img-responsive" src="{% static 'img/portfolio/port06.jpg' %}" alt=""></a>
                             </div>
                             <div class="overlay"></div>
                         </div>
