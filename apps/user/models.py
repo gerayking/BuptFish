@@ -1,9 +1,12 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 # Create your models here.
 from BuptFish import settings
 
+class UserInfo(AbstractUser):
+    avatar = models.ImageField('头像')
 
 class Type_id(models.Model):
     class_id = models.IntegerField(default=0)
