@@ -1,5 +1,4 @@
-
-q<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -62,7 +61,6 @@ q<!DOCTYPE html>
         </ul>
     </div>
 </header>
--->
 <aside>
     <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
@@ -118,7 +116,7 @@ q<!DOCTYPE html>
             <!-- /col-md-4 -->
             <div class="col-md-4 centered">
                 <div class="profile-pic">
-                    <p><img src="{% static 'img/ui-sam.jpg' %}" class="img-circle"></p>
+                    <p><img src="{{ request.user.avatar }}" class="img-circle"></p>
                     <p>
                         <button class="btn btn-theme">Follow</button>
                         <button class="btn btn-theme02">Add</button>

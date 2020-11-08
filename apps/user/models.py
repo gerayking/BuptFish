@@ -6,7 +6,7 @@ from django.db import models
 from BuptFish import settings
 
 class UserInfo(AbstractUser):
-    avatar = models.ImageField('头像')
+    avatar = models.ImageField('头像',default="https://i.loli.net/2020/11/08/KnofmQWD15BxcMu.jpg")
 
 class Type_id(models.Model):
     class_id = models.IntegerField(default=0)
