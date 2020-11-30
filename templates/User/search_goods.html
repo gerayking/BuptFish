@@ -76,6 +76,7 @@
             <a class="active" href="javascript:;">
               <span><a href="{% url 'user:index'%}"><h5 >用户主页</h5></a></span>
                 <span><a href="{% url 'user:search_goods'%}"><h5 >搜索</h5></a></span>
+                <span><a href="{% url 'user:shopping_cart' %}"><h5>购物车</h5></a></span>
               </a>
           </li>
         </ul>
@@ -88,7 +89,7 @@
         *********************************************************************************************************************************************************** -->
     <!--main content start-->
 
-{# <section id="main-content">#}
+ <section id="main-content">
       <section class="wrapper site-min-height">
 <div class="container">
     <div class="row">
@@ -96,24 +97,44 @@
         <h3>Input what you are looking for.</h3>
         <br>
         <div class="row">
-            <form method="post" action="">
+            <form method="get" action="">
                 {%csrf_token%}
           <div class="col-md-8 col-md-offset-2">
+              <div class="row">
             <input type="text" class="form-control" id="form1Name" name="form1Name"placeholder="{{placeholder}}" autofocus>
             <button class="btn btn-theme mt" type="submit">Search</button>
+              </div>
           </div>
             </form>
         </div>              
       </div>
+
     </div>
-     <h4>以下是您搜索的商品：{{goods_input}}</h4>
-    <label for="byear">筛选商品类型</label>
-<select name="byear" onchange="getContent(this.value)">
+
+
+<span>
+
+   <div class="row">
+   <h4>以下是您搜索的商品：{{goods_input}}</h4>
+    <label for="gtype"><h4>筛选商品类型</h4></label>
+<select id="gtypes">
     {% for goods in goods_type %}
     <option value="{{goods}}">{{goods}}</option>
     {% endfor %}
 </select>
-    <div class="row mt">
+ <label for="gprice"><h4>筛选价格区间</h4></label>
+<select id="gprices">
+    {% for price in goods_price %}
+    <option value="{{price}}">{{price}}</option>
+    {% endfor %}
+</select>
+    <button class="btn btn-theme mt" type="submit" id="submitSelect">筛选</button>
+
+</div>
+</span>
+
+<span id="goodslist">
+     <div class="row mt">
         {% for photo_path in photo_paths %}
          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
                 <div class="project-wrapper">
@@ -123,9 +144,7 @@
                                 <a class="fancybox" href={{ photo_path }} target="_blank">
                                     <img class="img-responsive" src={{ photo_path }} alt=""></a>
                             </div>
-                            <div class="overlay"></div>
                         </div>
-
                         <h5>商品名称：</h5>
                         <h5>成交价格：</h5>
                         <h5>商品评价：</h5>
@@ -134,49 +153,15 @@
                 </div>
          </div>
         {% endfor %}
-
-{#         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">#}
-{#                <div class="project-wrapper">#}
-{#                    <div class="project">#}
-{#                        <div class="photo-wrapper">#}
-{#                            <div class="photo">#}
-{#                                <a class="fancybox" href={{ photo_path }}><img#}
-{#                                        class="img-responsive" src={{ photo_path }} alt=""></a>#}
-{#                            </div>#}
-{#                            <div class="overlay"></div>#}
-{#                        </div>#}
-{#                        <h5>商品名称：</h5>#}
-{#                        <h5>成交价格：</h5>#}
-{#                        <h5>商品评价：</h5>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{##}
-{#         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">#}
-{#                <div class="project-wrapper">#}
-{#                    <div class="project">#}
-{#                        <div class="photo-wrapper">#}
-{#                            <div class="photo">#}
-{#                                <a class="fancybox" href={{ photo_path }}><img#}
-{#                                        class="img-responsive" src={{ photo_path }} alt=""></a>#}
-{#                            </div>#}
-{#                            <div class="overlay"></div>#}
-{#                        </div>#}
-{#                        <h5>商品名称：</h5>#}
-{#                        <h5>成交价格：</h5>#}
-{#                        <h5>商品评价：</h5>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-
     </div>
-  </div>
+</span>
 
+  </div>
 
           </section>
 
       <!-- /wrapper -->
-{#    </section>#}
+    </section>
 
 
   <!-- js placed at the end of the document so the pages load faster -->
@@ -200,14 +185,34 @@
       jQuery(".fancybox").fancybox();
     });
   </script>
+
 <script>
-
-    function getContent(value){
-
-  alert("选中的商品是:"+value);
-}
+    $(document).ready(function(){//ajax刷新图片
+      $("#submitSelect").click(function(){//点击筛选按钮后，获得两个下拉选择框的值，弹出框提示，利用post方法提交到search_goods函数
+          var type = $("#gtypes").find("option:selected").text();
+          var price = $("#gprices").find("option:selected").text();
+          alert("选中的商品类型是:"+type+"\n选中的商品价格是:"+price);
+        $.post("{% url 'user:search_goods' %}",JSON.stringify({
+                     type: type,
+                    price : price,
+                }), function(ret){//得到返回值后，将原有的goodslist清空，按照返回结果重新张贴所有图片
+            {#var List = {{ List|safe }};#}
+            {#alert(List);#}
+            {#newData = eval("("+List+")");   #}
+            {#alert("hjf"+newData);#}
+            {#var newData = JSON.stringify(ret);    //将json对象转换为字符串#}
+            {#newData = eval("("+newData+")");   /解析json#}
+            {#alert("hjf"+newData);#}
+            $('#goodslist').html('') //清空前面的结果
+           $('#goodslist').append('<div class="row mt">')
+            $.each(ret, function(index, item){
+                $('#goodslist').append('<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc"><div class="project-wrapper"><div class="project"><div class="photo-wrapper"><div class="photo" ><a class="fancybox"  href='+item+'target="_blank"><img width="300" height="240" class="img-responsive" src='+item+' alt=""></a></div></div><h5>商品名称：</h5><h5>成交价格：</h5><h5>商品评价：</h5></div> </div></div>');
+            })
+            $('#goodslist').append('</div>')
+        })
+      });
+    });
 </script>
-
 </body>
 
 </html>

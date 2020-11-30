@@ -2,7 +2,7 @@ import json
 
 from django.contrib.auth import authenticate, logout, login
 from django.forms import forms
-from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
+from django.http import HttpResponse, HttpResponseRedirect, HttpRequest, JsonResponse
 from django.shortcuts import render
 
 # Create your views here.
@@ -17,7 +17,7 @@ from apps.user.models import Orderdetail
 
 
 def index(request):
-    # order = Order.objects.get(order_id=1)
+    # # order = Order.objects.get(order_id=1)
     photo_paths = ["https://i.loli.net/2020/11/02/WxsILKP7kX9iTbZ.jpg",  # 图片port1
                    "https://i.loli.net/2020/11/02/iGuQr6RgHoLE4UW.jpg",  # 图片port2
                    "https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg",  # 图片port3
@@ -26,6 +26,13 @@ def index(request):
                    "https://i.loli.net/2020/11/02/eqHvPVzDXjlNaK1.jpg"]  # 图片port6
     return render(request, 'User/index.html', locals())
 
+def shopping_cart(request):
+    return render(request, 'User/index.html', locals())
+
+
+def release_goods(request):
+    return render(request, 'User/release_goods.html', locals())
+
 
 def userInfo(request):
     return render(request, 'User/userInfo.html')
@@ -33,37 +40,46 @@ def userInfo(request):
 
 def search_goods(request):
     placeholder = "输入搜索内容"
-    goods_type = ['衣服','食品','母婴','电子产品']
-    if request.POST:
-        goods_input = request.POST['form1Name']
-        photo_paths=["https://i.loli.net/2020/11/02/WxsILKP7kX9iTbZ.jpg",#图片port1
-                     "https://i.loli.net/2020/11/02/iGuQr6RgHoLE4UW.jpg",#图片port2
-                     "https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg",#图片port3
-                     "https://i.loli.net/2020/11/02/QpWvltj85E6uJia.jpg",#图片port4
-                     "https://i.loli.net/2020/11/02/7fpEKYHXjW36PMF.jpg",#图片port5
-                     "https://i.loli.net/2020/11/02/eqHvPVzDXjlNaK1.jpg"]#图片port6
+    if request.GET:#搜索内容提交
+        goods_input = request.GET['form1Name']
+        print(goods_input)#根据goods_input的值从数据库挑选内容放入以下数组，并且返回类型下拉选择框和价格区间下拉选择框
+        goods_type = ['衣服','食品','母婴','电子产品']
+        goods_price = ['100以下', '100~500', '500~1000', '1000以上']
+        photo_paths = ["https://i.loli.net/2020/11/02/WxsILKP7kX9iTbZ.jpg",  # 图片port1
+                       "https://i.loli.net/2020/11/02/iGuQr6RgHoLE4UW.jpg",  # 图片port2
+                       "https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg",  # 图片port3
+                       "https://i.loli.net/2020/11/02/QpWvltj85E6uJia.jpg",  # 图片port4
+                       "https://i.loli.net/2020/11/02/7fpEKYHXjW36PMF.jpg",  # 图片port5
+                       "https://i.loli.net/2020/11/02/eqHvPVzDXjlNaK1.jpg"]  # 图片port6
+
+
+
+    if request.POST:#筛选内容提交
+        data = json.loads(request.body)
+        goods_type = data["type"]#根据类型和价格区间返回筛选出的内容
+        goods_price=data["price"]
+        print(goods_type)
+        print(goods_price)
+        result_list = ["https://i.loli.net/2020/11/02/eqHvPVzDXjlNaK1.jpg",# 图片port1
+                       "https://i.loli.net/2020/11/02/QpWvltj85E6uJia.jpg",# 图片port5
+                       "https://i.loli.net/2020/11/02/WxsILKP7kX9iTbZ.jpg",# 图片port3
+                       "https://i.loli.net/2020/11/02/iGuQr6RgHoLE4UW.jpg",# 图片port2
+                       "https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg",# 图片port4
+                       "https://i.loli.net/2020/11/02/7fpEKYHXjW36PMF.jpg"] # 图片port6
+
+        # data = {
+        #     'name': "candy",
+        #     'age': 13,
+        # }
+        # list = ['a', 'b', 'c', 'd']
+        # return render(request, 'User/search_goods.html', {
+        #     'List': json.dumps(result_list),
+        # })
+        return HttpResponse(json.dumps(result_list),
+            content_type='application/json')
+
+
     return render(request, 'User/search_goods.html', locals())
-
-
-def login1(request):
-    # text = "placeholder1"
-    return render(request, 'User/login1.html', locals())
-
-
-class Search_goodsView(View):
-    def get(self, request: HttpRequest):
-        text = "placeholder1"
-        return render(request, 'User/search_goods.html', locals())
-
-    def post(self, request: HttpRequest):
-        form1Name = request.POST.get('form1Name')
-        form1Name = "xxx"
-        return render(request, 'User/search_goods.html', locals())
-
-
-class GalleryView(View):
-    def get(self, request: HttpRequest):
-        return render(request, 'User/index.html')
 
 
 class UserInfoView(View):

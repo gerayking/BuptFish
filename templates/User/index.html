@@ -73,6 +73,7 @@
                 <a class="active" href="javascript:;">
                     <span><a href="{% url 'user:index' %}"><h5>用户主页</h5></a></span>
                     <span><a href="{% url 'user:search_goods' %}"><h5>搜索</h5></a></span>
+                    <span><a href="{% url 'user:shopping_cart' %}"><h5>购物车</h5></a></span>
                 </a>
             </li>
         </ul>
@@ -110,8 +111,10 @@
                 <p>热爱电子产品和运动器材，有很多闲置宝贝等待出售，在BuptFish的第1000天，所有出售物得到一致好评，欢迎来我的主页浏览</p>
                 <br>
                 <p>
-                    <button class="btn btn-theme"> Send Message</button>
+                    <a class="btn btn-theme" href="{% url 'user:release_goods' %}">Release</a>
+
                 </p>
+
             </div>
             <!-- /col-md-4 -->
             <div class="col-md-4 centered">
@@ -241,6 +244,8 @@
             </div>
             <!-- col-lg-4 -->
         </div>
+
+
 
         <!-- /row -->
     </section>
