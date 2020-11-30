@@ -1,18 +1,20 @@
-from django.conf import settings
 from django.conf.urls import url
-from django.conf.urls.static import static
 
 from . import views
-from .views import LoginView, IndexView, RegisterView, LogoutView, ChangeAvatar
+from .views import LoginView, IndexView, RegisterView, LogoutView
 
 app_name = "user"
 urlpatterns = [
-                  url(r'^register/$', RegisterView.as_view(), name="register"),
-                  url(r'^login/$', LoginView.as_view(), name='login'),
-                  url(r'^login1/$', views.login1, name='login1'),
-                  url(r'^index/$', IndexView.as_view(), name="index"),
-                  url(r'^search_goods/$', views.search_goods, name="search_goods"),
-                  url(r'^logout/$', LogoutView.as_view(), name="logout"),
-                  url(r'^avatachange/$', ChangeAvatar.as_view(), name="ChangeAvatar")
-                  # url('<int:pk>/userinfo/', views.userinfo.as_view(), name='userinfo')
-              ]
+    url(r'^register/$', RegisterView.as_view(), name="register"),#注册界面
+    url(r'^login/$', LoginView.as_view(), name='login'),#登录界面
+    url(r'^release_goods/$', views.release_goods, name="release_goods"),#发布界面
+    url(r'^index/$', IndexView.as_view(), name="index"),#个人主页
+    url(r'^userInfo/$', views.userinfo, name="userInfo"),
+    url(r'^search_goods/$', views.search_goods, name="search_goods"),#商品搜索界面
+    url(r'^logout/$', LogoutView.as_view(), name="logout"),#登出界面
+    url(r'^shopping_cart/$', LogoutView.as_view(), name="shopping_cart"),#登出界面
+
+
+    # url('<int:pk>/userinfo/', views.userinfo.as_view(), name='userinfo')
+
+]
