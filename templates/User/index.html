@@ -90,8 +90,6 @@
 
 <section id="main-content">
     <section class="wrapper site-min-height">
-        {#        <h3> Gallery</h3>#}
-
         <div class="row content-panel">
             <div class="col-md-4 profile-text mt mb centered">
                 <div class="right-divider hidden-sm hidden-xs">
@@ -129,124 +127,84 @@
             </div>
             <!-- /col-md-4 -->
         </div>
-
-        <hr>
-        <h3>History</h3>
-        <div class="row mt">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
+               <div class="panel-heading">
+                <ul class="nav nav-tabs nav-justified">
+                  <li class="active">
+                    <a data-toggle="tab" href="#sell">历史卖出</a>
+                  </li>
+                  <li>
+                    <a data-toggle="tab" href="#buy" class="contact-map" id="history_buy">历史买入</a>
+                  </li>
+                     <li>
+                    <a data-toggle="tab" href="#trade" class="contact-map" id="history_trade">正在交易</a>
+                  </li>
+                </ul>
+              </div>
+<div class="tab-content">
+<div id="sell" class="tab-pane active">
+ <div class="row mt" id="goodslistsell">
+        {% for photo_path in objecthh %}
+         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
                 <div class="project-wrapper">
                     <div class="project">
                         <div class="photo-wrapper">
                             <div class="photo">
-                                <a class="fancybox" href="{% static 'img/portfolio/port01.jpg' %}"><img
-                                        class="img-responsive" src="{% static 'img/portfolio/port01.jpg' %}" alt=""></a>
+                                <a class="fancybox" href={{ photo_path }} target="_blank">
+                                    <img class="img-responsive" src={{ photo_path }} alt=""></a>
                             </div>
-                            <div class="overlay"></div>
                         </div>
-
-                        <h5>商品名称：{{ orderDetail.goods_name }}</h5>
-                        <h5>商品原价：{{ orderDetail.goods_price }}</h5>
-                        <h5>成交价格：{{ orderDetail.goods_cost }}</h5>
-                        <h5>商品评价：{{ goods_comment }}</h5>
-
-                    </div>
-                </div>
-            </div>
-            <!-- col-lg-4 -->
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
-                <div class="project-wrapper">
-                    <div class="project">
-                        <div class="photo-wrapper">
-                            <div class="photo">
-                                <a class="fancybox" href="{% static 'img/portfolio/port02.jpg' %}"><img
-                                        class="img-responsive" src="{% static 'img/portfolio/port02.jpg' %}" alt=""></a>
-                            </div>
-                            <div class="overlay"></div>
-                        </div>
-
-                        <h5>商品名称：</h5>
+                        <h5>商品名称：{{ photo_path.goods_name }}</h5>
                         <h5>成交价格：</h5>
                         <h5>商品评价：</h5>
-
                     </div>
                 </div>
-            </div>
-            <!-- col-lg-4 -->
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
+         </div>
+        {% endfor %}
+    </div>
+</div>
+<div id="buy" class="tab-pane active">
+    <div class="row mt" id="goodslistbuy">
+        {% for photo_path in photo_paths_buy %}
+         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
                 <div class="project-wrapper">
                     <div class="project">
                         <div class="photo-wrapper">
                             <div class="photo">
-                                <a class="fancybox" href="{% static 'img/portfolio/port03.jpg' %}"><img
-                                        class="img-responsive" src="{% static 'img/portfolio/port03.jpg' %}" alt=""></a>
+                                <a class="fancybox" href={{ photo_path }} target="_blank">
+                                    <img class="img-responsive" src={{ photo_path }} alt=""></a>
                             </div>
-                            <div class="overlay"></div>
-                        </div>
-                        <h5>商品名称：{{ text }}</h5>
-                        <h5>成交价格：{{ text1 }}</h5>
-                        <h5>商品评价：</h5>
-                    </div>
-                </div>
-            </div>
-            <!-- col-lg-4 -->
-        </div>
-        <!-- /row -->
-        <div class="row mt">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
-                <div class="project-wrapper">
-                    <div class="project">
-                        <div class="photo-wrapper">
-                            <div class="photo">
-                                <a class="fancybox" href="{% static 'img/portfolio/port04.jpg' %}"><img
-                                        class="img-responsive" src="{% static 'img/portfolio/port04.jpg' %}" alt=""></a>
-                            </div>
-                            <div class="overlay"></div>
                         </div>
                         <h5>商品名称：</h5>
                         <h5>成交价格：</h5>
                         <h5>商品评价：</h5>
                     </div>
                 </div>
-            </div>
-            <!-- col-lg-4 -->
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
+         </div>
+        {% endfor %}
+    </div>
+</div>
+<div id="trade" class="tab-pane active">
+    <div class="row mt" id="goodslisttrade">
+        {% for photo_path in photo_paths_trade %}
+         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
                 <div class="project-wrapper">
                     <div class="project">
                         <div class="photo-wrapper">
                             <div class="photo">
-                                <a class="fancybox" href="{% static 'img/portfolio/port05.jpg' %}"><img
-                                        class="img-responsive" src="{% static 'img/portfolio/port05.jpg' %}" alt=""></a>
+                                <a class="fancybox" href={{ photo_path }} target="_blank">
+                                    <img class="img-responsive" src={{ photo_path }} alt=""></a>
                             </div>
-                            <div class="overlay"></div>
                         </div>
                         <h5>商品名称：</h5>
                         <h5>成交价格：</h5>
                         <h5>商品评价：</h5>
                     </div>
                 </div>
-            </div>
-
-            <!-- col-lg-4 -->
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
-                <div class="project-wrapper">
-                    <div class="project">
-                        <div class="photo-wrapper">
-                            <div class="photo">
-                                <a class="fancybox" href="{% static 'img/portfolio/port06.jpg' %}"><img
-                                        class="img-responsive" src="{% static 'img/portfolio/port06.jpg' %}" alt=""></a>
-                            </div>
-                            <div class="overlay"></div>
-                        </div>
-                        <h5>商品名称：</h5>
-                        <h5>成交价格：</h5>
-                        <h5>商品评价：</h5>
-                    </div>
-                </div>
-            </div>
-            <!-- col-lg-4 -->
-        </div>
-
-
+         </div>
+        {% endfor %}
+    </div>
+</div>
+</div>
 
         <!-- /row -->
     </section>

@@ -11,26 +11,64 @@ from django.views import generic, View
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 
-from apps.user.models import Order, Goods
+from apps.user.models import Order, Orderdetail
 from apps.user.models import Orderdetail
 
 
 def index(request):
-    # # order = Order.objects.get(order_id=1)
-    photo_paths = ["https://i.loli.net/2020/11/02/WxsILKP7kX9iTbZ.jpg",  # 图片port1
+    order=Orderdetail.objects.filter(detail_id=1)
+    # count=order.count()
+    objecthh=[]
+    for x in order:
+        objecthh.append(x)
+
+    # order1=order[0]
+
+
+    #根据用户的历史卖出商品返回图片路径
+    photo_paths_sell = ["https://i.loli.net/2020/11/02/WxsILKP7kX9iTbZ.jpg",  # 图片port1
                    "https://i.loli.net/2020/11/02/iGuQr6RgHoLE4UW.jpg",  # 图片port2
                    "https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg",  # 图片port3
                    "https://i.loli.net/2020/11/02/QpWvltj85E6uJia.jpg",  # 图片port4
                    "https://i.loli.net/2020/11/02/7fpEKYHXjW36PMF.jpg",  # 图片port5
                    "https://i.loli.net/2020/11/02/eqHvPVzDXjlNaK1.jpg"]  # 图片port6
+
+    # 根据用户的历史买入商品返回图片路径
+    photo_paths_buy = ["https://i.loli.net/2020/11/02/7fpEKYHXjW36PMF.jpg",  # 图片port1
+                        "https://i.loli.net/2020/11/02/eqHvPVzDXjlNaK1.jpg",  # 图片port2
+                        "https://i.loli.net/2020/11/02/QpWvltj85E6uJia.jpg",  # 图片port3
+                        "https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg",  # 图片port4
+                        "https://i.loli.net/2020/11/02/WxsILKP7kX9iTbZ.jpg",  # 图片port5
+                        "https://i.loli.net/2020/11/02/iGuQr6RgHoLE4UW.jpg"]  # 图片port6
+
+    # 根据用户的正在交易的商品返回图片路径
+    photo_paths_trade = ["https://i.loli.net/2020/11/02/QpWvltj85E6uJia.jpg",  # 图片port1
+                       "https://i.loli.net/2020/11/02/eqHvPVzDXjlNaK1.jpg",  # 图片port2
+                       "https://i.loli.net/2020/11/02/7fpEKYHXjW36PMF.jpg",  # 图片port3
+                       "https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg",  # 图片port4
+                       "https://i.loli.net/2020/11/02/WxsILKP7kX9iTbZ.jpg",  # 图片port5
+                       "https://i.loli.net/2020/11/02/iGuQr6RgHoLE4UW.jpg"]  # 图片port6
     return render(request, 'User/index.html', locals())
 
 def shopping_cart(request):
-    return render(request, 'User/index.html', locals())
+    return render(request, 'User/shopping_cart.html', locals())
 
 
 def release_goods(request):
+    goods_type = ['衣服', '食品', '乐器', '学习用品','电子产品']
+    if request.POST:#这里提交的新发布的商品信息需要往数据库中添加
+        data = json.loads(request.body)
+        goods_name = data["name"]  # 根据类型和价格区间返回筛选出的内容
+        goods_price = data["price"]
+        goods_describe = data["describe"]
+        goods_type=data["type"]
+        print(goods_name)
+        print(goods_price)
+        print(goods_type)
+        print(goods_describe)
+
     return render(request, 'User/release_goods.html', locals())
+
 
 
 def userInfo(request):
@@ -39,16 +77,22 @@ def userInfo(request):
 
 def search_goods(request):
     placeholder = "输入搜索内容"
+    photo_paths = ["https://i.loli.net/2020/11/02/WxsILKP7kX9iTbZ.jpg",  # 图片port1
+                   "https://i.loli.net/2020/11/02/iGuQr6RgHoLE4UW.jpg",  # 图片port2
+                   "https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg",  # 图片port3
+                   "https://i.loli.net/2020/11/02/QpWvltj85E6uJia.jpg",  # 图片port4
+                   "https://i.loli.net/2020/11/02/7fpEKYHXjW36PMF.jpg",  # 图片port5
+                   "https://i.loli.net/2020/11/02/eqHvPVzDXjlNaK1.jpg"]  # 图片port6
     if request.GET:#搜索内容提交
         goods_input = request.GET['form1Name']
         print(goods_input)#根据goods_input的值从数据库挑选内容放入以下数组，并且返回类型下拉选择框和价格区间下拉选择框
-        goods_type = ['衣服','食品','母婴','电子产品']
+        goods_type = ['衣服', '食品', '乐器', '学习用品','电子产品']
         goods_price = ['100以下', '100~500', '500~1000', '1000以上']
-        photo_paths = ["https://i.loli.net/2020/11/02/WxsILKP7kX9iTbZ.jpg",  # 图片port1
+        photo_paths = ["https://i.loli.net/2020/11/02/7fpEKYHXjW36PMF.jpg",  # 图片port1
                        "https://i.loli.net/2020/11/02/iGuQr6RgHoLE4UW.jpg",  # 图片port2
                        "https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg",  # 图片port3
                        "https://i.loli.net/2020/11/02/QpWvltj85E6uJia.jpg",  # 图片port4
-                       "https://i.loli.net/2020/11/02/7fpEKYHXjW36PMF.jpg",  # 图片port5
+                        "https://i.loli.net/2020/11/02/WxsILKP7kX9iTbZ.jpg",# 图片port5
                        "https://i.loli.net/2020/11/02/eqHvPVzDXjlNaK1.jpg"]  # 图片port6
 
 
@@ -66,14 +110,6 @@ def search_goods(request):
                        "https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg",# 图片port4
                        "https://i.loli.net/2020/11/02/7fpEKYHXjW36PMF.jpg"] # 图片port6
 
-        # data = {
-        #     'name': "candy",
-        #     'age': 13,
-        # }
-        # list = ['a', 'b', 'c', 'd']
-        # return render(request, 'User/search_goods.html', {
-        #     'List': json.dumps(result_list),
-        # })
         return HttpResponse(json.dumps(result_list),
             content_type='application/json')
 
@@ -107,7 +143,15 @@ class userinfo(generic.DetailView):
 
 class IndexView(View):
     def get(self, request: HttpRequest):
-        order = Order.objects.filter(order_id=1)
+        order = Orderdetail.objects.get(detail_id=1)
+        order1 = order[0]
+        photo_paths_sell = ["https://i.loli.net/2020/11/02/WxsILKP7kX9iTbZ.jpg",  # 图片port1
+                            "https://i.loli.net/2020/11/02/iGuQr6RgHoLE4UW.jpg",  # 图片port2
+                            "https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg",  # 图片port3
+                            "https://i.loli.net/2020/11/02/QpWvltj85E6uJia.jpg",  # 图片port4
+                            "https://i.loli.net/2020/11/02/7fpEKYHXjW36PMF.jpg",  # 图片port5
+                            "https://i.loli.net/2020/11/02/eqHvPVzDXjlNaK1.jpg"]  # 图片port6
+
         return render(request, 'User/index.html', locals())
 
 
