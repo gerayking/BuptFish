@@ -143,19 +143,19 @@
 <div class="tab-content">
 <div id="sell" class="tab-pane active">
  <div class="row mt" id="goodslistsell">
-        {% for photo_path in objecthh %}
+        {% for goods in orderlist %}
          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
                 <div class="project-wrapper">
                     <div class="project">
                         <div class="photo-wrapper">
                             <div class="photo">
-                                <a class="fancybox" href={{ photo_path }} target="_blank">
-                                    <img class="img-responsive" src={{ photo_path }} alt=""></a>
+                                <a class="fancybox" href={{ goods.picture }} target="_blank">
+                                    <img class="img-responsive" src={{ goods.picture }} alt=""></a>
                             </div>
                         </div>
-                        <h5>商品名称：{{ photo_path.goods_name }}</h5>
-                        <h5>成交价格：</h5>
-                        <h5>商品评价：</h5>
+                        <h5>商品名称：{{ goods.order.goods_name }}</h5>
+                        <h5>成交价格：{{ goods.order.goods_cost }}</h5>
+{#                        <h5>商品原价：{{ goods.order.}}</h5>#}
                     </div>
                 </div>
          </div>

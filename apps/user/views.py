@@ -12,18 +12,24 @@ from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 
 from apps.user.models import Order, Orderdetail
-from apps.user.models import Orderdetail
+from apps.user.models import Orderdetail,Goods
 
+class ord:
+    picture=''
+    order=Orderdetail
+    def __init__(self,pic,obj):
+        self.picture=pic
+        self.order=obj
 
 def index(request):
-    order=Orderdetail.objects.filter(detail_id=1)
-    # count=order.count()
-    objecthh=[]
-    for x in order:
-        objecthh.append(x)
-
-    # order1=order[0]
-
+    c_id=request.user.id
+    s_order=Order.objects.filter(seller_id=c_id)
+    orderlist = []
+    for entity in s_order:
+        order=Orderdetail.objects.get(order_id=entity.order_id)
+        picture = Goods.objects.get(goods_id=order.goods_id).picture
+        ord0 =ord(picture,order)
+        orderlist.append(ord0)
 
     #根据用户的历史卖出商品返回图片路径
     photo_paths_sell = ["https://i.loli.net/2020/11/02/WxsILKP7kX9iTbZ.jpg",  # 图片port1

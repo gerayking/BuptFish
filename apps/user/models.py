@@ -43,8 +43,8 @@ class Messages(models.Model):
 
 class Order(models.Model):
     order_id = models.IntegerField()
-    buyer_name = models.CharField(max_length=20)  # 买家名称
-    seller_name = models.CharField(max_length=20)  # 卖家名称
+    buyer_id = models.IntegerField()# 买家名称
+    seller_id= models.IntegerField() # 卖家名称
     rec_name = models.CharField(max_length=20)  # 收货人姓名
     address = models.CharField(max_length=50)  # 收货人地址
     tel = models.IntegerField()  # 收货人电话
