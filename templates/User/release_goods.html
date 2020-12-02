@@ -1,10 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Release</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Dashboard">
+    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <title>BUPTFISH - Second-hand trading platform</title>
+    {% load  static %}
+    <!-- Favicons -->
+    <link href="{% static 'img/favicon.png' %}" rel="icon">
+    <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!--external css-->
+    <link href="{% static 'lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet"/>
+    <link href="{% static 'lib/fancybox/jquery.fancybox.css' %}" rel="stylesheet"/>
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style-responsive.css' %}" rel="stylesheet">
+    <script src="{% static 'lib/jquery/jquery.min.js' %}"></script>
+    <link href="{% static 'lib/bootstrap-fileupload/bootstrap-fileupload.css'%}" rel="stylesheet" />
+
+    <!-- =======================================================
+      Template Name: Dashio
+      Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
+      Author: TemplateMag.com
+      License: https://templatemag.com/license/
+    ======================================================= -->
 </head>
+
 <body>
+<header class="header black-bg">
+    <a href="{% url 'user:index' %}" class="logo"><b>BUPT<span>FISH</span></b></a>
+    <!--logo end-->
+    <div class="nav notify-row" id="top_menu">
+        <!--  notification start -->
+        <ul class="nav top-menu">
+
+        </ul>
+        <!--  notification end -->
+    </div>
+    <div class="top-menu">
+        <ul class="nav pull-right top-menu">
+            {% if request.user != None %}
+                <li><a class="logout" href="{% url 'user:login' %}">Logout</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</header>
+-->
+<section id="container">
+
+    <!--sidebar start-->
+    <aside>
+        <div id="sidebar" class="nav-collapse ">
+            <!-- sidebar menu start-->
+            <ul class="sidebar-menu" id="nav-accordion">
+                <p class="centered"><a href="profile.html"><img src="/static/img/ui-sam.jpg" class="img-circle"
+                                                                width="80"></a></p>
+                <h5 class="centered">{{ request.user.username }}</h5>
+
+                <li class="sub-menu">
+                    <a class="active" href="javascript:;">
+                        <span><a href="{% url 'user:index' %}"><h5>用户主页</h5></a></span>
+                        <span><a href="{% url 'user:search_goods' %}"><h5>搜索</h5></a></span>
+                        <span><a href="{% url 'user:shopping_cart' %}"><h5>购物车</h5></a></span>
+                    </a>
+                </li>
+            </ul>
+            <!-- sidebar menu end-->
+        </div>
+    </aside>
+    <!--sidebar end-->
+    <!--main content start-->
+
+    <section id="main-content">
+        <section class="wrapper site-min-height">
+            <div class="container">
+               <div class="row mt">
+          <div class="col-lg-12">
+            <div class="form-panel">
+              <form action="#" class="form-horizontal style-form">
+                <div class="form-group">
+                  <label class="control-label col-md-3">商品名称</label>
+                  <div class="controls col-md-9">
+                      <input  id="goods_name" type="text" class="form-control timepicker-24">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3">商品价格</label>
+                  <div class="controls col-md-9">
+                      <input id="goods_price" type="text" class="form-control timepicker-24">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3">商品描述</label>
+                  <div class="controls col-md-9">
+                      <input id="goods_describe" type="text" class="form-control timepicker-24">
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label class="control-label col-md-3">商品类别</label>
+                  <div class="controls col-md-9">
+                     <select id="goods_type">
+                            {% for type in goods_type %}
+                                <option value="{{ type }}">{{ type }}</option>
+                            {% endfor %}
+                        </select>
+                  </div>
+                </div>
+                <div class="form-group last">
+                  <label class="control-label col-md-3">商品图片</label>
+                  <div class="col-md-9">
+                    <div class="fileupload fileupload-new" data-provides="fileupload">
+                      <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+                        <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" alt="" />
+                      </div>
+                      <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                      <div>
+                        <span class="btn btn-theme02 btn-file">
+                            <span class="fileupload-new"></i> Select image</span>
+                            <span class="fileupload-exists"><i class="fa fa-undo"></i> Change</span>
+                            <input type="file" class="default" />
+                        </span>
+{#                        <a href="advanced_form_components.html#" class="btn btn-theme04 fileupload-exists" data-dismiss="fileupload"><i class="fa fa-trash-o"></i> Remove</a>#}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+                 <button class="btn btn-theme mt" type="submit" id="release_btn">发布</button>
+            </div>
+            <!-- /form-panel -->
+          </div>
+          <!-- /col-lg-12 -->
+        </div>
+
+            </div>
+        </section>
+
+        <!-- /wrapper -->
+    </section>
+    <!--main content end-->
+
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="{% static 'lib/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
+
+
+</section>
+<!-- js placed at the end of the document so the pages load faster -->
+<script src="/static/lib/fancybox/jquery.fancybox.js"></script>
+<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+<script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
+<script src="lib/jquery.scrollTo.min.js"></script>
+<script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
+<!--common script for all pages-->
+<script src="lib/common-scripts.js"></script>
+<!--script for this page-->
+<script type="text/javascript">
+    $(function () {
+        //    fancybox
+        jQuery(".fancybox").fancybox();
+    });
+</script>
+
+<script>
+    $(document).ready(function () {//ajax刷新图片
+        $("#release_btn").click(function () {//点击筛选按钮后，获得两个下拉选择框的值，弹出框提示，利用post方法提交到search_goods函数
+            var name=document.getElementById("goods_name").value;
+            var price=document.getElementById("goods_price").value;
+            var type = $("#goods_type").find("option:selected").text();
+            var describe=document.getElementById("goods_describe").value;
+
+            alert("新增的的商品名称是:" + name + "\n新增的的商品价格是:" + price+ "\n新增的的商品类型是:" +type+"\n新增的的商品评价是:" + describe);
+            $.post("{% url 'user:release_goods' %}", JSON.stringify({
+                name:name,
+                price: price,
+                type:type,
+                describe:describe,
+            }), function (ret) {//得到返回值后，将原有的goodslist清空，按照返回结果重新张贴所有图片
+                alert("发布成功");
+            })
+        });
+    });
+</script>
 
 </body>
+
 </html>
