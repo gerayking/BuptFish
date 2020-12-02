@@ -8,7 +8,8 @@ from django.shortcuts import render
 # Create your views here.
 from django.urls import reverse
 from django.views import generic, View
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from apps.user.models import UserInfo as User
 from django.views.decorators.csrf import csrf_exempt
 
 from apps.user.models import Order, Orderdetail
@@ -174,7 +175,7 @@ class LoginView(View):
             login(request, user)
             return HttpResponse(json.dumps({"status": 200, "msg": "登录成功"}))
         else:
-            return HttpResponse(json.dumps({"status": 201, "msg": "登录失败"}))
+            return HttpResponse(json.dumps({"status": 201, "msg": "登录失败,帐号或密码错误"}))
 
 
 class LogoutView(View):
