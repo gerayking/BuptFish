@@ -52,6 +52,8 @@ def index(request):
 def shopping_cart(request):
     return render(request, 'User/shopping_cart.html', locals())
 
+def collect(request):
+    return render(request, 'User/collect.html', locals())
 
 def release_goods(request):
     goods_type = ['衣服', '食品', '乐器', '学习用品','电子产品']

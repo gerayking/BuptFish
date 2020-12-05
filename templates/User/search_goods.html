@@ -67,6 +67,7 @@
                         <span><a href="{% url 'user:index' %}"><h5>用户主页</h5></a></span>
                         <span><a href="{% url 'user:search_goods' %}"><h5>搜索</h5></a></span>
                         <span><a href="{% url 'user:shopping_cart' %}"><h5>购物车</h5></a></span>
+                        <span><a href="{% url 'user:collect' %}"><h5>收藏夹</h5></a></span>
                     </a>
                 </li>
             </ul>
@@ -129,7 +130,11 @@
                 {% for photo_path in photo_paths %}
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
                         <div class="project-wrapper">
+                            <button class="btn-shopcart"><img class="shopping-cart" src="/static/img/shopping-cart.png"></button>
+                            <button class="btn-collection"><img class="collection" src="/static/img/collection.png"></button>
+                            <button class="btn-showinfo"><img class="show-info" src="/static/img/more.png"></button>
                             <div class="project">
+
                                 <div class="photo-wrapper">
                                     <div class="photo">
                                         <a class="fancybox" href={{ photo_path }} target="_blank">

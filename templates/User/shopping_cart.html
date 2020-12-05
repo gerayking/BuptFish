@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Dashboard">
+    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <title>BUPTFISH - Second-hand trading platform</title>
+    {% load  static %}
+    <!-- Favicons -->
+    <link href="{% static 'img/favicon.png' %}" rel="icon">
+    <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!--external css-->
+    <link href="{% static 'lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet"/>
+    <link href="{% static 'lib/fancybox/jquery.fancybox.css' %}" rel="stylesheet"/>
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style-responsive.css' %}" rel="stylesheet">
+    <script src="{% static 'lib/jquery/jquery.min.js' %}"></script>
+
+    <link rel="stylesheet" href="{% static 'css/carts.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+
+
+</head>
+
+<body>
+    <!--header start-->
+    <header class="header black-bg">
+    <a href="{% url 'user:index' %}" class="logo"><b>BUPT<span>FISH</span></b></a>
+    <!--logo end-->
+    <div class="nav notify-row" id="top_menu">
+        <!--  notification start -->
+        <ul class="nav top-menu">
+
+        </ul>
+        <!--  notification end -->
+    </div>
+    <div class="top-menu">
+        <ul class="nav pull-right top-menu">
+            {% if request.user != None %}
+                <li><a class="logout" href="{% url 'user:login' %}">Logout</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</header>
+
+    <section id="container">
+    <!--header end-->
+        <!--sidebar start-->
+       <aside>
+        <div id="sidebar" class="nav-collapse ">
+            <!-- sidebar menu start-->
+            <ul class="sidebar-menu" id="nav-accordion">
+                <p class="centered"><a href="profile.html"><img src="/static/img/ui-sam.jpg" class="img-circle"
+                                                                width="80"></a></p>
+                <h5 class="centered">{{ request.user.username }}</h5>
+
+                <li class="sub-menu">
+                    <a class="active" href="javascript:;">
+                        <span><a href="{% url 'user:index' %}"><h5>用户主页</h5></a></span>
+                        <span><a href="{% url 'user:search_goods' %}"><h5>搜索</h5></a></span>
+                        <span><a href="{% url 'user:shopping_cart' %}"><h5>购物车</h5></a></span>
+                        <span><a href="{% url 'user:collect' %}"><h5>收藏夹</h5></a></span>
+                    </a>
+                </li>
+            </ul>
+            <!-- sidebar menu end-->
+        </div>
+    </aside>
+    <!--sidebar end-->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper site-min-height">
+           <div class="container">
+        <h1>购物车</h1>
+        <section class="cartMain">
+	<div class="cartMain_hd">
+		<ul class="order_lists cartTop">
+			<li class="list_chk">
+				<!--所有商品全选-->
+				<input type="checkbox" id="all" class="whole_check">
+				<label for="all"></label>
+				全选
+			</li>
+			<li class="list_con">商品信息</li>
+			<li class="list_info">商品参数</li>
+			<li class="list_price">单价</li>
+			<li class="list_amount">数量</li>
+			<li class="list_sum">金额</li>
+			<li class="list_op">操作</li>
+		</ul>
+	</div>
+
+	<div class="cartBox">
+		<div class="shop_info">
+			<div class="all_check">
+				<!--店铺全选-->
+				<input type="checkbox" id="shop_a" class="shopChoice">
+				<label for="shop_a" class="shop"></label>
+			</div>
+			<div class="shop_name">
+				店铺：<a href="javascript:;">耐克官网旗舰店</a>
+			</div>
+		</div>
+		<div class="order_content">
+			<ul class="order_lists">
+				<li class="list_chk">
+					<input type="checkbox" id="checkbox_2" class="son_check">
+					<label for="checkbox_2"></label>
+				</li>
+				<li class="list_con">
+					<div class="list_img"><a href="javascript:;"><img src="/static/img/portfolio/port01.jpg" alt=""></a></div>
+					<div class="list_text"><a href="javascript:;">耐克外套</a></div>
+				</li>
+				<li class="list_info">
+					<p>颜色：黑色</p>
+					<p>尺寸：M</p>
+				</li>
+				<li class="list_price">
+					<p class="price">￥980</p>
+				</li>
+				<li class="list_amount">
+					<div class="amount_box">
+						<a href="javascript:;" class="reduce reSty">-</a>
+						<input type="text" value="1" class="sum">
+						<a href="javascript:;" class="plus">+</a>
+					</div>
+				</li>
+				<li class="list_sum">
+					<p class="sum_price">￥980</p>
+				</li>
+				<li class="list_op">
+					<p class="del"><a href="javascript:;" class="delBtn">移除商品</a></p>
+				</li>
+			</ul>
+			<ul class="order_lists">
+				<li class="list_chk">
+					<input type="checkbox" id="checkbox_3" class="son_check">
+					<label for="checkbox_3"></label>
+				</li>
+				<li class="list_con">
+					<div class="list_img"><a href="javascript:;"><img src="/static/img/portfolio/port02.jpg" alt=""></a></div>
+					<div class="list_text"><a href="javascript:;">印花帽子</a></div>
+				</li>
+				<li class="list_info">
+					<p>颜色：白色</p>
+					<p>尺寸：M</p>
+				</li>
+				<li class="list_price">
+					<p class="price">￥780</p>
+				</li>
+				<li class="list_amount">
+					<div class="amount_box">
+						<a href="javascript:;" class="reduce reSty">-</a>
+						<input type="text" value="1" class="sum">
+						<a href="javascript:;" class="plus">+</a>
+					</div>
+				</li>
+				<li class="list_sum">
+					<p class="sum_price">￥780</p>
+				</li>
+				<li class="list_op">
+					<p class="del"><a href="javascript:;" class="delBtn">移除商品</a></p>
+				</li>
+			</ul>
+			<ul class="order_lists">
+				<li class="list_chk">
+					<input type="checkbox" id="checkbox_6" class="son_check">
+					<label for="checkbox_6"></label>
+				</li>
+				<li class="list_con">
+					<div class="list_img"><a href="javascript:;"><img src="/static/img/portfolio/port03.jpg" alt=""></a></div>
+					<div class="list_text"><a href="javascript:;">长裤</a></div>
+				</li>
+				<li class="list_info">
+					<p>颜色：黑色</p>
+					<p>尺寸：S</p>
+				</li>
+				<li class="list_price">
+					<p class="price">￥180</p>
+				</li>
+				<li class="list_amount">
+					<div class="amount_box">
+						<a href="javascript:;" class="reduce reSty">-</a>
+						<input type="text" value="1" class="sum">
+						<a href="javascript:;" class="plus">+</a>
+					</div>
+				</li>
+				<li class="list_sum">
+					<p class="sum_price">￥180</p>
+				</li>
+				<li class="list_op">
+					<p class="del"><a href="javascript:;" class="delBtn">移除商品</a></p>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="cartBox">
+		<div class="shop_info">
+			<div class="all_check">
+				<!--店铺全选-->
+				<input type="checkbox" id="shop_b" class="shopChoice">
+				<label for="shop_b" class="shop"></label>
+			</div>
+			<div class="shop_name">
+				店铺：<a href="javascript:;">阿迪达斯官网旗舰店</a>
+			</div>
+		</div>
+		<div class="order_content">
+			<ul class="order_lists">
+				<li class="list_chk">
+					<input type="checkbox" id="checkbox_4" class="son_check">
+					<label for="checkbox_4"></label>
+				</li>
+				<li class="list_con">
+					<div class="list_img"><a href="javascript:;"><img src="/static/img/portfolio/port04.jpg" alt=""></a></div>
+					<div class="list_text"><a href="javascript:;">跑鞋</a></div>
+				</li>
+				<li class="list_info">
+					<p>颜色：黑色</p>
+					<p>尺寸：37</p>
+				</li>
+				<li class="list_price">
+					<p class="price">￥1980</p>
+				</li>
+				<li class="list_amount">
+					<div class="amount_box">
+						<a href="javascript:;" class="reduce reSty">-</a>
+						<input type="text" value="1" class="sum">
+						<a href="javascript:;" class="plus">+</a>
+					</div>
+				</li>
+				<li class="list_sum">
+					<p class="sum_price">￥1980</p>
+				</li>
+				<li class="list_op">
+					<p class="del"><a href="javascript:;" class="delBtn">移除商品</a></p>
+				</li>
+			</ul>
+			<ul class="order_lists">
+				<li class="list_chk">
+					<input type="checkbox" id="checkbox_5" class="son_check">
+					<label for="checkbox_5"></label>
+				</li>
+				<li class="list_con">
+					<div class="list_img"><a href="javascript:;"><img src="/static/img/portfolio/port05.jpg" alt=""></a></div>
+					<div class="list_text"><a href="javascript:;">短上衣</a></div>
+				</li>
+				<li class="list_info">
+					<p>颜色：粉色</p>
+					<p>尺寸：L</p>
+				</li>
+				<li class="list_price">
+					<p class="price">￥480</p>
+				</li>
+				<li class="list_amount">
+					<div class="amount_box">
+						<a href="javascript:;" class="reduce reSty">-</a>
+						<input type="text" value="1" class="sum">
+						<a href="javascript:;" class="plus">+</a>
+					</div>
+				</li>
+				<li class="list_sum">
+					<p class="sum_price">￥480</p>
+				</li>
+				<li class="list_op">
+					<p class="del"><a href="javascript:;" class="delBtn">移除商品</a></p>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="cartBox">
+		<div class="shop_info">
+			<div class="all_check">
+				<!--店铺全选-->
+				<input type="checkbox" id="shop_c" class="shopChoice">
+				<label for="shop_c" class="shop"></label>
+			</div>
+			<div class="shop_name">
+				店铺：<a href="javascript:;">乔丹官网旗舰店</a>
+			</div>
+		</div>
+		<div class="order_content">
+			<ul class="order_lists">
+				<li class="list_chk">
+					<input type="checkbox" id="checkbox_8" class="son_check">
+					<label for="checkbox_8"></label>
+				</li>
+				<li class="list_con">
+					<div class="list_img"><a href="javascript:;"><img src="/static/img/portfolio/port06.jpg" alt=""></a></div>
+					<div class="list_text"><a href="javascript:;">慢跑鞋</a></div>
+				</li>
+				<li class="list_info">
+					<p>颜色：白色</p>
+					<p>尺寸：40</p>
+				</li>
+				<li class="list_price">
+					<p class="price">￥1980</p>
+				</li>
+				<li class="list_amount">
+					<div class="amount_box">
+						<a href="javascript:;" class="reduce reSty">-</a>
+						<input type="text" value="1" class="sum">
+						<a href="javascript:;" class="plus">+</a>
+					</div>
+				</li>
+				<li class="list_sum">
+					<p class="sum_price">￥1980</p>
+				</li>
+				<li class="list_op">
+					<p class="del"><a href="javascript:;" class="delBtn">移除商品</a></p>
+				</li>
+			</ul>
+			<ul class="order_lists">
+				<li class="list_chk">
+					<input type="checkbox" id="checkbox_9" class="son_check">
+					<label for="checkbox_9"></label>
+				</li>
+				<li class="list_con">
+					<div class="list_img"><a href="javascript:;"><img src="/static/img/portfolio/port01.jpg" alt=""></a></div>
+					<div class="list_text"><a href="javascript:;">打底衫</a></div>
+				</li>
+				<li class="list_info">
+					<p>颜色：黑色</p>
+					<p>尺寸：M</p>
+				</li>
+				<li class="list_price">
+					<p class="price">￥480</p>
+				</li>
+				<li class="list_amount">
+					<div class="amount_box">
+						<a href="javascript:;" class="reduce reSty">-</a>
+						<input type="text" value="1" class="sum">
+						<a href="javascript:;" class="plus">+</a>
+					</div>
+				</li>
+				<li class="list_sum">
+					<p class="sum_price">￥480</p>
+				</li>
+				<li class="list_op">
+					<p class="del"><a href="javascript:;" class="delBtn">移除商品</a></p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!--底部-->
+	<div class="bar-wrapper">
+		<div class="bar-right">
+			<div class="piece">已选商品<strong class="piece_num">0</strong>件</div>
+			<div class="totalMoney">共计: <strong class="total_text">0.00</strong></div>
+			<div class="calBtn"><a href="javascript:;">结算</a></div>
+		</div>
+	</div>
+</section>
+<section class="model_bg"></section>
+<section class="my_model">
+	<p class="title">删除宝贝<span class="closeModel">X</span></p>
+	<p>您确认要删除该宝贝吗？</p>
+	<div class="opBtn"><a href="javascript:;" class="dialog-sure">确定</a><a href="javascript:;" class="dialog-close">关闭</a></div>
+</section>
+        <a href="inline_editor.html#" class="go-top">
+          <i class="fa fa-angle-up"></i>
+          </a>
+      </div>
+      </section>
+    <!--footer end-->
+  </section>
+    </section>
+  <!-- js placed at the end of the document so the pages load faster -->
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/carts.js"></script>
+  <script src="/static/lib/jquery/jquery.min.js"></script>
+  <script src="/static/lib/bootstrap/js/bootstrap.min.js"></script>
+  <script class="include" type="text/javascript" src="/static/lib/jquery.dcjqaccordion.2.7.js"></script>
+  <script src="/static/lib/jquery.scrollTo.min.js"></script>
+  <script src="/static/lib/jquery.nicescroll.js" type="text/javascript"></script>
+  <!--common script for all pages-->
+  <script src="/static/lib/common-scripts.js"></script>
+  <!--script for this page-->
+  <script src="/static/lib/ckeditor/ckeditor.js"></script>
+
+<script>
+    var $order_lists = null;
+    var $order_content = '';
+    $('.delBtn').click(function () {
+        $order_lists = $(this).parents('.order_lists');
+        $order_content = $order_lists.parents('.order_content');
+        $('.model_bg').fadeIn(300);
+        $('.my_model').fadeIn(300);
+    });
+
+    //关闭模态框
+    $('.closeModel').click(function () {
+        closeM();
+    });
+    $('.dialog-close').click(function () {
+        closeM();
+    });
+    function closeM() {
+        $('.model_bg').fadeOut(300);
+        $('.my_model').fadeOut(300);
+    }
+    //确定按钮，移除商品
+    $('.dialog-sure').click(function () {
+        $order_lists.remove();
+        if($order_content.html().trim() == null || $order_content.html().trim().length == 0){
+            $order_content.parents('.cartBox').remove();
+        }
+        closeM();
+        $sonCheckBox = $('.son_check');
+        totalMoney();
+    })
+</script>
+</body>
+
+</html>
