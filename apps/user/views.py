@@ -9,52 +9,44 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic, View
 # from django.contrib.auth.models import User
+from apps.user.Service.indexService import indexview
 from apps.user.models import UserInfo as User
 from django.views.decorators.csrf import csrf_exempt
 
 from apps.user.models import Order, Orderdetail
 from apps.user.models import Orderdetail,Goods
 
-class ord:
-    picture=''
-    order=Orderdetail
-    def __init__(self,pic,obj):
-        self.picture=pic
-        self.order=obj
+
 
 def index(request):
     c_id=request.user.id
-    s_order=Order.objects.filter(seller_id=c_id)
-    orderlist = []
-    for entity in s_order:
-        order=Orderdetail.objects.get(order_id=entity.order_id)
-        picture = Goods.objects.get(goods_id=order.goods_id).picture
-        ord0 =ord(picture,order)
-        orderlist.append(ord0)
-
+    orderlist=indexview(c_id)
+    s_orderlist=orderlist.Sell
+    b_orderlist=orderlist.Buy
+    I_orderlist=orderlist.Ing
     #根据用户的历史卖出商品返回图片路径
-    photo_paths_sell = ["https://i.loli.net/2020/11/02/WxsILKP7kX9iTbZ.jpg",  # 图片port1
-                   "https://i.loli.net/2020/11/02/iGuQr6RgHoLE4UW.jpg",  # 图片port2
-                   "https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg",  # 图片port3
-                   "https://i.loli.net/2020/11/02/QpWvltj85E6uJia.jpg",  # 图片port4
-                   "https://i.loli.net/2020/11/02/7fpEKYHXjW36PMF.jpg",  # 图片port5
-                   "https://i.loli.net/2020/11/02/eqHvPVzDXjlNaK1.jpg"]  # 图片port6
-
-    # 根据用户的历史买入商品返回图片路径
-    photo_paths_buy = ["https://i.loli.net/2020/11/02/7fpEKYHXjW36PMF.jpg",  # 图片port1
-                        "https://i.loli.net/2020/11/02/eqHvPVzDXjlNaK1.jpg",  # 图片port2
-                        "https://i.loli.net/2020/11/02/QpWvltj85E6uJia.jpg",  # 图片port3
-                        "https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg",  # 图片port4
-                        "https://i.loli.net/2020/11/02/WxsILKP7kX9iTbZ.jpg",  # 图片port5
-                        "https://i.loli.net/2020/11/02/iGuQr6RgHoLE4UW.jpg"]  # 图片port6
-
-    # 根据用户的正在交易的商品返回图片路径
-    photo_paths_trade = ["https://i.loli.net/2020/11/02/QpWvltj85E6uJia.jpg",  # 图片port1
-                       "https://i.loli.net/2020/11/02/eqHvPVzDXjlNaK1.jpg",  # 图片port2
-                       "https://i.loli.net/2020/11/02/7fpEKYHXjW36PMF.jpg",  # 图片port3
-                       "https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg",  # 图片port4
-                       "https://i.loli.net/2020/11/02/WxsILKP7kX9iTbZ.jpg",  # 图片port5
-                       "https://i.loli.net/2020/11/02/iGuQr6RgHoLE4UW.jpg"]  # 图片port6
+    # photo_paths_sell = ["https://i.loli.net/2020/11/02/WxsILKP7kX9iTbZ.jpg",  # 图片port1
+    #                "https://i.loli.net/2020/11/02/iGuQr6RgHoLE4UW.jpg",  # 图片port2
+    #                "https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg",  # 图片port3
+    #                "https://i.loli.net/2020/11/02/QpWvltj85E6uJia.jpg",  # 图片port4
+    #                "https://i.loli.net/2020/11/02/7fpEKYHXjW36PMF.jpg",  # 图片port5
+    #                "https://i.loli.net/2020/11/02/eqHvPVzDXjlNaK1.jpg"]  # 图片port6
+    #
+    # # 根据用户的历史买入商品返回图片路径
+    # photo_paths_buy = ["https://i.loli.net/2020/11/02/7fpEKYHXjW36PMF.jpg",  # 图片port1
+    #                     "https://i.loli.net/2020/11/02/eqHvPVzDXjlNaK1.jpg",  # 图片port2
+    #                     "https://i.loli.net/2020/11/02/QpWvltj85E6uJia.jpg",  # 图片port3
+    #                     "https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg",  # 图片port4
+    #                     "https://i.loli.net/2020/11/02/WxsILKP7kX9iTbZ.jpg",  # 图片port5
+    #                     "https://i.loli.net/2020/11/02/iGuQr6RgHoLE4UW.jpg"]  # 图片port6
+    #
+    # # 根据用户的正在交易的商品返回图片路径
+    # photo_paths_trade = ["https://i.loli.net/2020/11/02/QpWvltj85E6uJia.jpg",  # 图片port1
+    #                    "https://i.loli.net/2020/11/02/eqHvPVzDXjlNaK1.jpg",  # 图片port2
+    #                    "https://i.loli.net/2020/11/02/7fpEKYHXjW36PMF.jpg",  # 图片port3
+    #                    "https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg",  # 图片port4
+    #                    "https://i.loli.net/2020/11/02/WxsILKP7kX9iTbZ.jpg",  # 图片port5
+    #                    "https://i.loli.net/2020/11/02/iGuQr6RgHoLE4UW.jpg"]  # 图片port6
     return render(request, 'User/index.html', locals())
 
 def shopping_cart(request):
