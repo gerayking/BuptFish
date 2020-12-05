@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Dashboard">
+    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <title>BUPTFISH - Second-hand trading platform</title>
+    {% load  static %}
+    <!-- Favicons -->
+    <link href="{% static 'img/favicon.png' %}" rel="icon">
+    <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!--external css-->
+    <link href="{% static 'lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet"/>
+    <link href="{% static 'lib/fancybox/jquery.fancybox.css' %}" rel="stylesheet"/>
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style-responsive.css' %}" rel="stylesheet">
+    <script src="{% static 'lib/jquery/jquery.min.js' %}"></script>
+
+    <link rel="stylesheet" href="{% static 'css/carts.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+     <script src="{% static 'lib/chart-master/Chart.js' %}"></script>
+
+
+</head>
+
+<body>
+    <!--header start-->
+    <header class="header black-bg">
+    <a href="{% url 'user:index' %}" class="logo"><b>BUPT<span>FISH</span></b></a>
+    <!--logo end-->
+    <div class="nav notify-row" id="top_menu">
+        <!--  notification start -->
+        <ul class="nav top-menu">
+
+        </ul>
+        <!--  notification end -->
+    </div>
+    <div class="top-menu">
+        <ul class="nav pull-right top-menu">
+            {% if request.user != None %}
+                <li><a class="logout" href="{% url 'user:login' %}">Logout</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</header>
+
+    <section id="container">
+    <!--header end-->
+        <!--sidebar start-->
+       <aside>
+        <div id="sidebar" class="nav-collapse ">
+            <!-- sidebar menu start-->
+            <ul class="sidebar-menu" id="nav-accordion">
+                <p class="centered"><a href="profile.html"><img src="/static/img/ui-sam.jpg" class="img-circle"
+                                                                width="80"></a></p>
+                <h5 class="centered">{{ request.user.username }}</h5>
+
+                <li class="sub-menu">
+                    <a class="active" href="javascript:;">
+                        <span><a href="{% url 'user:index' %}"><h5>用户主页</h5></a></span>
+                        <span><a href="{% url 'user:search_goods' %}"><h5>搜索</h5></a></span>
+                        <span><a href="{% url 'user:shopping_cart' %}"><h5>购物车</h5></a></span>
+                        <span><a href="{% url 'user:collect' %}"><h5>收藏夹</h5></a></span>
+                    </a>
+                </li>
+            </ul>
+            <!-- sidebar menu end-->
+        </div>
+    </aside>
+    <!--sidebar end-->
+    <!--main content start-->
+<section id="main-content">
+      <section class="wrapper site-min-height">
+        <h3><i class="fa fa-angle-right"></i> 我的收藏</h3>
+            <!-- /row FOURTH ROW OF PANELS -->
+            <!--  FIFTH ROW OF PANELS -->
+        <div class="m-box">
+	<div class="list">
+		<ul>
+			<li>
+				<div class="box">
+					<div class="check dark-check"></div>
+					<div class="img">
+						<img src="/static/img/portfolio/port01.jpg" />
+					</div>
+					<div class="info clearfix">
+						<div class="title">
+                                                                                                 <a>商品名称：</a></br>
+                                                                                                 <a>商品属性：</a>
+                                                                                                </div>
+						<div class="m-num fl">
+							<span class="jian">-</span>
+							<input type="text" value="1" class="num" />
+							<span class="add">+</span>
+						</div>
+						<div class="price fr">￥<span data-price="100">100</span></div>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class="box">
+					<div class="check dark-check"></div>
+					<div class="img">
+						<img src="/static/img/portfolio/port02.jpg" />
+					</div>
+					<div class="info clearfix">
+						<div class="title">
+                                                                                                 <a>商品名称：</a></br>
+                                                                                                 <a>商品属性：</a>
+                                                                                                </div>
+						<div class="m-num fl">
+							<span class="jian">-</span>
+							<input type="text" value="1" class="num" />
+							<span class="add">+</span>
+						</div>
+						<div class="price fr">￥<span data-price="80">80</span></div>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class="box">
+					<div class="check dark-check"></div>
+					<div class="img">
+						<img src="/static/img/portfolio/port03.jpg" />
+					</div>
+					<div class="info clearfix">
+						<div class="title">
+                                                                                                 <a>商品名称：</a></br>
+                                                                                                 <a>商品属性：</a>
+                                                                                                </div>
+						<div class="m-num fl">
+							<span class="jian">-</span>
+							<input type="text" value="1" class="num" />
+							<span class="add">+</span>
+						</div>
+						<div class="price fr">￥<span data-price="120">120</span></div>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class="box">
+					<div class="check dark-check"></div>
+					<div class="img">
+						<img src="/static/img/portfolio/port04.jpg" />
+					</div>
+					<div class="info clearfix">
+						<div class="title">
+                                                                                                 <a>商品名称：</a></br>
+                                                                                                 <a>商品属性：</a>
+                                                                                                </div>
+						<div class="m-num fl">
+							<span class="jian">-</span>
+							<input type="text" value="1" class="num" />
+							<span class="add">+</span>
+						</div>
+						<div class="price fr">￥<span data-price="200">200</span></div>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+            <div class="spacediv"></div>
+<div class="foot clearfix">
+		<!--全选-->
+		<div class="all-check">
+			全选
+			<div class="gap-check check"></div>
+		</div>
+		<!--总价-->
+		<div class="foot-box">
+			<div class=" itme all-price">总价：<span>2000</span></div>
+			<div class="itme"><input type="button" class="btn" value="加入购物车"  /></div>
+		</div>
+	</div>
+
+</div>
+     <footer>
+       <div>
+        <a href="panels.html#" class="go-top">
+          <i class="fa fa-angle-up"></i>
+          </a>
+      </div>
+    </footer>
+    <!--footer end-->
+  </section>
+    </section>
+
+
+    </section>
+  <!-- js placed at the end of the document so the pages load faster -->
+ <script src="/static/lib/jquery/jquery.min.js"></script>
+  <script src="/static/lib/bootstrap/js/bootstrap.min.js"></script>
+  <script class="include" type="text/javascript" src="/static/lib/jquery.dcjqaccordion.2.7.js"></script>
+  <script src="/static/lib/jquery.scrollTo.min.js"></script>
+  <script src="/static/lib/jquery.nicescroll.js" type="text/javascript"></script>
+  <script src="/static/lib/jquery.sparkline.js"></script>
+  <!--common script for all pages-->
+  <script src="/static/lib/common-scripts.js"></script>
+  <!--script for this page-->
+  <script src="/static/lib/sparkline-chart.js"></script>
+  <script type="text/javascript" src="/static/js/jquery-3.3.1.min.js" ></script>
+  <script type="text/javascript" src="/static/js/script.js"></script>
+</body>
+
+</html>

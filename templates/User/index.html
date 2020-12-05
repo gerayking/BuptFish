@@ -61,7 +61,9 @@
         </ul>
     </div>
 </header>
--->
+<!--header end-->
+
+<!--sidebar start-->
 <aside>
     <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
@@ -75,17 +77,19 @@
                     <span><a href="{% url 'user:index' %}"><h5>用户主页</h5></a></span>
                     <span><a href="{% url 'user:search_goods' %}"><h5>搜索</h5></a></span>
                     <span><a href="{% url 'user:shopping_cart' %}"><h5>购物车</h5></a></span>
+                    <span><a href="{% url 'user:collect' %}"><h5>收藏夹</h5></a></span>
                 </a>
             </li>
         </ul>
         <!-- sidebar menu end-->
     </div>
 </aside>
-<!--header end-->
+<!--sidebar end-->
+
 <!-- **********************************************************************************************************************************************************
     MAIN SIDEBAR MENU
     *********************************************************************************************************************************************************** -->
-<!--sidebar start-->
+
 
 
 <section id="main-content">
@@ -127,7 +131,7 @@
             </div>
             <!-- /col-md-4 -->
         </div>
-               <div class="panel-heading">
+        <div class="panel-heading">
                 <ul class="nav nav-tabs nav-justified">
                   <li class="active">
                     <a data-toggle="tab" href="#sell">历史卖出</a>
@@ -139,79 +143,85 @@
                     <a data-toggle="tab" href="#trade" class="contact-map" id="history_trade">正在交易</a>
                   </li>
                 </ul>
-              </div>
-<div class="tab-content">
-<div id="sell" class="tab-pane active">
- <div class="row mt" id="goodslistsell">
-        {% for goods in orderlist %}
-         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
-                <div class="project-wrapper">
-                    <div class="project">
-                        <div class="photo-wrapper">
-                            <div class="photo">
-                                <a class="fancybox" href={{ goods.picture }} target="_blank">
-                                    <img class="img-responsive" src={{ goods.picture }} alt=""></a>
-                            </div>
-                        </div>
-                        <h5>商品名称：{{ goods.order.goods_name }}</h5>
-                        <h5>成交价格：{{ goods.order.goods_cost }}</h5>
-{#                        <h5>商品原价：{{ goods.order.}}</h5>#}
-                    </div>
-                </div>
-         </div>
-        {% endfor %}
-    </div>
-</div>
-<div id="buy" class="tab-pane active">
-    <div class="row mt" id="goodslistbuy">
-        {% for photo_path in photo_paths_buy %}
-         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
-                <div class="project-wrapper">
-                    <div class="project">
-                        <div class="photo-wrapper">
-                            <div class="photo">
-                                <a class="fancybox" href={{ photo_path }} target="_blank">
-                                    <img class="img-responsive" src={{ photo_path }} alt=""></a>
-                            </div>
-                        </div>
-                        <h5>商品名称：</h5>
-                        <h5>成交价格：</h5>
-                        <h5>商品评价：</h5>
-                    </div>
-                </div>
-         </div>
-        {% endfor %}
-    </div>
-</div>
-<div id="trade" class="tab-pane active">
-    <div class="row mt" id="goodslisttrade">
-        {% for photo_path in photo_paths_trade %}
-         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
-                <div class="project-wrapper">
-                    <div class="project">
-                        <div class="photo-wrapper">
-                            <div class="photo">
-                                <a class="fancybox" href={{ photo_path }} target="_blank">
-                                    <img class="img-responsive" src={{ photo_path }} alt=""></a>
-                            </div>
-                        </div>
-                        <h5>商品名称：</h5>
-                        <h5>成交价格：</h5>
-                        <h5>商品评价：</h5>
-                    </div>
-                </div>
-         </div>
-        {% endfor %}
-    </div>
-</div>
-</div>
 
-        <!-- /row -->
+        </div>
+    <div class="panel-body">
+        <div class="tab-content">
+            <div id="sell" class="tab-pane active">
+                <div class="row mt" id="goodslistsell">
+                    {% for order in orderlist_sell %}
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
+                        <div class="project-wrapper">
+                        <div class="project">
+
+                           <div class="photo-wrapper">
+                                <div class="photo-wrapper">
+                                    <div class="photo">
+                                        <a class="fancybox" href={{ order.picture }} target="_blank">
+                                            <img class="img-responsive" src={{ order.picture }} alt=""></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                            <h5>商品名称：{{ order.order.goods_name }}</h5>
+                            <h5>成交价格：{{ order.order.goods_cost }}</h5>
+                            <h5>商品原价：</h5>
+                    </div>
+
+                     {% endfor %}
+                </div>
+            </div>
+            <div id="buy" class="tab-pane">
+                <div class="row mt" id="goodslistbuy">
+                    {% for order in orderlist_buy %}
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
+                            <div class="project-wrapper">
+                                <div class="project">
+                                    <div class="photo-wrapper">
+                                        <div class="photo">
+                                            <a class="fancybox" href={{ order.picture }} target="_blank">
+                                                <img class="img-responsive" src={{ order.picture }} alt=""></a>
+                                        </div>
+                                    </div>
+                                    <h5>商品名称：{{ order.order.goods_name }}</h5>
+                                    <h5>成交价格：{{ order.order.goods_cost }}</h5>
+                                    <h5>商品评价：</h5>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div id="trade" class="tab-pane">
+                <div class="row mt" id="goodslisttrade">
+                    {% for photo_path in photo_paths_trade %}
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
+                            <div class="project-wrapper">
+                                <div class="project">
+                                    <div class="photo-wrapper">
+                                        <div class="photo">
+                                            <a class="fancybox" href={{ photo_path }} target="_blank">
+                                                <img class="img-responsive" src={{ photo_path }} alt=""></a>
+                                        </div>
+                                    </div>
+                                    <h5>商品名称：</h5>
+                                    <h5>成交价格：</h5>
+                                    <h5>商品评价：</h5>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
     </section>
     <!-- /wrapper -->
 </section>
-<!-- /MAIN CONTENT -->
 <!--main content end-->
+
 <!--footer start-->
 <footer class="site-footer">
     <div class="text-center">
@@ -221,7 +231,7 @@
     </div>
 </footer>
 <!--footer end-->
-{#  </section>#}
+
 <!-- js placed at the end of the document so the pages load faster -->
 <script src="{% static 'lib/fancybox/jquery.fancybox.js' %}"></script>
 <script src="{% static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
