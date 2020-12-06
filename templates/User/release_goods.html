@@ -118,14 +118,14 @@
                   <div class="col-md-9">
                     <div class="fileupload fileupload-new" data-provides="fileupload">
                       <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                        <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" alt="" />
+                        <img id="showimg" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" alt="" />
                       </div>
                       <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
                       <div>
                         <span class="btn btn-theme02 btn-file">
                             <span class="fileupload-new"></i> Select image</span>
                             <span class="fileupload-exists"><i class="fa fa-undo"></i> Change</span>
-                            <input type="file" class="default" />
+                            <input type="file" id="inputimg" onchange="previewFile()" class="default" />
                         </span>
 {#                        <a href="advanced_form_components.html#" class="btn btn-theme04 fileupload-exists" data-dismiss="fileupload"><i class="fa fa-trash-o"></i> Remove</a>#}
                       </div>
@@ -170,21 +170,74 @@
 </script>
 
 <script>
+    console.log(123);
+    function previewFile(){
+        var preview = document.querySelector('#showimg');
+        var file    = document.querySelector('input[type=file]').files[0];
+        var reader  = new FileReader();
+        reader.onloadend = function (){
+            preview.src = reader.result;
+        }
+        if(file){
+            reader.readAsDataURL(file);
+        }else{
+            preview.src="";
+        }
+    }
+    function uploadimg(file){
+        let resurl = ""
+        var formData = new FormData()
+        formData.append('smfile',file);
+        formData.append('Authorzation','XT7kNLVTvlJu5VgKcLrKAmyvrUyHHLp7');
+        $.ajax({
+            url : 'https://sm.ms/api/v2/upload',
+            type : 'POST',
+            cache : false,
+            data : formData,
+            processData : false,
+            contentType :false,
+            async : false,
+            success :function (data){
+                data= JSON.parse(data);
+                if (data["success"] == false){
+                    resurl =  data["images"];
+                }else if(data["success"] == true){
+                    resurl = data["url"];
+                }
+                return resurl;
+            },
+            complete: function (data){
+            }
+        });
+        return resurl;
+    }
     $(document).ready(function () {//ajax刷新图片
         $("#release_btn").click(function () {//点击筛选按钮后，获得两个下拉选择框的值，弹出框提示，利用post方法提交到search_goods函数
+            alert("新增的的商品名称是:" + name + "\n新增的的商品价格是:" + price+ "\n新增的的商品类型是:" +type+"\n新增的的商品评价是:" + describe);
+            console.log("123");
             var name=document.getElementById("goods_name").value;
             var price=document.getElementById("goods_price").value;
             var type = $("#goods_type").find("option:selected").text();
+            var goods_num = 1;
             var describe=document.getElementById("goods_describe").value;
-
-            alert("新增的的商品名称是:" + name + "\n新增的的商品价格是:" + price+ "\n新增的的商品类型是:" +type+"\n新增的的商品评价是:" + describe);
+            var pictureObject = document.querySelector('input[type=file]').files[0];
+            var picture = uploadimg(pictureObject);
+            {#console.log(picture);#}
             $.post("{% url 'user:release_goods' %}", JSON.stringify({
                 name:name,
                 price: price,
                 type:type,
                 describe:describe,
+                picture:picture,
+                goods_num : goods_num,
+                condition : "九成新",
             }), function (ret) {//得到返回值后，将原有的goodslist清空，按照返回结果重新张贴所有图片
-                alert("发布成功");
+                ret = JSON.parse(ret);
+                if(ret["status"] == 200) {
+                    alert( ret["msg"]);
+                }else{
+                    alert("发布失败\n" + ret["msg"]);
+                }
             })
         });
     });

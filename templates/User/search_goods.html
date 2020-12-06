@@ -44,8 +44,10 @@
     </div>
     <div class="top-menu">
         <ul class="nav pull-right top-menu">
-            {% if request.user != None %}
-                <li><a class="logout" href="{% url 'user:login' %}">Logout</a></li>
+            {% if request.user.is_authenticated %}
+                <li><a class="logout" href="{% url 'user:logout' %}">Logout</a></li>
+            {% else %}
+                <li><a class="logout" href="{% url 'user:login' %}">Login</a></li>
             {% endif %}
         </ul>
     </div>

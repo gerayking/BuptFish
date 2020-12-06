@@ -3,41 +3,48 @@ import queue
 from apps.user.models import Type_id, Goods
 
 
-class classTree:
+class ClassTree:
     def __init__(self):
         self.graph = None
         self.classId = {}
         self.updateflag = 0
 
-    def gettree(self) -> None:
+    def GetTree(self) -> None:
+        self.graph = {}
         edges = Type_id.objects.all()
         for item in edges:
             self.classId[item.class_name] = item.class_id
-            if self.graph[item.father_id] is None:
+            if item.father_id == 0:
                 continue
-            if self.graph[item.father_id] is None:
+            if item.father_id not in self.graph:
                 self.graph[item.father_id] = list()
             self.graph[item.father_id].append(item.class_id)
 
-    def getleafnode(self, className: str) -> list:
+    def GetLeafNode(self, className: str) -> list:
         leafnode = []
         if self.graph is None:
-            self.getTree()
+            self.GetTree()
         u = self.classId[className]
         q = queue.Queue()
         q.put(u)
-        while len(queue) != 0:
+        while q.empty() == False:
             s = q.get()
-            if len(self.graph[s]) == 0:
+            if s not in self.graph:
                 leafnode.append(s)
+                continue
             for v in self.graph[s]:
                 q.put(v)
         return leafnode
 
-    def search(self, classNmae: str) -> list:
-        leftnode = self.getleafNode(classNmae)
-        goodlist = Goods.objects.filter(class_id__in=leftnode)
+    def search(self, className: str) -> list:
+        leftnode = self.GetLeafNode(className)
+        goodlist = Goods.objects.filter("class_id" in leftnode)
         return goodlist
 
+    def str2typeid(self, goodstype: str) -> int:
+        if goodstype not in self.classId:
+            return -1
+        return self.classId[goodstype]
 
-searchUtils = classTree()
+
+classtree = ClassTree()

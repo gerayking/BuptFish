@@ -29,9 +29,9 @@ class Type_id(models.Model):
 
 
 class Goods(models.Model):
-    goods_id = models.IntegerField(primary_key=True)  # 商品编号
+    goods_id = models.AutoField(primary_key=True)
     goods_name = models.CharField(max_length=50)  # 商品名称
-    picture = models.ImageField(max_length=100)  # 图片
+    picture = models.CharField(max_length=100)  # 图片
     class_id = models.IntegerField(default=0)  # 类型的ID
     # Class = models.ForeignKey(Type_id, on_delete=models.CASCADE, default='')  # 类型ID
     price = models.FloatField()  # 原价
