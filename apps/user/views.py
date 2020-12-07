@@ -8,7 +8,8 @@ from django.urls import reverse
 from django.views import generic, View
 
 from apps.user.Service import GoodsService
-from apps.user.Service.indexService import indexview
+from apps.user.Service.IndexService import indexview
+from apps.user.Service.CollectServise import collectview
 from apps.user.models import UserInfo as User
 from apps.user.models import Orderdetail, Goods
 from apps.user.utils import ClassTree
@@ -32,6 +33,8 @@ def shopping_cart(request):
 
 
 def collect(request):
+    c_id=request.user.id
+    goodlist=collectview(c_id)#根据用户id找到相应收藏夹内物品
     return render(request, 'User/collect.html', locals())
 
 
