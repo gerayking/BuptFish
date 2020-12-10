@@ -1,17 +1,18 @@
 from django.db.models import Q
 
-from apps.user.models import ShopCart, ShopCart
+from apps.user.models import Shopcart, Goods
 
 
 class ShopCartService:
-    def getCartById(self, userId : int ,userName :str):
+    def getCartByName(self,userName :str):
         """ 获取用户的购物车中的物品
             userId : 用户的id
             userName : 用户名
             只要输入一个就可以查询
         """
-
-        goods = ShopCart.objects.filter(user_id=userId)
+        goodsIdList = Shopcart.objects.filter(user_name=userName)
+        goodsIdList = [item.goods_id for item in goodsIdList]
+        goods = Goods.objects.filter(goods_id__in=goodsIdList)
         return goods
 
     def addInCart(self, userId: int, goodsId: int):
@@ -36,3 +37,4 @@ class ShopCartService:
             goods.delete()
             return True
         return False
+shopcartservice = ShopCartService()

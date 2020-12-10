@@ -62,7 +62,7 @@
     <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-            <p class="centered"><a href="info_edit.html"><img src={% static 'img/ui-sam.jpg' %} class="img-circle" width="80"></a>
+            <p class="centered"><a href="{% url 'user:userInfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80">
             </p>
             <h5 class="centered">{{ request.user.username }}</h5>
 
@@ -130,13 +130,15 @@
                             type : 'POST',
                             async : 'false',
                             success : function (data){
+                                data = JSON.parse(data);
+                                containShopCart();
                                 alert(data["msg"]);
                             },
                             error : function (data){
                                 console.log(data);
                             }
                         });
-                        containShopCart();
+                        window.location.href="/user/item/{{ goods.goods_id }}";
                     };
                     function addCollect(){
                         $.ajax({
@@ -155,7 +157,7 @@
                                 alert(data["msg"]);
                             }
                         });
-                        containCollect();
+                        window.location.href="/user/item/{{ goods.goods_id }}";
                     }
                 </script>
 
@@ -165,7 +167,7 @@
                 <div class="right-divider hidden-sm hidden-xs">
                      <div class="photo">
                                 <a class="fancybox" href={{ photo_path }} target="_blank">
-                                    <img class="img-responsive" src="https://i.loli.net/2020/11/02/7fpEKYHXjW36PMF.jpg" alt=""></a>
+                                    <img class="img-responsive" src="{{ goods.picture }}" alt=""></a>
                         <p></p>
                          <div class="btn-group btn-group-justified">
                 <div class="btn-group">
@@ -185,12 +187,12 @@
             </div>
             <!-- /col-md-4 -->
             <div class="col-md-4 profile-text">
-                <h3>商品名{{ goods.goods_name }}</h3>
+                <h3>商品名 : {{ goods.goods_name }}</h3>
                 <h6>Main Administrator</h6>
                 <h3 style="color:#64f1b9">价格：{{ goods.price }}</h3>
                 <br>
-                <h5>分类：{{goodsClassName }}</h5>
-                <h5 >数量:{{request.goods.goods_num }}</h5>
+                <h5>分类：{{goodsClassName }} </h5>
+                <h5 >数量:{{goods.goods_num }}</h5>
                 <h5>
                     产品描述：{{ goods.description }}
                 </h5>

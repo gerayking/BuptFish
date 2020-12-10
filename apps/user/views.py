@@ -7,11 +7,11 @@ from django.shortcuts import render
 
 from django.urls import reverse
 from django.views import generic, View
-
+from apps.user.Service.ShopCartService import shopcartservice
 from apps.user.Service import GoodsService
 from apps.user.Service.IndexService import indexview
 from apps.user.Service.CollectService import collectview
-from apps.user.models import UserInfo as User, Collect, ShopCart
+from apps.user.models import UserInfo as User, Collect, Shopcart, UserInfo
 from apps.user.models import Orderdetail, Goods
 from apps.user.utils import ClassTree
 
@@ -35,9 +35,27 @@ def index(request):
     # 根据用户的历史卖出商品返回图片路径
     return render(request, 'User/index.html', locals())
 
+def delShopCart(request:HttpRequest):
+    goodsId = request.POST["goodsId"]
+    userName = request.POST["userName"]
+    if userName == None or userName == "" or userName != request.user.username:
+        return rjson(500, "用户验证失败")
+    item = Shopcart.objects.filter(Q(goods_id=goodsId) & Q(user_name=userName))
+    if item != None and len(item) != 0:
+        item.delete()
+        return rjson(500, "删除成功")
+    return rjson(200, "不能删除不存在的物品")
 
-def shopping_cart(request):
-    return render(request, 'User/shopping_cart.html', locals())
+def delCollect(request: HttpRequest):
+    goodsId = request.POST["goodsId"]
+    userName = request.POST["userName"]
+    if userName == None or userName == "" or userName != request.user.username:
+        return rjson(500, "用户验证失败")
+    item = Collect.objects.filter(Q(goods_id=goodsId) & Q(user_name=userName))
+    if item != None and len(item) != 0:
+        item.delete()
+        return rjson(500, "删除成功")
+    return rjson(200, "不能删除不存在的物品")
 
 
 def addShopCart(request: HttpRequest):
@@ -46,10 +64,10 @@ def addShopCart(request: HttpRequest):
     userName = data["userName"]
     if userName == None or userName == "":
         return rjson(500, "用户未登录")
-    item = ShopCart.objects.get(Q(goods_id=goodsId) & Q(user_name=userName))
-    if item != None:
+    item = Shopcart.objects.filter(Q(goods_id=goodsId) & Q(user_name=userName))
+    if item != None and len(item)!=0:
         return rjson(500, "购物车已存在")
-    shopcart = ShopCart()
+    shopcart = Shopcart()
     shopcart.goods_id = goodsId
     shopcart.user_name = userName
     shopcart.save()
@@ -63,7 +81,7 @@ def addCollect(request: HttpRequest):
     if userName == None or userName == "":
         return rjson(500, "用户未登录")
     item = Collect.objects.filter(Q(goods_id=goodsId) & Q(user_name=userName))
-    if item != None and len(item)!= 0 :
+    if item != None and len(item) != 0:
         return rjson(500, "无法重复收藏")
     collect = Collect()
     collect.goods_id = goodsId
@@ -71,12 +89,13 @@ def addCollect(request: HttpRequest):
     collect.save()
     return rjson(200, "收藏成功")
 
+
 def containShopCart(request: HttpRequest):
     data = request.POST
     goodsId = data["goodsId"]
     userName = data["userName"]
-    item = ShopCart.objects.filter(Q(goods_id=goodsId) & Q(user_name=userName))
-    if item == None and len(item)!=0:
+    item = Shopcart.objects.filter(Q(goods_id=goodsId) & Q(user_name=userName))
+    if item == None or len(item) == 0:
         return rjson(200, "False")
     return rjson(200, "True")
 
@@ -86,9 +105,17 @@ def containCollect(request: HttpRequest):
     goodsId = data["goodsId"]
     userName = data["userName"]
     item = Collect.objects.get(Q(goods_id=goodsId) & Q(user_name=userName))
-    if item == None and len(item)!=0:
+    if item == None and len(item) != 0:
         return rjson(200, "False")
     return rjson(200, "True")
+
+
+class ShopCart(View):
+    def get(self, request: HttpRequest):
+        if request.user.is_authenticated:
+            userName = request.user.username
+            goodlist = shopcartservice.getCartByName(userName)
+        return render(request, 'User/shopping_cart.html', locals())
 
 
 class collect(View):
@@ -174,10 +201,24 @@ def register(request, useremail: str, username: str, password: str):
     return HttpResponse(json.dumps({"status": 200, "msg": "注册成功"}))
 
 
-class userinfo(generic.DetailView):
-    user = User.objects.filter(id=1)
-    model = user
-    template_name = 'User/userInfo.html'
+class userinfo(View):
+    def get(self, request: HttpRequest):
+        return render(request, "User/infoedit.html", locals())
+    def post(self,request:HttpRequest):
+        print(request.body)
+        if not request.user.is_authenticated:
+            return rjson(500,"用户未登录")
+        userinfo = request.user
+        if "avatar" in request.POST and request.POST["avatar"] != "":
+            userinfo.avatar = request.POST["avatar"]
+        if "address" in request.POST and request.POST["address"] != "":
+            userinfo.address = request.POST["address"]
+        if "password1" in request.POST and request.POST["password1"] != "":
+            userinfo.set_password(request.POST["password1"])
+        if "phone" in request.POST and request.POST["phone"]!= "":
+            userinfo.phone = request.POST["phone"]
+        userinfo.save()
+        return rjson(200,"信息更新完成")
 
 
 class IndexView(View):

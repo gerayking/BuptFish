@@ -57,8 +57,8 @@
         <div id="sidebar" class="nav-collapse ">
             <!-- sidebar menu start-->
             <ul class="sidebar-menu" id="nav-accordion">
-                <p class="centered"><a href="profile.html"><img src="/static/img/ui-sam.jpg" class="img-circle"
-                                                                width="80"></a></p>
+            <p class="centered"><a href="{% url 'user:userInfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80"></a>
+</p>
                 <h5 class="centered">{{ request.user.username }}</h5>
 
                 <li class="sub-menu">
@@ -89,111 +89,49 @@
 				全选
 			</li>
 			<li class="list_con">商品信息</li>
-			<li class="list_info">商品参数</li>
+			<li class="list_info">商品描述</li>
 			<li class="list_price">单价</li>
 			<li class="list_amount">数量</li>
 			<li class="list_sum">金额</li>
 			<li class="list_op">操作</li>
 		</ul>
 	</div>
-
+            <div>
+                {% for goods in goodlist %}
 	<div class="cartBox">
 		<div class="shop_info">
 			<div class="all_check">
 				<!--店铺全选-->
-				<input type="checkbox" id="shop_a" class="shopChoice">
-				<label for="shop_a" class="shop"></label>
+				<input type="checkbox" id="shop_{{ goods.goods_id }}" class="shopChoice">
+				<label for="shop_{{ goods.goods_id }}" class="shop"></label>
 			</div>
 			<div class="shop_name">
-				店铺：<a href="javascript:;">耐克官网旗舰店</a>
+				商家：<a href="javascript:;">{{ goods.user_name }}</a>
 			</div>
 		</div>
 		<div class="order_content">
-			<ul class="order_lists">
+			<ul class="order_lists" data-id="{{ goods.goods_id }}">
 				<li class="list_chk">
-					<input type="checkbox" id="checkbox_2" class="son_check">
-					<label for="checkbox_2"></label>
+					<input type="checkbox" id="checkbox_{{ goods.goods_id }}" class="son_check">
+					<label for="checkbox_{{ goods.goods_id }}"></label>
 				</li>
 				<li class="list_con">
-					<div class="list_img"><a href="javascript:;"><img src="/static/img/portfolio/port01.jpg" alt=""></a></div>
-					<div class="list_text"><a href="javascript:;">耐克外套</a></div>
+					<div class="list_img"><a href="javascript:;"><img src="{{ goods.picture }}" alt=""></a></div>
+					<div class="list_text"><a href="javascript:;">{{ goods.goods_name}}</a></div>
 				</li>
 				<li class="list_info">
-					<p>颜色：黑色</p>
-					<p>尺寸：M</p>
+                    {{ goods.description}}
 				</li>
 				<li class="list_price">
-					<p class="price">￥980</p>
+					<p class="price">￥{{ goods.price }}</p>
 				</li>
 				<li class="list_amount">
 					<div class="amount_box">
-						<a href="javascript:;" class="reduce reSty">-</a>
-						<input type="text" value="1" class="sum">
-						<a href="javascript:;" class="plus">+</a>
+						<p>{{ goods.goods_num }}</p>
 					</div>
 				</li>
 				<li class="list_sum">
-					<p class="sum_price">￥980</p>
-				</li>
-				<li class="list_op">
-					<p class="del"><a href="javascript:;" class="delBtn">移除商品</a></p>
-				</li>
-			</ul>
-			<ul class="order_lists">
-				<li class="list_chk">
-					<input type="checkbox" id="checkbox_3" class="son_check">
-					<label for="checkbox_3"></label>
-				</li>
-				<li class="list_con">
-					<div class="list_img"><a href="javascript:;"><img src="/static/img/portfolio/port02.jpg" alt=""></a></div>
-					<div class="list_text"><a href="javascript:;">印花帽子</a></div>
-				</li>
-				<li class="list_info">
-					<p>颜色：白色</p>
-					<p>尺寸：M</p>
-				</li>
-				<li class="list_price">
-					<p class="price">￥780</p>
-				</li>
-				<li class="list_amount">
-					<div class="amount_box">
-						<a href="javascript:;" class="reduce reSty">-</a>
-						<input type="text" value="1" class="sum">
-						<a href="javascript:;" class="plus">+</a>
-					</div>
-				</li>
-				<li class="list_sum">
-					<p class="sum_price">￥780</p>
-				</li>
-				<li class="list_op">
-					<p class="del"><a href="javascript:;" class="delBtn">移除商品</a></p>
-				</li>
-			</ul>
-			<ul class="order_lists">
-				<li class="list_chk">
-					<input type="checkbox" id="checkbox_6" class="son_check">
-					<label for="checkbox_6"></label>
-				</li>
-				<li class="list_con">
-					<div class="list_img"><a href="javascript:;"><img src="/static/img/portfolio/port03.jpg" alt=""></a></div>
-					<div class="list_text"><a href="javascript:;">长裤</a></div>
-				</li>
-				<li class="list_info">
-					<p>颜色：黑色</p>
-					<p>尺寸：S</p>
-				</li>
-				<li class="list_price">
-					<p class="price">￥180</p>
-				</li>
-				<li class="list_amount">
-					<div class="amount_box">
-						<a href="javascript:;" class="reduce reSty">-</a>
-						<input type="text" value="1" class="sum">
-						<a href="javascript:;" class="plus">+</a>
-					</div>
-				</li>
-				<li class="list_sum">
-					<p class="sum_price">￥180</p>
+					<p class="sum_price">￥{{ goods.price }}</p>
 				</li>
 				<li class="list_op">
 					<p class="del"><a href="javascript:;" class="delBtn">移除商品</a></p>
@@ -201,160 +139,11 @@
 			</ul>
 		</div>
 	</div>
-
-	<div class="cartBox">
-		<div class="shop_info">
-			<div class="all_check">
-				<!--店铺全选-->
-				<input type="checkbox" id="shop_b" class="shopChoice">
-				<label for="shop_b" class="shop"></label>
-			</div>
-			<div class="shop_name">
-				店铺：<a href="javascript:;">阿迪达斯官网旗舰店</a>
-			</div>
-		</div>
-		<div class="order_content">
-			<ul class="order_lists">
-				<li class="list_chk">
-					<input type="checkbox" id="checkbox_4" class="son_check">
-					<label for="checkbox_4"></label>
-				</li>
-				<li class="list_con">
-					<div class="list_img"><a href="javascript:;"><img src="/static/img/portfolio/port04.jpg" alt=""></a></div>
-					<div class="list_text"><a href="javascript:;">跑鞋</a></div>
-				</li>
-				<li class="list_info">
-					<p>颜色：黑色</p>
-					<p>尺寸：37</p>
-				</li>
-				<li class="list_price">
-					<p class="price">￥1980</p>
-				</li>
-				<li class="list_amount">
-					<div class="amount_box">
-						<a href="javascript:;" class="reduce reSty">-</a>
-						<input type="text" value="1" class="sum">
-						<a href="javascript:;" class="plus">+</a>
-					</div>
-				</li>
-				<li class="list_sum">
-					<p class="sum_price">￥1980</p>
-				</li>
-				<li class="list_op">
-					<p class="del"><a href="javascript:;" class="delBtn">移除商品</a></p>
-				</li>
-			</ul>
-			<ul class="order_lists">
-				<li class="list_chk">
-					<input type="checkbox" id="checkbox_5" class="son_check">
-					<label for="checkbox_5"></label>
-				</li>
-				<li class="list_con">
-					<div class="list_img"><a href="javascript:;"><img src="/static/img/portfolio/port05.jpg" alt=""></a></div>
-					<div class="list_text"><a href="javascript:;">短上衣</a></div>
-				</li>
-				<li class="list_info">
-					<p>颜色：粉色</p>
-					<p>尺寸：L</p>
-				</li>
-				<li class="list_price">
-					<p class="price">￥480</p>
-				</li>
-				<li class="list_amount">
-					<div class="amount_box">
-						<a href="javascript:;" class="reduce reSty">-</a>
-						<input type="text" value="1" class="sum">
-						<a href="javascript:;" class="plus">+</a>
-					</div>
-				</li>
-				<li class="list_sum">
-					<p class="sum_price">￥480</p>
-				</li>
-				<li class="list_op">
-					<p class="del"><a href="javascript:;" class="delBtn">移除商品</a></p>
-				</li>
-			</ul>
-		</div>
-	</div>
-
-	<div class="cartBox">
-		<div class="shop_info">
-			<div class="all_check">
-				<!--店铺全选-->
-				<input type="checkbox" id="shop_c" class="shopChoice">
-				<label for="shop_c" class="shop"></label>
-			</div>
-			<div class="shop_name">
-				店铺：<a href="javascript:;">乔丹官网旗舰店</a>
-			</div>
-		</div>
-		<div class="order_content">
-			<ul class="order_lists">
-				<li class="list_chk">
-					<input type="checkbox" id="checkbox_8" class="son_check">
-					<label for="checkbox_8"></label>
-				</li>
-				<li class="list_con">
-					<div class="list_img"><a href="javascript:;"><img src="/static/img/portfolio/port06.jpg" alt=""></a></div>
-					<div class="list_text"><a href="javascript:;">慢跑鞋</a></div>
-				</li>
-				<li class="list_info">
-					<p>颜色：白色</p>
-					<p>尺寸：40</p>
-				</li>
-				<li class="list_price">
-					<p class="price">￥1980</p>
-				</li>
-				<li class="list_amount">
-					<div class="amount_box">
-						<a href="javascript:;" class="reduce reSty">-</a>
-						<input type="text" value="1" class="sum">
-						<a href="javascript:;" class="plus">+</a>
-					</div>
-				</li>
-				<li class="list_sum">
-					<p class="sum_price">￥1980</p>
-				</li>
-				<li class="list_op">
-					<p class="del"><a href="javascript:;" class="delBtn">移除商品</a></p>
-				</li>
-			</ul>
-			<ul class="order_lists">
-				<li class="list_chk">
-					<input type="checkbox" id="checkbox_9" class="son_check">
-					<label for="checkbox_9"></label>
-				</li>
-				<li class="list_con">
-					<div class="list_img"><a href="javascript:;"><img src="/static/img/portfolio/port01.jpg" alt=""></a></div>
-					<div class="list_text"><a href="javascript:;">打底衫</a></div>
-				</li>
-				<li class="list_info">
-					<p>颜色：黑色</p>
-					<p>尺寸：M</p>
-				</li>
-				<li class="list_price">
-					<p class="price">￥480</p>
-				</li>
-				<li class="list_amount">
-					<div class="amount_box">
-						<a href="javascript:;" class="reduce reSty">-</a>
-						<input type="text" value="1" class="sum">
-						<a href="javascript:;" class="plus">+</a>
-					</div>
-				</li>
-				<li class="list_sum">
-					<p class="sum_price">￥480</p>
-				</li>
-				<li class="list_op">
-					<p class="del"><a href="javascript:;" class="delBtn">移除商品</a></p>
-				</li>
-			</ul>
-		</div>
-	</div>
+                {% endfor %}
+                </div>
 	<!--底部-->
 	<div class="bar-wrapper">
-		<div class="bar-right">
-			<div class="piece">已选商品<strong class="piece_num">0</strong>件</div>
+		<div class="bar-right" style="margin-right: 50px;">
 			<div class="totalMoney">共计: <strong class="total_text">0.00</strong></div>
 			<div class="calBtn"><a href="javascript:;">结算</a></div>
 		</div>
@@ -408,8 +197,28 @@
         $('.model_bg').fadeOut(300);
         $('.my_model').fadeOut(300);
     }
+    function delShopCart(goodsId){
+                    $.ajax({
+                        url : '/user/delShopCart/',
+                        data:{
+                            goodsId : goodsId,
+                            userName : '{{ request.user.username }}'
+                        },
+                        async:'false',
+                        type:"POST",
+                        success : function (data){
+                            data = JSON.parse(data);
+                            if(data["msg"]=="True"){
+                                alert(data["msg"]);
+                            }
+                        }
+                    });
+                    window.location.href='{% url 'user:shopping_cart' %}';
+                }
     //确定按钮，移除商品
     $('.dialog-sure').click(function () {
+        var id = $order_lists.data("id");
+        delShopCart(id);
         $order_lists.remove();
         if($order_content.html().trim() == null || $order_content.html().trim().length == 0){
             $order_content.parents('.cartBox').remove();
