@@ -9,7 +9,7 @@ from django.views import generic, View
 
 from apps.user.Service import GoodsService
 from apps.user.Service.IndexService import indexview
-from apps.user.Service.CollectServise import collectview
+from apps.user.Service.CollectService import collectview
 from apps.user.models import UserInfo as User
 from apps.user.models import Orderdetail, Goods
 from apps.user.utils import ClassTree
@@ -78,7 +78,8 @@ class search_goods(View):
         resultlist = searchservice.searchgoods(searchname, minprice, maxprice)
         return render(request, 'User/search_goods.html', locals())
 
-
+def item(request):
+    return render(request, 'User/item.html')
 
 
 class UserInfoView(View):
