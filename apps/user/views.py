@@ -58,6 +58,26 @@ class release_goods(View):
 def userInfo(request):
     return render(request, 'User/userInfo.html')
 
+def info_edit(request):
+    if request.POST:
+        name = request.POST['name']
+        print(name)
+        email = request.POST['email']
+        print(email)
+        Head = request.POST['Head']
+        print(Head)
+        phone=request.POST['phone']
+        print(phone)
+        address = request.POST['address']
+        print(address)
+        password1 = request.POST['password1']
+        print(password1)
+        password2 = request.POST['password2']
+        print(password2)
+    return render(request, 'User/info_edit.html', locals())
+
+def message(request):
+    return render(request, 'User/message.html', locals())
 
 class search_goods(View):
     def get(self, request: HttpRequest):

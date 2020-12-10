@@ -52,16 +52,15 @@
     </div>
 </header>
 
+
     <section id="container">
-    <!--header end-->
-        <!--sidebar start-->
-       <aside>
+         <aside>
         <div id="sidebar" class="nav-collapse ">
             <!-- sidebar menu start-->
             <ul class="sidebar-menu" id="nav-accordion">
-                <p class="centered"><a href="profile.html"><img src="/static/img/ui-sam.jpg" class="img-circle"
-                                                                width="80"></a></p>
-                <h5 class="centered">{{ request.user.username }}</h5>
+                <p class="centered"><img src={{ request.user.avatar }} class="img-circle" width="80" height="80">
+            </p>
+            <h5 class="centered">{{ request.user.username }}</h5>
 
                 <li class="sub-menu">
                     <a class="active" href="javascript:;">
@@ -75,6 +74,9 @@
             <!-- sidebar menu end-->
         </div>
     </aside>
+    <!--header end-->
+        <!--sidebar start-->
+
     <!--sidebar end-->
     <!--main content start-->
 <section id="main-content">

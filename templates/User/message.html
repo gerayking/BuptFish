@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Dashboard">
+    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <title>BUPTFISH - Second-hand trading platform</title>
+    {% load  static %}
+    <!-- Favicons -->
+    <link href="{% static 'img/favicon.png' %}" rel="icon">
+    <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!--external css-->
+    <link href="{% static 'lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet"/>
+    <link href="{% static 'lib/fancybox/jquery.fancybox.css' %}" rel="stylesheet"/>
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style-responsive.css' %}" rel="stylesheet">
+    <script src="{% static 'lib/jquery/jquery.min.js' %}"></script>
+
+    <link rel="stylesheet" href="{% static 'css/carts.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <!-- =======================================================
+      Template Name: Dashio
+      Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
+      Author: TemplateMag.com
+      License: https://templatemag.com/license/
+    ======================================================= -->
+</head>
+
+<body>
+<header class="header black-bg">
+    <a href="{% url 'user:index' %}" class="logo"><b>BUPT<span>FISH</span></b></a>
+    <!--logo end-->
+    <div class="nav notify-row" id="top_menu">
+        <!--  notification start -->
+        <ul class="nav top-menu">
+
+        </ul>
+        <!--  notification end -->
+    </div>
+    <div class="top-menu">
+        <ul class="nav pull-right top-menu">
+            {% if request.user.is_authenticated %}
+                <li><a class="logout" href="{% url 'user:logout' %}">Logout</a></li>
+            {% else %}
+                <li><a class="logout" href="{% url 'user:login' %}">Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</header>
+-->
+
+<section id="container">
+    <!--sidebar start-->
+    <!--sidebar end-->
+    <!--main content start-->
+    <aside>
+        <div id="sidebar" class="nav-collapse ">
+            <!-- sidebar menu start-->
+            <ul class="sidebar-menu" id="nav-accordion">
+                <p class="centered"><img src={{ request.user.avatar }} class="img-circle" width="80" height="80">
+            </p>
+            <h5 class="centered">{{ request.user.username }}</h5>
+                <li class="sub-menu">
+                    <a class="active" href="javascript:;">
+                        <span><a href="{% url 'user:index' %}"><h5>用户主页</h5></a></span>
+                        <span><a href="{% url 'user:search_goods' %}"><h5>搜索</h5></a></span>
+                        <span><a href="{% url 'user:shopping_cart' %}"><h5>购物车</h5></a></span>
+                        <span><a href="{% url 'user:collect' %}"><h5>收藏夹</h5></a></span>
+                    </a>
+                </li>
+            </ul>
+            <!-- sidebar menu end-->
+        </div>
+    </aside>
+    <section id="main-content">
+        <section class="wrapper site-min-height">
+            <div class="container">
+                <aside class="right-side">
+                    <div class="user-head">
+                    </div>
+{#                    <div class="invite-row">#}
+                        <div class="panel-heading">
+                            <ul class="nav nav-tabs nav-justified">
+                                <li class="active">
+                                    <a data-toggle="tab" href="#user_message" id="history_sell">收到消息</a>
+                                </li>
+                                <li>
+                                    <a data-toggle="tab" href="#system_message" class="contact-map" id="history_buy">系统提醒</a>
+                                </li>
+                            </ul>
+                        </div>
+{#                    </div>#}
+                </aside>
+
+                <div class="tab-content">
+                    <div id="user_message" class="tab-pane active">
+                        <button class="btn btn-theme04 pull-right" id="select_all_btn" type="submit">全部删除</button>
+                         <ul class="chat-available-user">
+                             <span id="messagelist">
+                             <div class="order_content">
+                                 <ul class="order_lists">
+                                     <img class="img-circle" src="https://i.loli.net/2020/11/08/KnofmQWD15BxcMu.jpg" width="32" height="32">
+                                     Paul Brown
+                                     <span class="text-muted">1h:02m</span>
+                                     <a href="javascript:;" class="delBtn" >删除记录</a>
+                                 </ul>
+                                 <ul class="order_lists">
+                                     <img class="img-circle" src="https://i.loli.net/2020/11/08/KnofmQWD15BxcMu.jpg" width="32" height="32">
+                                     David Duncan
+                                     <span class="text-muted">1h:08m</span>
+                                     <a href="javascript:;" class="delBtn" >删除记录</a>
+                                 </ul>>
+                                 <ul class="order_lists">
+                                     <img class="img-circle" src="https://i.loli.net/2020/11/08/KnofmQWD15BxcMu.jpg" width="32" height="32">
+                                     Laura Smith
+                                     <span class="text-muted">1h:10m</span>
+                                     <a href="javascript:;" class="delBtn" >删除记录</a>
+                                 </ul>
+                                 <ul class="order_lists">
+                                     <img class="img-circle" src="https://i.loli.net/2020/11/08/KnofmQWD15BxcMu.jpg" width="32" height="32">
+                                     Julia Schultz
+                                     <span class="text-muted">3h:00m</span>
+                                     <a href="javascript:;" class="delBtn" >删除记录</a>
+                                 </ul>>
+                                 <ul class="order_lists">
+                                     <img class="img-circle" src="https://i.loli.net/2020/11/08/KnofmQWD15BxcMu.jpg" width="32" height="32">
+                                     Frank Arias
+                                     <span class="text-muted">4h:22m</span>
+                                     <a href="javascript:;" class="delBtn" >删除记录</a>
+                                 </ul>>
+                             </div>
+                             </span>
+                         </ul>
+                    </div>
+                     <div id="system_message" class="tab-pane">
+                         <button class="btn btn-theme03 pull-right" id="select_all_btn1" type="submit">全部删除</button>
+                         <div class="col-lg-pull-4 ds">
+                             <span id="system_messagelist">
+                                 <!-- RECENT ACTIVITIES SECTION -->
+                             <h4 class="centered mt">RECENT MESSAGE</h4>
+                             <!-- First Activity -->
+                             <div class="desc">
+                                 <div class="thumb">
+                                     <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
+                                 </div>
+                                 <div class="details">
+                                     <p>
+                                         <muted>Just Now</muted>
+                                         <br/>
+                                         <a href="#">Paul Rudd</a> purchased an item.<br/>
+                                     </p>
+                                 </div>
+                             </div>
+
+                             <!-- Second Activity -->
+                             <div class="desc">
+                                 <div class="thumb">
+                                     <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
+                                 </div>
+                                 <div class="details">
+                                     <p>
+                                         <muted>2 Minutes Ago</muted>
+                                         <br/>
+                                         <a href="#">James Brown</a> subscribed to your newsletter.<br/>
+                                     </p>
+                                 </div>
+                             </div>
+
+                             <!-- Third Activity -->
+                             <div class="desc">
+                                 <div class="thumb">
+                                     <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
+                                 </div>
+                                 <div class="details">
+                                     <p>
+                                         <muted>3 Hours Ago</muted>
+                                         <br/>
+                                         <a href="#">Diana Kennedy</a> purchased a year subscription.<br/>
+                                     </p>
+                                 </div>
+                             </div>
+                             </span>
+
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </section>
+
+
+{#        <section class="my_model">#}
+{#            <p class="title">清空消息<span class="closeModel">X</span></p>#}
+{#            <p>您确认要清空所有消息吗？</p>#}
+{#            <div class="opBtn"><a href="javascript:;" class="dialog-sure">确定</a><a href="javascript:;" class="dialog-close">关闭</a></div>#}
+{#        </section>#}
+
+        <section class="my_model">
+            <p class="title">删除本条消息<span class="closeModel">X</span></p>
+            <p>您确认要删除本条消息吗？</p>
+            <div class="opBtn"><a href="javascript:;" class="dialog-sure">确定</a><a href="javascript:;" class="dialog-close">关闭</a></div>
+        </section>
+
+        <!-- /wrapper -->
+    </section>
+    <!--main content end-->
+
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="{% static 'lib/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
+
+
+</section>
+<!-- js placed at the end of the document so the pages load faster -->
+<script src="/static/lib/fancybox/jquery.fancybox.js"></script>
+<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+<script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
+<script src="lib/jquery.scrollTo.min.js"></script>
+<script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
+<!--common script for all pages-->
+<script src="lib/common-scripts.js"></script>
+<!--script for this page-->
+<script type="text/javascript">
+    $(function () {
+        //    fancybox
+        jQuery(".fancybox").fancybox();
+    });
+</script>
+
+<script>
+    $(document).ready(function () {//ajax刷新图片
+        $("#select_all_btn").click(function () {
+            $('#messagelist').html('') //清空前面的结果
+            $('#messagelist').append("暂时没收到消息");
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {//ajax刷新图片
+        $("#select_all_btn1").click(function () {
+            $('#system_messagelist').html('') //清空前面的结果
+            $('#system_messagelist').append("暂时没收到消息");
+        });
+    });
+</script>
+
+<script>
+    var $order_lists = null;
+    var $order_content = '';
+    $('.delBtn').click(function () {
+        $order_lists = $(this).parents('.order_lists');
+        $order_content = $order_lists.parents('.order_content');
+        {#$('.model_bg').fadeIn(300);#}
+        $('.my_model').fadeIn(300);
+    });
+
+    //关闭模态框
+    $('.closeModel').click(function () {
+        closeM();
+    });
+    $('.dialog-close').click(function () {
+        closeM();
+    });
+    function closeM() {
+        {#$('.model_bg').fadeOut(300);#}
+        $('.my_model').fadeOut(300);
+    }
+    //确定按钮，移除商品
+    $('.dialog-sure').click(function () {
+        $order_lists.remove();
+        if($order_content.html().trim() == null || $order_content.html().trim().length == 0){
+            $order_content.parents('.cartBox').remove();
+        }
+        closeM();
+        $sonCheckBox = $('.son_check');
+        totalMoney();
+    })
+</script>
+</body>
+
+</html>
