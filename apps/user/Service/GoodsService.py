@@ -8,7 +8,8 @@ from apps.user.utils.ClassTree import ClassTree
 
 
 class GoodService:
-
+    def get_recommend(self):
+        return Goods.objects.filter(state=1);
     def getGoodsById(self,gid:int):
         return Goods.objects.get(goods_id=gid)
     def addComment(self,userId:int,content:str,goodsId:int):

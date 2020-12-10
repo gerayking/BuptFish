@@ -17,14 +17,10 @@ def user_director_path(instance, filename):
 class UserInfo(AbstractUser):
     avatar = models.ImageField('头像', upload_to=user_director_path,
                                default="https://i.loli.net/2020/11/08/KnofmQWD15BxcMu.jpg")
-    address = models.CharField(max_length=150)
-    phone = models.CharField(max_length=20)
 
 class Shopcart(models.Model):
-    user_name = models.CharField(max_length=150)
-    goods_id = models.IntegerField()
-    class Meta:
-        db_table="shopcart"
+    user_name = models.CharField(null=False,max_length=150)
+    goods_id = models.IntegerField(null=False)
 
 class Type_id(models.Model):
     class_id = models.IntegerField(default=0)
@@ -45,9 +41,9 @@ class Goods(models.Model):
     price = models.FloatField()  # 原价
     secprice = models.FloatField()  # 二手价格
     condition = models.CharField(max_length=50)  # 新旧程度
-    user_name = models.CharField(max_length=20)  # 卖家名称
+    user_id = models.IntegerField() # 卖家id
     goods_num = models.IntegerField()  # 商品数量
-
+    state =models.IntegerField() #物品售卖状态
     class Meta:
         db_table = 'Goods'
 
