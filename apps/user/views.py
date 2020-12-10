@@ -9,14 +9,14 @@ from django.views import generic, View
 
 from apps.user.Service import GoodsService
 from apps.user.Service.IndexService import indexview
-from apps.user.Service.CollectServise import collectview
+from apps.user.Service.CollectService import collectview
 from apps.user.models import UserInfo as User
 from apps.user.models import Orderdetail, Goods
 from apps.user.utils import ClassTree
 
-
 goodsutils = ClassTree.classtree
 goodservice = GoodsService.goodservice
+
 
 def index(request):
     c_id = request.user.id
@@ -32,14 +32,19 @@ def shopping_cart(request):
     return render(request, 'User/shopping_cart.html', locals())
 
 
-def collect(request):
-    c_id=request.user.id
-    goodlist=collectview(c_id)#根据用户id找到相应收藏夹内物品
-    return render(request, 'User/collect.html', locals())
+class collect(View):
+    def get(self, request: HttpRequest):
+        if request.user.is_authenticated:
+            user_id = request.user.id
+            goodlist = collectview(user_id)
+        return render(request, 'User/collect.html', locals())
+
+    def post(self, request: HttpRequest):
+        return render(request, 'User/collect.html', locals())
 
 
 class release_goods(View):
-    def post(self, request : HttpRequest):
+    def post(self, request: HttpRequest):
         data = json.loads(request.body)
         goods = Goods()
         goods.goods_name = str(data["name"])  # 根据类型和价格区间返回筛选出的内容
@@ -52,10 +57,10 @@ class release_goods(View):
         goods.secprice = float(data["price"])
         goods.condition = str(data["condition"])
         return goodservice.savagoods(goods)
-    def get(self,request : HttpRequest):
-            goods_type = goodservice.get_goods_type()
-            return render(request, 'User/release_goods.html', locals())
 
+    def get(self, request: HttpRequest):
+        goods_type = goodservice.get_goods_type()
+        return render(request, 'User/release_goods.html', locals())
 
 
 def userInfo(request):
@@ -77,8 +82,6 @@ class search_goods(View):
         searchservice = GoodsService.goodservice
         resultlist = searchservice.searchgoods(searchname, minprice, maxprice)
         return render(request, 'User/search_goods.html', locals())
-
-
 
 
 class UserInfoView(View):

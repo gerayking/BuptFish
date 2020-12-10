@@ -18,6 +18,9 @@ class UserInfo(AbstractUser):
     avatar = models.ImageField('头像', upload_to=user_director_path,
                                default="https://i.loli.net/2020/11/08/KnofmQWD15BxcMu.jpg")
 
+class ShopCart(models.Model):
+    user_id = models.IntegerField(null=False)
+    goods_id = models.IntegerField(null=False)
 
 class Type_id(models.Model):
     class_id = models.IntegerField(default=0)
