@@ -18,6 +18,9 @@ class UserInfo(AbstractUser):
     avatar = models.ImageField('头像', upload_to=user_director_path,
                                default="https://i.loli.net/2020/11/08/KnofmQWD15BxcMu.jpg")
 
+class ShopCart(models.Model):
+    user_name = models.CharField(null=False,max_length=150)
+    goods_id = models.IntegerField(null=False)
 
 class Type_id(models.Model):
     class_id = models.IntegerField(default=0)
@@ -33,6 +36,7 @@ class Goods(models.Model):
     goods_name = models.CharField(max_length=50)  # 商品名称
     picture = models.CharField(max_length=100)  # 图片
     class_id = models.IntegerField(default=0)  # 类型的ID
+    description = models.CharField(max_length=200)
     # Class = models.ForeignKey(Type_id, on_delete=models.CASCADE, default='')  # 类型ID
     price = models.FloatField()  # 原价
     secprice = models.FloatField()  # 二手价格
@@ -90,11 +94,11 @@ class Orderdetail(models.Model):
         db_table = 'Orderdetail'
 
 
-class favorites(models.Model):
+class Collect(models.Model):
     goods_id = models.IntegerField(default=0)
-    user = models.IntegerField(default=0)
+    user_name = models.CharField(max_length=150)
 
     # goods = models.ForeignKey(Goods, on_delete=models.SET_NULL, default='', null=True)
     # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,null=True)
     class Meta:
-        db_table = 'favorites'
+        db_table = 'collect'
