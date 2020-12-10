@@ -23,6 +23,7 @@
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <link href="{% static 'css/style-responsive.css' %}" rel="stylesheet">
     <script src="{% static 'lib/jquery/jquery.min.js' %}"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
 
     <!-- =======================================================
       Template Name: Dashio
@@ -80,6 +81,83 @@
 <section class="wrapper site-min-height">
 
 
+<script>
+                    window.onload = function (){
+                        containCollect();
+                        containShopCart();
+                    }
+                    function containShopCart(){
+                        $.ajax({
+                            url:'/user/containShopCart/',
+                            data :{
+                                "goodsId": "{{ goods.goods_id }}",
+                                "userName": "{{ request.user.username }}",
+                            },
+                            type : 'POST',
+                            async: 'false',
+                            success : function (data){
+                                data = JSON.parse(data);
+                                if(data["msg"] == "True"){
+                                    $("#addshopcart").attr("disabled","true");
+                                }
+                            }
+                        });
+                    }
+                    function containCollect(){
+                        $.ajax({
+                            url:'/user/containCollect/',
+                            data :{
+                                "goodsId": "{{ goods.goods_id }}",
+                                "userName": "{{ request.user.username }}",
+                            },
+                            type : 'POST',
+                            async: 'false',
+                            success : function (data){
+                                data = JSON.parse(data);
+                                if(data["msg"]== "True" ){
+                                    $("#addcollect").attr("disabled","true");
+                                }
+                            }
+                        });
+                    }
+                    function addShopCart(){
+                        $.ajax({
+                            url : '/user/addShopCart/',
+                            data :{
+                                "goodsId": "{{ goods.goods_id }}",
+                                "userName": "{{ request.user.username }}",
+                            },
+                            type : 'POST',
+                            async : 'false',
+                            success : function (data){
+                                alert(data["msg"]);
+                            },
+                            error : function (data){
+                                console.log(data);
+                            }
+                        });
+                        containShopCart();
+                    };
+                    function addCollect(){
+                        $.ajax({
+                            url : '/user/addCollect/',
+                            type : 'post',
+                            dataType : "json",
+                            async : 'false',
+                            data :{
+                                "goodsId": "{{ goods.goods_id }}",
+                                "userName": "{{ request.user.username }}",
+                            },
+                            success : function (data){
+                                alert(data["msg"]);
+                            },
+                            error : function (data){
+                                alert(data["msg"]);
+                            }
+                        });
+                        containCollect();
+                    }
+                </script>
 
 
         <div class="row content-panel">
@@ -91,10 +169,10 @@
                         <p></p>
                          <div class="btn-group btn-group-justified">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-default">加入收藏夹</button>
+                  <button type="button" onclick="addCollect()" id="addcollect" class="btn btn-default">加入收藏夹</button>
                 </div>
                 <div class="btn-group">
-                  <button type="button" class="btn btn-default">加入购物车</button>
+                  <button type="button" onclick="addShopCart()" id="addshopcart" class="btn btn-default">加入购物车</button>
                 </div>
                 <div class="btn-group">
                   <button type="button" class="btn btn-theme">立即购买</button>
@@ -104,18 +182,17 @@
                 </div>
 
 
-
             </div>
             <!-- /col-md-4 -->
             <div class="col-md-4 profile-text">
-                <h3>商品名{{ request.goods.goods_name }}</h3>
+                <h3>商品名{{ goods.goods_name }}</h3>
                 <h6>Main Administrator</h6>
-                <h3 style="color:#64f1b9">价格：{{ request.goods.price }}</h3>
+                <h3 style="color:#64f1b9">价格：{{ goods.price }}</h3>
                 <br>
-                <h5>分类：{{request.goods.class_id }}</h5>
+                <h5>分类：{{goodsClassName }}</h5>
                 <h5 >数量:{{request.goods.goods_num }}</h5>
                 <h5>
-                    产品描述：
+                    产品描述：{{ goods.description }}
                 </h5>
 
                 </p>

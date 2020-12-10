@@ -1,6 +1,7 @@
 import json
 
 from django.contrib.auth import authenticate, logout, login
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, HttpRequest, JsonResponse
 from django.shortcuts import render
 
@@ -10,12 +11,19 @@ from django.views import generic, View
 from apps.user.Service import GoodsService
 from apps.user.Service.IndexService import indexview
 from apps.user.Service.CollectService import collectview
-from apps.user.models import UserInfo as User
+from apps.user.models import UserInfo as User, Collect, ShopCart
 from apps.user.models import Orderdetail, Goods
 from apps.user.utils import ClassTree
 
 goodsutils = ClassTree.classtree
 goodservice = GoodsService.goodservice
+
+
+def rjson(status: int, msg: str) -> json:
+    return HttpResponse(json.dumps({
+        "status": status,
+        "msg": msg
+    }))
 
 
 def index(request):
@@ -32,14 +40,71 @@ def shopping_cart(request):
     return render(request, 'User/shopping_cart.html', locals())
 
 
+def addShopCart(request: HttpRequest):
+    data = request.POST
+    goodsId = data["goodsId"]
+    userName = data["userName"]
+    if userName == None or userName == "":
+        return rjson(500, "用户未登录")
+    item = ShopCart.objects.get(Q(goods_id=goodsId) & Q(user_name=userName))
+    if item != None:
+        return rjson(500, "购物车已存在")
+    shopcart = ShopCart()
+    shopcart.goods_id = goodsId
+    shopcart.user_name = userName
+    shopcart.save()
+    return rjson(200, "加入购物车成功")
+
+
+def addCollect(request: HttpRequest):
+    print(request.body)
+    goodsId = request.POST["goodsId"]
+    userName = request.POST["userName"]
+    if userName == None or userName == "":
+        return rjson(500, "用户未登录")
+    item = Collect.objects.filter(Q(goods_id=goodsId) & Q(user_name=userName))
+    if item != None and len(item)!= 0 :
+        return rjson(500, "无法重复收藏")
+    collect = Collect()
+    collect.goods_id = goodsId
+    collect.user_name = userName
+    collect.save()
+    return rjson(200, "收藏成功")
+
+def containShopCart(request: HttpRequest):
+    data = request.POST
+    goodsId = data["goodsId"]
+    userName = data["userName"]
+    item = ShopCart.objects.filter(Q(goods_id=goodsId) & Q(user_name=userName))
+    if item == None and len(item)!=0:
+        return rjson(200, "False")
+    return rjson(200, "True")
+
+
+def containCollect(request: HttpRequest):
+    data = request.POST
+    goodsId = data["goodsId"]
+    userName = data["userName"]
+    item = Collect.objects.get(Q(goods_id=goodsId) & Q(user_name=userName))
+    if item == None and len(item)!=0:
+        return rjson(200, "False")
+    return rjson(200, "True")
+
+
 class collect(View):
     def get(self, request: HttpRequest):
         if request.user.is_authenticated:
-            user_id = request.user.id
-            goodlist = collectview(user_id)
+            userName = request.user.username
+            goodlist = collectview(userName)
         return render(request, 'User/collect.html', locals())
 
     def post(self, request: HttpRequest):
+        data = json.loads(request.body)
+        goodsId = data["goodsId"]
+        userName = data["userName"]
+        collect = Collect()
+        collect.user_name = goodsId
+        collect.goods_id = userName
         return render(request, 'User/collect.html', locals())
 
 
@@ -83,8 +148,12 @@ class search_goods(View):
         resultlist = searchservice.searchgoods(searchname, minprice, maxprice)
         return render(request, 'User/search_goods.html', locals())
 
-def item(request):
-    return render(request, 'User/item.html')
+
+def item(request, gid: int):
+    goods = goodservice.getGoodsById(gid)
+
+    goodsClassName = goodsutils.getTypeNameById(goods.class_id)
+    return render(request, 'User/item.html', locals())
 
 
 class UserInfoView(View):

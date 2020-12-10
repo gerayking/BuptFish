@@ -9,6 +9,8 @@ from apps.user.utils.ClassTree import ClassTree
 
 class GoodService:
 
+    def getGoodsById(self,gid:int):
+        return Goods.objects.get(goods_id=gid)
     def addComment(self,userId:int,content:str,goodsId:int):
         """
         添加商品评论

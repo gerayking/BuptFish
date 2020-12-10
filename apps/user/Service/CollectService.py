@@ -1,7 +1,7 @@
-from apps.user.models import Goods, favorites, UserInfo
+from apps.user.models import Goods, UserInfo, Collect
 
 
-def collectview(c_id):
-    favor = favorites.objects.filter(user=c_id)
+def collectview(userName):
+    favor = Collect.objects.filter(user_name=userName)
     good = Goods.objects.filter(goods_id__in=favor)
     return good
