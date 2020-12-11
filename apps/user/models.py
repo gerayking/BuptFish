@@ -22,6 +22,9 @@ class Shopcart(models.Model):
     user_name = models.CharField(null=False,max_length=150)
     goods_id = models.IntegerField(null=False)
 
+    class Meta:
+        db_table = 'shopcart'
+
 class Type_id(models.Model):
     class_id = models.IntegerField(default=0)
     class_name = models.CharField(max_length=50)

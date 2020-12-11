@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^login/$', LoginView.as_view(), name='login'),  # 登录界面
     url(r'^release_goods/$', release_goods.as_view(), name="release_goods"),  # 发布界面
     url(r'^index/$', views.index, name="index"),  # 个人主页
-    url(r'^userinfo/$', userinfo.as_view(), name="userInfo"),
+    url(r'^userinfo/$', userinfo.as_view(), name="userinfo"),
     url(r'^search_goods/$', search_goods.as_view(), name="search_goods"),  # 商品搜索界面
     url(r'^logout/$', LogoutView.as_view(), name="logout"),  # 登出界面
     url(r'^shopping_cart/$', ShopCart.as_view(), name="shopping_cart"),  # 登出界面
@@ -21,7 +21,8 @@ urlpatterns = [
     url(r'^containCollect', views.containCollect, name="containCollect"),
     url(r'^containShopCart', views.containShopCart, name="containShopCart"),
     url(r"^delCollect/$",views.delCollect,name="delCollect"),
-    url(r"^delShopCart/$",views.delShopCart,name="delShopCart")
+    url(r"^delShopCart/$",views.delShopCart,name="delShopCart"),
+    url(r'^message/$', views.message, name="message")
 
     # url('<int:pk>/userinfo/', views.userinfo.as_view(), name='userinfo')
 

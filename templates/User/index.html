@@ -63,7 +63,7 @@
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
             {% if request.user.is_authenticated %}
-            <p class="centered"><a href="{% url 'user:userInfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80"></a>
+            <p class="centered"><a href="{% url 'user:userinfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80"></a>
                     {% else %}
                 <p class="centered">
                 <a href="#"><img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" class="img-circle"
@@ -133,7 +133,7 @@
                     {% endif %}
                     <p>
                         <button class="btn btn-theme04" id="cavatar" onclick="changeavatar()">更换头像</button>
-                        <a class="btn btn-theme03" href="{% url 'user:info_edit' %}">编辑资料</a>
+                        <a class="btn btn-theme03" href="{% url 'user:userinfo' %}">编辑资料</a>
 
                     </p>
                 </div>
