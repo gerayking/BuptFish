@@ -3,13 +3,13 @@ import json
 from django.http import HttpResponse, HttpRequest
 from django.test import TestCase
 
-from apps.user.models import Goods, Type_id
+from apps.user.models import Goods, Type_id,UserInfo
 from apps.user.utils.ClassTree import ClassTree, classtree
 
 
 class GoodService:
     def get_recommend(self):
-        return Goods.objects.filter(state=1);
+        return Goods.objects.filter(state="not_in_order");
     def getGoodsById(self,gid:int):
         return Goods.objects.get(goods_id=gid)
     def addComment(self,userId:int,content:str,goodsId:int):
@@ -24,7 +24,8 @@ class GoodService:
         classidlist = Type_id.objects.values("class_name").distinct()
         typenamelist = [item["class_name"] for item in classidlist]
         return typenamelist
-
+    def get_goods_owner(self):
+        owner_id=UserInfo.objects.get()
     def get_price_dis(self):
         price_list = ["<100", "101-200", "201-500", ">501"]
         return price_list

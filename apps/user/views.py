@@ -60,6 +60,7 @@ def delCollect(request: HttpRequest):
     return rjson(200, "不能删除不存在的物品")
 
 
+
 def addShopCart(request: HttpRequest):
     data = request.POST
     goodsId = data["goodsId"]
@@ -111,6 +112,8 @@ def containCollect(request: HttpRequest):
         return rjson(200, "False")
     return rjson(200, "True")
 
+def online_comm(request:HttpRequest):
+    return render(request, 'User/online_comm.html', locals())
 
 class ShopCart(View):
     def get(self, request: HttpRequest):

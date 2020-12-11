@@ -22,7 +22,8 @@ urlpatterns = [
     url(r'^containShopCart', views.containShopCart, name="containShopCart"),
     url(r"^delCollect/$",views.delCollect,name="delCollect"),
     url(r"^delShopCart/$",views.delShopCart,name="delShopCart"),
-    url(r'^message/$', views.message, name="message")
+    url(r'^message/$', views.message, name="message"),
+    url(r'^online_comm/$', views.online_comm, name="online_comm")
 
     # url('<int:pk>/userinfo/', views.userinfo.as_view(), name='userinfo')
 

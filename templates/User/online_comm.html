@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Dashboard">
+    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <title>BUPTFISH - Second-hand trading platform</title>
+    <!-- Favicons -->
+    <link href="{% static 'img/favicon.png' %}" rel="icon">
+    <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+    <!-- Bootstrap core CSS -->
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">    <!--external css-->
+    {#    <link href="{% static 'lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet"/>#}
+    <link href="{% static 'lib/fancybox/jquery.fancybox.css' %}" rel="stylesheet"/>
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style-responsive.css' %}" rel="stylesheet">
+    <script src="{% static 'lib/jquery/jquery.min.js' %}"></script>
+   <link rel="stylesheet" type="text/css" href="/static/css/communicss.css">
+      <link rel="stylesheet" href="/static/css/reset.css">
+     <link rel="stylesheet" href="/static/css/carts.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/waiter.css">
+
+
+</head>
+
+<body>
+{#  <section id="container">#}
+<!-- **********************************************************************************************************************************************************
+    TOP BAR CONTENT & NOTIFICATIONS
+    *********************************************************************************************************************************************************** -->
+<!--header start-->
+<header class="header black-bg">
+    <!-- <div class="sidebar-toggle-box">
+      <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+    </div> -->
+    <!--logo start-->
+    <a href="{% url 'user:index' %}" class="logo"><b>BUPT<span>FISH</span></b></a>
+    <!--logo end-->
+    <div class="nav notify-row" id="top_menu">
+        <!--  notification start -->
+        <ul class="nav top-menu">
+
+        </ul>
+        <!--  notification end -->
+    </div>
+    <div class="top-menu">
+        <ul class="nav pull-right top-menu">
+            {% if request.user.is_authenticated %}
+                <li><a class="logout" href="{% url 'user:logout' %}">Logout</a></li>
+            {% else %}
+                <li><a class="logout" href="{% url 'user:login' %}">Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</header>
+<section id="container">
+<aside>
+    <div id="sidebar" class="nav-collapse ">
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu" id="nav-accordion">
+            {% if request.user.is_authenticated %}
+            <p class="centered"><a href="{% url 'user:userinfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80"></a>
+                    {% else %}
+                <p class="centered">
+                <a href="#"><img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" class="img-circle"
+                                 width="80"></a>
+            {% endif %}
+            </p>
+            <h5 class="centered">{{ request.user.username }}</h5>
+
+            <li class="sub-menu">
+                <a class="active" href="javascript:;">
+                    <span><a href="{% url 'user:index' %}"><h5>用户主页</h5></a></span>
+                    <span><a href="{% url 'user:search_goods' %}"><h5>搜索</h5></a></span>
+                    <span><a href="{% url 'user:shopping_cart' %}"><h5>购物车</h5></a></span>
+                    <span><a href="{% url 'user:collect' %}"><h5>收藏夹</h5></a></span>
+                </a>
+            </li>
+        </ul>
+        <!-- sidebar menu end-->
+    </div>
+</aside>
+<!--sidebar end-->
+    <section id="main-content">
+          <section class="wrapper site-min-height">
+<div id="container">
+    <ul class="content"></ul>
+</div>
+
+<div class="foot-lt w100 clearfloat" index="0">
+    <div class="inputBox clearfloat">
+        <div id="user_face_icon" style="display: none;"><img src="/static/img/404.png" alt=""></div>
+        <div class="inputVal" id="text" contenteditable="true"></div>
+        <span id="btn">发送</span>
+    </div>
+</div>
+
+  </section>
+ </section>
+
+    <script>$("html").css("font-size", 20 * ($(window).width() / 640) + 'px');</script>
+  <script>
+    window.onload = function() {
+
+        var arrIcon = ['https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg', 'https://i.loli.net/2020/11/02/QpWvltj85E6uJia.jpg'];
+        var num = 0; //控制头像改变
+        var iNow = -1; //用来累加改变左右浮动
+        var icon = $('#user_face_icon')[0].getElementsByTagName('img');
+        var btn = $('#btn')[0];
+        var text = $('#text');
+        var content = $('.content')[0];
+        var img = content.getElementsByTagName('img');
+        var span = content.getElementsByTagName('span');
+        var i = content.getElementsByTagName('i');
+        icon[0].onclick = function() {
+            if (num == 0) {
+                this.src = arrIcon[1];
+                num = 1;
+            } else if (num == 1) {
+                this.src = arrIcon[0];
+                num = 0;
+            }
+        }
+
+        btn.onclick = function() {
+            if (text.html() == '') {
+                alert('不能发送空消息');
+            } else {
+                content.innerHTML += '<li><img src="' + arrIcon[num] + '"><span>' + text.html() + '</span><i>已读</i></li>';
+                iNow++;
+                if (num == 0) {
+                    img[iNow].className += 'imgright';
+                    span[iNow].className += 'spanright';
+                    i[iNow].className += 'iright'
+                } else {
+                    img[iNow].className += 'imgleft';
+                    span[iNow].className += 'spanleft';
+                    i[iNow].className += 'ileft'
+                }
+                text.html('');
+                // 内容过多时,将滚动条放置到最底端
+                content.scrollTop = content.scrollHeight;
+            }
+        }
+    }
+</script>
+<!-- **********************************************************************************************************************************************************
+    MAIN SIDEBAR MENU
+    *********************************************************************************************************************************************************** -->
+
+
+<!--main content end-->
+</section>
+<!--footer start-->
+<footer class="site-footer">
+    <div class="text-center">
+        <p>
+            &copy; Welcome to <strong>BUPTFISH</strong>
+        </p>
+    </div>
+</footer>
+<!--footer end-->
+
+<!-- js placed at the end of the document so the pages load faster -->
+{#<script src="{% static 'lib/fancybox/jquery.fancybox.js' %}"></script>#}
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous">
+</script>
+<script type="text/javascript">
+</script>
+
+</body>
+</html>
+
+

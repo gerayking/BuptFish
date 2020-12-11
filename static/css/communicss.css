@@ -1,0 +1,160 @@
+* {
+	padding:0px;
+	margin:0px;
+}
+ul {
+	list-style:none;
+}
+body {
+	font-size:1rem;
+	font-family:'Microsoft Yahei';
+	-ms-text-size-adjust:100%;
+	-webkit-tap-highlight-color:transparent;
+	box-sizing:border-box;
+}
+img {
+	display:block;
+}
+a {
+	text-decoration:none!important;
+	color:#242424;
+}
+input {
+	-webkit-appearance:none;
+	display:block;
+	border:0.1rem solid #c9c9c9;
+	font-size:1rem;
+}
+i {
+	font-style:normal;
+}
+h1,h2,h3 {
+	font-weight:normal;
+	padding:0px;
+	margin:0px;
+}
+.clearfloat:after {
+	display:block;
+	clear:both;
+	content:"";
+	visibility:hidden;
+	height:0
+}
+.clearfloat {
+	zoom:1
+}
+.w100 {
+	width:100%;
+}
+#container {
+	width:100%;
+	position:relative;
+}
+#user_face_icon {
+	display:inline-block;
+	background:red;
+	width:60px;
+	height:60px;
+	border-radius:30px;
+	position:absolute;
+	bottom:6px;
+	left:14px;
+	cursor:pointer;
+	overflow:hidden;
+}
+.content img {
+	width:2rem;
+	height:2rem;
+}
+.content {
+	font-size:20px;
+	width:98%;
+	overflow:auto;
+	padding:1%;
+}
+.content li {
+	margin-top:10px;
+	width:100%;
+	display:block;
+	clear:both;
+	overflow:hidden;
+}
+.content li img {
+	float:left;
+}
+.content li span {
+	padding:10px;
+	border-radius:10px;
+	float:left;
+	max-width:21rem;
+	word-wrap:break-word;
+	overflow:hidden;
+}
+.content li i {
+	font-size:20px;
+	margin-top:30px;
+	margin-right:20px;
+	color:#3e4dc2;
+}
+.content li img.imgleft {
+	float:left;
+}
+.content li img.imgright {
+	float:right;
+}
+.content li i.ileft {
+	float:left;
+}
+.content li i.iright {
+	float:right;
+}
+.content li span.spanleft {
+	float:left;
+	background:#fff;
+	margin:0.5rem 0.5rem 0 0.5rem;
+	color:#3e4dc2;
+	border:0.1rem solid #3e4dc2;
+}
+.content li span.spanright {
+	float:right;
+	background:#3e4dc2;
+	margin:0.5rem 0.5rem 0 0;
+	color:#fff;
+}
+.foot-lt {
+	position:fixed;
+	bottom:0rem;
+	background:#fff;
+}
+.foot-lt .inputBox {
+	width:94%;
+	padding:1rem 1rem;
+	position:relative;
+}
+.foot-lt .inputBox .inputVal {
+	float:left;
+	line-height:1rem;
+	width:80%;
+	padding:0 1rem;
+	font-size:20px;
+	border-bottom:0.1rem solid #ccc;
+	min-height:0rem;
+	word-wrap:break-word;
+	overflow:hidden;
+}
+.foot-lt .inputBox span {
+	float:left;
+	display:block;
+	width:95px;
+	line-height:30px;
+	text-align:center;
+	font-size:20px;
+	border:0.1rem solid #d6d6d6;
+	border-radius:0.4rem;
+	color:#fff;
+	position:absolute;
+	right:4rem;
+	bottom:1rem;
+	background:#3e4dc2;
+	border:0.1rem solid #3e4dc2;
+}

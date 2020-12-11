@@ -27,7 +27,7 @@
 
      <link rel="stylesheet" href="{% static 'css/carts.css' %}">
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
-
+    <link rel="stylesheet" type="text/css" href="/static/css/waiter.css">
 
 </head>
 
@@ -177,9 +177,28 @@
           </a>
       </div>
       </section>
+
     <!--footer end-->
   </section>
 <!--main content end-->
+ <!-- 服务悬停 -->
+	<div class="wuyou-waiter">
+		<ul class="waiter-ul">
+			<li class="wuyou-shop">
+				<a class="iconfont icon-taobao" href="{% url 'user:index' %}" target="_blank"></a>
+				<div class="waiter-title">个人主页</div>
+			</li>
+			<li class="wuyou-contact">
+				<a class="iconfont icon-aliww" href="{% url 'user:online_comm' %}" target="_blank"></a>
+				<div class="waiter-title">联系客服</div>
+			</li>
+			<li class="wuyou-top">
+			  <a class="iconfont icon-Upward" href="#"></a>
+				<div class="waiter-title">回到顶部</div>
+			</li>
+		</ul>
+	</div>
+<!-- 服务悬停结束 -->
  </section>
 <!--footer start-->
 <footer class="site-footer">
