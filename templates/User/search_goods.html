@@ -96,14 +96,17 @@
                                         <div class="row">
                                             <input type="text" class="form-control" id="form1Name" name="form1Name" placeholder="{{ placeholder }}"
                    autofocus>
-                                            <button class="btn btn-theme mt" type="submit">Search</button>
+                                            <button class="btn btn-theme mt" id="search_btn" type="submit">Search</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-                    <h4>以下是您搜索的商品：{{ goods_input }}</h4>
+{#                <span id="search_goods">#}
+{#                    <h4 >以下是您搜索的商品：</h4>#}
+{#                </span>#}
+{#                    #}
                     <div class="btn-group">
                         <label for="gtype"><h4>筛选商品类型</h4></label>
                         <select id="gtypes">
@@ -155,6 +158,9 @@
             </div>
         </span>
             </div>
+
+
+
         </section>
 
         <!-- /wrapper -->
@@ -195,7 +201,6 @@
                 price: price,
             }), function (ret) {//得到返回值后，将原有的goodslist清空，按照返回结果重新张贴所有图片
                 $('#goodslist').html('') //清空前面的结果
-                $('#goodslist').html('') //清空前面的结果
                 $('#goodslist').append('<div class="row mt">')
                 $.each(ret, function (index, item) {
                     $('#goodslist').append('<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc"><div class="project-wrapper"><div class="project"><div class="photo-wrapper"><div class="photo" ><a class="fancybox"  href=' + item + 'target="_blank"><img width="300" height="240" class="img-responsive" src=' + item + ' alt=""></a></div></div><h5>商品名称：</h5><h5>成交价格：</h5><h5>商品评价：</h5></div> </div></div>');
@@ -205,6 +210,21 @@
         });
     });
 </script>
+
+<script>
+    $(document).ready(function () {//ajax刷新图片
+        $("#search_btn").click(function () {//点击筛选按钮后，获得两个下拉选择框的值，弹出框提示，利用post方法提交到search_goods函数
+            var type=document.getElementById("form1Name").value;
+            alert("您要搜索的商品是:" + type);
+            $.post("{% url 'user:search_goods' %}", JSON.stringify({
+                type: type,
+            }), function (ret) {
+                $('#search_goods').append('')
+            })
+        });
+    });
+</script>
+
 </body>
 
 </html>
