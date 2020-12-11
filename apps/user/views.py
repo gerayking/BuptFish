@@ -198,7 +198,6 @@ class search_goods(View):
 
 def item(request, gid: int):
     goods = goodservice.getGoodsById(gid)
-
     goodsClassName = goodsutils.getTypeNameById(goods.class_id)
     return render(request, 'User/item.html', locals())
 

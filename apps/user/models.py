@@ -44,9 +44,9 @@ class Goods(models.Model):
     price = models.FloatField()  # 原价
     secprice = models.FloatField()  # 二手价格
     condition = models.CharField(max_length=50)  # 新旧程度
-    user_id = models.IntegerField() # 卖家id
+    user_name = models.CharField(max_length=150) # 卖家id
     goods_num = models.IntegerField()  # 商品数量
-    state =models.IntegerField() #物品售卖状态
+    state =models.CharField(max_length=20) #物品售卖状态
     class Meta:
         db_table = 'Goods'
 
