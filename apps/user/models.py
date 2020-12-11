@@ -1,3 +1,4 @@
+import json
 import os
 
 from django.contrib.auth import get_user_model
@@ -47,6 +48,7 @@ class Goods(models.Model):
     user_name = models.CharField(max_length=150) # 卖家id
     goods_num = models.IntegerField()  # 商品数量
     state =models.CharField(max_length=20) #物品售卖状态
+
     class Meta:
         db_table = 'Goods'
 

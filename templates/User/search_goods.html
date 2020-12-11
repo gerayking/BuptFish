@@ -91,10 +91,10 @@
                             <h3>Input what you are looking for.</h3>
                             <div class="row">
                                 <form method="get" action="">
-                                    {% csrf_token %}
+{#                                    {% csrf_token %}#}
                                     <div class="col-md-8 col-md-offset-2">
                                         <div class="row">
-                                            <input type="text" class="form-control" id="form1Name" name="form1Name" placeholder="{{ placeholder }}"
+                                            <input type="text" class="form-control" id="keyword" name="keyword" placeholder="{{ placeholder }}"
                    autofocus>
                                             <button class="btn btn-theme mt" id="search_btn" type="submit">Search</button>
                                         </div>
@@ -125,23 +125,20 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <button class="btn btn-info" type="submit" id="submitSelect">筛选</button>
+                    <button class="btn btn-info" type="submit"  id="submitSelect">筛选</button>
                 </div>
             </div>
         </span>
-        <span id="goodslist">
+                <span id="goodslist"></span>
             <h4>推荐商品</h4>
             <div class="row mt">
-                {% for good in goods_recomand %}
+                {% for good in goodslist %}
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
                         <div class="project-wrapper">
                             <button class="btn-shopcart"><img class="shopping-cart" src="/static/img/shopping-cart.png"></button>
                             <button class="btn-collection"><img class="collection" src="/static/img/collection.png"></button>
-                            <a href="/user/item/{{ good.goods_id }}/">
-                            <button class="btn-showinfo" ><img class="show-info" src="/static/img/more.png"></button>
-                            </a>
+                            <a href="/user/item/{{ good.goods_id }}/"><button class="btn-showinfo" ><img class="show-info" src="/static/img/more.png"></button></a>
                             <div class="project">
-
                                 <div class="photo-wrapper">
                                     <div class="photo">
                                         <a class="fancybox" href={{ good.picture }} target="_blank">
@@ -149,15 +146,12 @@
                                     </div>
                                 </div>
                                 <h5>商品名称：{{ good.goods_name }}</h5>
-
                                 <h5>商品描述：{{ good.description }}</h5>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
-            </div>
-        </span>
-            </div>
+            </div></div>
 
 
 
@@ -194,19 +188,27 @@
         $("#submitSelect").click(function () {//点击筛选按钮后，获得两个下拉选择框的值，弹出框提示，利用post方法提交到search_goods函数
             var type = $("#gtypes").find("option:selected").text();
             var price = $("#gprices").find("option:selected").text();
+            var keyword = $("#keyword").val();
             alert("选中的商品类型是:" + type + "\n选中的商品价格是:" + price);
+            window.location.href = '{% url 'user:search_goods' %}?type='+type+'&minprice='+price+'&maxprice='+price+'&keyword='+keyword;
 
-            $.post("{% url 'user:search_goods' %}", JSON.stringify({
+{% comment %}            $.post("{% url 'user:search_goods' %}", JSON.stringify({
                 type: type,
                 price: price,
             }), function (ret) {//得到返回值后，将原有的goodslist清空，按照返回结果重新张贴所有图片
+                console.log(ret);
                 $('#goodslist').html('') //清空前面的结果
                 $('#goodslist').append('<div class="row mt">')
                 $.each(ret, function (index, item) {
-                    $('#goodslist').append('<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc"><div class="project-wrapper"><div class="project"><div class="photo-wrapper"><div class="photo" ><a class="fancybox"  href=' + item + 'target="_blank"><img width="300" height="240" class="img-responsive" src=' + item + ' alt=""></a></div></div><h5>商品名称：</h5><h5>成交价格：</h5><h5>商品评价：</h5></div> </div></div>');
+                    $('#goodslist').append('<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">' +
+                        '<div class="project-wrapper">' +
+                        '<div class="project"><div class="photo-wrapper">' +
+                        '<div class="photo" ><a class="fancybox"  href=' + item + 'target="_blank">' +
+                        '<img width="300" height="240" class="img-responsive" src=' + item + ' alt="">' +
+                        '</a></div></div><h5>商品名称：</h5><h5>成交价格：</h5><h5>商品评价：</h5></div> </div></div>');
                 })
                 $('#goodslist').append('</div>')
-            })
+            }){% endcomment %}
         });
     });
 </script>

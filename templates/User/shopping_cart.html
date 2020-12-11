@@ -242,7 +242,6 @@
     //确定按钮，移除商品
     $('.dialog-sure').click(function () {
         var id = $order_lists.data("id");
-        delShopCart(id);
         $order_lists.remove();
         if($order_content.html().trim() == null || $order_content.html().trim().length == 0){
             $order_content.parents('.cartBox').remove();
@@ -250,6 +249,7 @@
         closeM();
         $sonCheckBox = $('.son_check');
         totalMoney();
+                delShopCart(id);
     })
 </script>
 <script type="text/javascript">

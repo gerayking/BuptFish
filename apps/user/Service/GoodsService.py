@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpRequest
 from django.test import TestCase
 
 from apps.user.models import Goods, Type_id
-from apps.user.utils.ClassTree import ClassTree
+from apps.user.utils.ClassTree import ClassTree, classtree
 
 
 class GoodService:
@@ -36,10 +36,9 @@ class GoodService:
         goodsId : 物品名称
         """
 
-    def searchgoods(self, type: str, minprice: int, maxprice: int):
-        goodslistall = ClassTree.search(type)
-        goodslist = [item for item in goodslistall if minprice <= item.price <= maxprice]
-        return goodslist
+    def searchgoods(self, type: str):
+        goodslistall = classtree.search(type)
+        return goodslistall
     # 检查商品的属性是否符合条件,然后再插入数据库
     def releaseGoods(self,goods : Goods):
         status = 200

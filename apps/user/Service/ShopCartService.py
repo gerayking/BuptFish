@@ -21,7 +21,7 @@ class ShopCartService:
         userId : 用户的Id
         goodsId : 商品的Id
         """
-        shopcart = ShopCart()
+        shopcart = Shopcart()
         shopcart.user_id = userId
         shopcart.goods_id = goodsId
         shopcart.save()
@@ -32,7 +32,7 @@ class ShopCartService:
         userId : 用户Id
         goodsId : 商品Id
         """
-        goods = ShopCart.objects.get(Q(user_id=userId) & Q(goods_id=goodsId))
+        goods = Shopcart.objects.get(Q(user_id=userId) & Q(goods_id=goodsId))
         if goods != None:
             goods.delete()
             return True

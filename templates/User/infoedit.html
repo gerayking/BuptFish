@@ -57,17 +57,11 @@
         </ul>
     </div>
 </header>
-<<<<<<< HEAD
-<!--header end-->
-
-<!--sidebar start-->
-=======
->>>>>>> main
 <aside>
     <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-            <p class="centered"><a href="{% url 'user:userInfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80"></a>
+            <p class="centered"><a href="{% url 'user:userinfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80"></a>
             </p>
             <h5 class="centered">{{ request.user.username }}</h5>
 
@@ -228,7 +222,7 @@
             $("#save").click(function () {
                 $.ajax({
                     cache: false,
-                    url: "{% url 'user:userInfo' %}",
+                    url: "{% url 'user:userinfo' %}",
                     data: $("form").serialize(),
                     type: "post",
                     async: true,
@@ -280,7 +274,7 @@
         $("#save").click(function () {
             $.ajax({
                 cache: false,
-                url: "{% url 'user:userInfo' %}",
+                url: "{% url 'user:userinfo' %}",
                 data: $("form").text(),
                 type: "post",
                 async: true,

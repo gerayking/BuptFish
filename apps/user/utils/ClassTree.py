@@ -38,14 +38,18 @@ class ClassTree:
 
     def search(self, className: str) -> list:
         leftnode = self.GetLeafNode(className)
-        goodlist = Goods.objects.filter("class_id" in leftnode)
+        goodlist = Goods.objects.filter(class_id__in=leftnode)
         return goodlist
     def getTypeNameById(self,classId:int):
+        if self.graph == None:
+            self.GetTree()
         type = Type_id.objects.get(class_id=classId);
         if type != None:
             return type.class_name
         return None
     def str2typeid(self, goodstype: str) -> int:
+        if self.graph == None:
+            self.GetTree()
         if goodstype not in self.classId:
             return -1
         return self.classId[goodstype]

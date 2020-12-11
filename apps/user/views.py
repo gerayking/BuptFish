@@ -1,5 +1,6 @@
 import json
 
+import regex as re
 from django.contrib.auth import authenticate, logout, login
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, HttpRequest, JsonResponse
@@ -14,6 +15,7 @@ from apps.user.Service.CollectService import collectview
 from apps.user.models import UserInfo as User, Collect, Shopcart, UserInfo
 from apps.user.models import Orderdetail, Goods
 from apps.user.utils import ClassTree
+from apps.user.utils.ClassTree import classtree
 
 goodsutils = ClassTree.classtree
 goodservice = GoodsService.goodservice
@@ -180,8 +182,29 @@ def message(request):
     return render(request, 'User/message.html', locals())
 
 class search_goods(View):
-    def get(self, request: HttpRequest):
+    def get(self, request: HttpRequest,):
         searchservice = GoodsService.goodservice
+        goodslist = Goods.objects.all();
+        if 'keyword' in request.GET:
+            keyword = request.GET['keyword']
+            if keyword is not None and keyword != '':
+                goodslist = [item for item in goodslist if re.search(keyword,item.goods_name)]
+        if 'minprice' in request.GET:
+            minprice = str(request.GET['minprice'])
+            if minprice is not None and minprice != '' and minprice.isdigit():
+                minprice = int(minprice)
+                goodslist = [item for item in goodslist if item.price >= minprice]
+        if 'maxprice' in request.GET:
+            maxprice = str(request.GET['maxprice'])
+            if   maxprice is not None and maxprice != '' and maxprice.isdigit():
+                maxprice = int(maxprice)
+                goodslist = [item for item in goodslist if item.price <= maxprice]
+        if 'type' in request.GET:
+            type = request.GET['type']
+            goodservice.get_goods_type()
+            if type is not None and type != '':
+                typeid = classtree.str2typeid(type)
+                goodslist = [item for item in goodslist if item.class_id == typeid]
         goods_type = searchservice.get_goods_type()
         goods_price = searchservice.get_price_dis()
         return render(request, 'User/search_goods.html', locals())
@@ -192,8 +215,9 @@ class search_goods(View):
         minprice = 0 if "minprice" not in data else data["minprice"]
         maxprice = 100000000 if "maxprice" not in data else data["maxprice"]
         searchservice = GoodsService.goodservice
-        resultlist = searchservice.searchgoods(searchname, minprice, maxprice)
-        return render(request, 'User/search_goods.html', locals())
+        goodslist = searchservice.searchgoods(searchname, minprice, maxprice)
+        goodslist = [str(item) for item in goodslist]
+        return HttpResponse(json.dumps(str(goodslist)))
 
 
 def item(request, gid: int):
