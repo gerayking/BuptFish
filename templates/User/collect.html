@@ -58,9 +58,9 @@
         <div id="sidebar" class="nav-collapse ">
             <!-- sidebar menu start-->
             <ul class="sidebar-menu" id="nav-accordion">
-                <p class="centered"><img src={{ request.user.avatar }} class="img-circle" width="80" height="80">
-            </p>
-            <h5 class="centered">{{ request.user.username }}</h5>
+            <p class="centered"><a href="{% url 'user:userInfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80"></a>
+</p>
+                <h5 class="centered">{{ request.user.username }}</h5>
 
                 <li class="sub-menu">
                     <a class="active" href="javascript:;">
@@ -85,112 +85,66 @@
             <!-- /row FOURTH ROW OF PANELS -->
             <!--  FIFTH ROW OF PANELS -->
         <div class="m-box">
+            <script>
+                function delCollect(goodsId){
+                    $.ajax({
+                        url : '/user/delCollect/',
+                        data:{
+                            goodsId : goodsId,
+                            userName : '{{ request.user.username }}'
+                        },
+                        async:'false',
+                        type:"POST",
+                        success : function (data){
+                            if(data["msg"]=="True"){
+                                alert(data["msg"]);
+                            }
+                        }
+                    })
+                    window.location.href="/user/collect";
+                }
+            </script>
 	<div class="list">
 		<ul>
+            {% for goods in goodlist %}
 			<li>
-				<div class="box">
-					<div class="check dark-check"></div>
-					<div class="img">
-						<img src="/static/img/portfolio/port01.jpg" />
+				<div class="box"><div class="img">
+						<img src={{ goods.picture }} />
 					</div>
 					<div class="info clearfix">
+                        <button class="btn btn-default" style="float: right" onclick="delCollect({{ goods.goods_id }})">删除</button>
 						<div class="title">
-                                                                                                 <a>商品名称：</a></br>
-                                                                                                 <a>商品属性：</a>
-                                                                                                </div>
+                            <a href="/user/item/{{ goods.goods_id }}">商品名称：{{ goods.goods_name }}</a></br>
+                            <a>商品属性：{{ goods.class_id }}</a>
+                        </div>
 						<div class="m-num fl">
 							<span class="jian">-</span>
 							<input type="text" value="1" class="num" />
 							<span class="add">+</span>
 						</div>
-						<div class="price fr">￥<span data-price="100">100</span></div>
+						<div class="price fr">￥<span data-price="100">{{ goods.price }}</span></div>
 					</div>
 				</div>
 			</li>
-			<li>
-				<div class="box">
-					<div class="check dark-check"></div>
-					<div class="img">
-						<img src="/static/img/portfolio/port02.jpg" />
-					</div>
-					<div class="info clearfix">
-						<div class="title">
-                                                                                                 <a>商品名称：</a></br>
-                                                                                                 <a>商品属性：</a>
-                                                                                                </div>
-						<div class="m-num fl">
-							<span class="jian">-</span>
-							<input type="text" value="1" class="num" />
-							<span class="add">+</span>
-						</div>
-						<div class="price fr">￥<span data-price="80">80</span></div>
-					</div>
-				</div>
-			</li>
-			<li>
-				<div class="box">
-					<div class="check dark-check"></div>
-					<div class="img">
-						<img src="/static/img/portfolio/port03.jpg" />
-					</div>
-					<div class="info clearfix">
-						<div class="title">
-                                                                                                 <a>商品名称：</a></br>
-                                                                                                 <a>商品属性：</a>
-                                                                                                </div>
-						<div class="m-num fl">
-							<span class="jian">-</span>
-							<input type="text" value="1" class="num" />
-							<span class="add">+</span>
-						</div>
-						<div class="price fr">￥<span data-price="120">120</span></div>
-					</div>
-				</div>
-			</li>
-			<li>
-				<div class="box">
-					<div class="check dark-check"></div>
-					<div class="img">
-						<img src="/static/img/portfolio/port04.jpg" />
-					</div>
-					<div class="info clearfix">
-						<div class="title">
-                                                                                                 <a>商品名称：</a></br>
-                                                                                                 <a>商品属性：</a>
-                                                                                                </div>
-						<div class="m-num fl">
-							<span class="jian">-</span>
-							<input type="text" value="1" class="num" />
-							<span class="add">+</span>
-						</div>
-						<div class="price fr">￥<span data-price="200">200</span></div>
-					</div>
-				</div>
-			</li>
+            {% endfor %}
 		</ul>
 	</div>
             <div class="spacediv"></div>
-<div class="foot clearfix">
-		<!--全选-->
-		<div class="all-check">
-			全选
-			<div class="gap-check check"></div>
-		</div>
-		<!--总价-->
-		<div class="foot-box">
-			<div class=" itme all-price">总价：<span>2000</span></div>
-			<div class="itme"><input type="button" class="btn" value="加入购物车"  /></div>
-		</div>
-	</div>
+{#<div class="foot clearfix">#}
+{#		<!--全选-->#}
+{#		<div class="all-check">#}
+{#			全选#}
+{#			<div class="gap-check check"></div>#}
+{#		</div>#}
+{#		<!--总价-->#}
+{#		<div class="foot-box">#}
+{#			<div class=" itme all-price">总价：<span>2000</span></div>#}
+{#			<div class="itme"><input type="button" class="btn" value="加入购物车"  /></div>#}
+{#		</div>#}
+{#	</div>#}
+{##}
+{#</div>#}
 
-</div>
-     <footer>
-       <div>
-        <a href="panels.html#" class="go-top">
-          <i class="fa fa-angle-up"></i>
-          </a>
-      </div>
-    </footer>
     <!--footer end-->
   </section>
     </section>

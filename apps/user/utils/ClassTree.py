@@ -40,7 +40,11 @@ class ClassTree:
         leftnode = self.GetLeafNode(className)
         goodlist = Goods.objects.filter("class_id" in leftnode)
         return goodlist
-
+    def getTypeNameById(self,classId:int):
+        type = Type_id.objects.get(class_id=classId);
+        if type != None:
+            return type.class_name
+        return None
     def str2typeid(self, goodstype: str) -> int:
         if goodstype not in self.classId:
             return -1

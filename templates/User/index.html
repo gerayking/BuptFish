@@ -13,11 +13,11 @@
     <link href="{% static 'img/favicon.png' %}" rel="icon">
     <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
     <!-- Bootstrap core CSS -->
-<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
           crossorigin="anonymous">    <!--external css-->
-{#    <link href="{% static 'lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet"/>#}
+    {#    <link href="{% static 'lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet"/>#}
     <link href="{% static 'lib/fancybox/jquery.fancybox.css' %}" rel="stylesheet"/>
     <!-- Custom styles for this template -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
@@ -62,7 +62,13 @@
     <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-            <p class="centered"><a href="profile.html"><img src={{ request.user.avatar }} class="img-circle" width="80" height="80"></a>
+            {% if request.user.is_authenticated %}
+            <p class="centered"><a href="{% url 'user:userInfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80"></a>
+                    {% else %}
+                <p class="centered">
+                <a href="#"><img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" class="img-circle"
+                                 width="80"></a>
+            {% endif %}
             </p>
             <h5 class="centered">{{ request.user.username }}</h5>
 
@@ -83,7 +89,6 @@
 <!-- **********************************************************************************************************************************************************
     MAIN SIDEBAR MENU
     *********************************************************************************************************************************************************** -->
-
 
 
 <section id="main-content">
@@ -117,8 +122,15 @@
             <!-- /col-md-4 -->
             <div class="col-md-4 centered">
                 <div class="profile-pic">
-                    <input type="file" accept="image/*"  style="display: none" id="change_avatar">
-                    <p><img id="avatar" src="{{ request.user.avatar }}" class="img-circle" width="80" height="80"></p>
+                    <input type="file" accept="image/*" style="display: none" id="change_avatar">
+                    {% if request.user.is_authenticated %}
+                        <p class="centered"><a href="/user/userinfo/"><img src={{ request.user.avatar }} class="img-circle"
+                                                             width="80"></a>
+                            {% else %}
+                        <p class="centered">
+                        <a href="#"><img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image"
+                                         class="img-circle" width="80"></a>
+                    {% endif %}
                     <p>
                         <button class="btn btn-theme04" id="cavatar" onclick="changeavatar()">更换头像</button>
                         <a class="btn btn-theme03" href="{% url 'user:info_edit' %}">编辑资料</a>
@@ -126,97 +138,122 @@
                     </p>
                 </div>
             </div>
+            <!-- /col-md-4 -->
+            <script>
+                function changeavatar() {
+                    console.log("here");
+                    $("#change_avatar").click();
+                }
 
-
+                $("#change_avatar").change(function () {
+                    console.log("here");
+                    var file = $(this)[0].files[0];
+                    var reader = new FileReader();
+                    console.log(file);
+                });
+            </script>
         </div>
         <div class="panel-heading">
-                <ul class="nav nav-tabs nav-justified">
-                  <li class="active">
+            <ul class="nav nav-tabs nav-justified">
+                <li class="active">
                     <a data-toggle="tab" href="#sell" id="history_sell">历史卖出</a>
-                  </li>
-                  <li>
+                </li>
+                <li>
                     <a data-toggle="tab" href="#buy" class="contact-map" id="history_buy">历史买入</a>
-                  </li>
-                     <li>
+                </li>
+                <li>
                     <a data-toggle="tab" href="#trade" class="contact-map" id="history_trade">正在交易</a>
-                  </li>
-                </ul>
+                </li>
+            </ul>
         </div>
-    <script>
-        window.onload(function (){
-            $("#history_buy").clicked();
-            $("#history_sell").click();
-        })
-    </script>
-<div class="tab-content">
-
-<div id="sell" class="tab-pane active">
- <div class="row mt" id="goodslistsell">
-        {% for goods in s_orderlist%}
-         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
-                <div class="project-wrapper">
-                    <div class="project">
-                        <div class="photo-wrapper">
-                            <div class="photo">
-                                <a class="fancybox" href={{ goods.picture }} target="_blank">
-                                    <img class="img-responsive" src={{ goods.picture }} alt=""></a>
+        <script>
+            window.onload(function () {
+                $("#history_buy").clicked();
+                $("#history_sell").click();
+            })
+        </script>
+        <div class="tab-content">
+            <div id="sell" class="tab-pane active">
+                <div class="row mt" id="goodslistsell">
+                    {% for goods in s_orderlist %}
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
+                        {% comment %}
+        <script>
+            function changeavatar() {
+                console.log("here");
+                $("#change_avatar").click();
+            }
+            $("#change_avatar").change(function (){
+                console.log("here");
+                var file = $(this)[0].files[0];
+                var reader  = new FileReader();
+                console.log(file);
+            });
+        </script>
+ {% endcomment %}
+                        <div class="project-wrapper">
+                            <div class="project">
+                                <div class="photo-wrapper">
+                                    <div class="photo">
+                                        <a class="fancybox" href={{ goods.picture }} target="_blank">
+                                            <img class="img-responsive" src={{ goods.picture }} alt=""></a>
+                                    </div>
+                                </div>
+                                <h5>商品名称：{{ goods.order.goods_name }}</h5>
+                                <h5>成交价格：{{ goods.order.goods_cost }}</h5>
+                                {#                        <h5>商品原价：{{ count}}</h5>#}
                             </div>
-                        </div>
-                        <h5>商品名称：{{ goods.order.goods_name}}</h5>
-                        <h5>成交价格：{{ goods.order.goods_cost }}</h5>
-{#                        <h5>商品原价：{{ count}}</h5>#}
-                    </div>
                             <h5>商品名称：{{ order.order.goods_name }}</h5>
                             <h5>成交价格：{{ order.order.goods_cost }}</h5>
                             <h5>商品原价：</h5>
-                    </div>
-        {% endfor %}
-                </div>
-         </div>
-
-</div>
-<div id="buy" class="tab-pane active">
-    <div class="row mt" id="goodslistbuy">
-        {% for goods in b_orderlist %}
-         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
-                <div class="project-wrapper">
-                    <div class="project">
-                        <div class="photo-wrapper">
-                            <div class="photo">
-                                <a class="fancybox" href={{ goods.picture}} target="_blank">
-                                    <img class="img-responsive" src={{ goods.picture }} alt=""></a>
-                            </div>
                         </div>
-                        <h5>商品名称：{{ goods.order.goods_name}}</h5>
-                        <h5>成交价格：{{ goods.order.goods_cost}}</h5>
-                        <h5>商品评价：</h5>
-                    </div>
-                </div>
-         </div>
-        {% endfor %}
-    </div>
-</div>
-<div id="trade" class="tab-pane active">
-    <div class="row mt" id="goodslisttrade">
-        {% for goods in I_orderlist %}
-         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
-                <div class="project-wrapper">
-                    <div class="project">
-                        <div class="photo-wrapper">
-                            <div class="photo">
-                                <a class="fancybox" href={{ goods.picture }} target="_blank">
-                                    <img class="img-responsive" src={{ goods.picture }} alt=""></a>
-                            </div>
-                        </div>
-                        <h5>商品名称：{{ goods.order.goods_name}}</h5>
-                        <h5>成交价格：{{ goods.order.goods_price}}</h5>
-                        <h5>商品评价：</h5>
+                    {% endfor %}
                     </div>
                 </div>
             </div>
-        {% endfor %}
+            <div id="buy" class="tab-pane">
+                <div class="row mt" id="goodslistbuy">
+                    {% for goods in b_orderlist %}
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
+                            <div class="project-wrapper">
+                                <div class="project">
+                                    <div class="photo-wrapper">
+                                        <div class="photo">
+                                            <a class="fancybox" href={{ goods.picture }} target="_blank">
+                                                <img class="img-responsive" src={{ goods.picture }} alt=""></a>
+                                        </div>
+                                    </div>
+                                    <h5>商品名称：{{ goods.order.goods_name }}</h5>
+                                    <h5>成交价格：{{ goods.order.goods_cost }}</h5>
+                                    <h5>商品评价：</h5>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div id="trade" class="tab-pane">
+                <div class="row mt" id="goodslisttrade">
+                    {% for goods in I_orderlist %}
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
+                            <div class="project-wrapper">
+                                <div class="project">
+                                    <div class="photo-wrapper">
+                                        <div class="photo">
+                                            <a class="fancybox" href={{ goods.picture }} target="_blank">
+                                                <img class="img-responsive" src={{ goods.picture }} alt=""></a>
+                                        </div>
+                                    </div>
+                                    <h5>商品名称：{{ goods.order.goods_name }}</h5>
+                                    <h5>成交价格：{{ goods.order.goods_price }}</h5>
+                                    <h5>商品评价：</h5>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-    </div>
 
 </div>
 

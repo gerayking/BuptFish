@@ -34,6 +34,9 @@ migratate
 开发阶段移除了所有外键,为了便于各个开发人员进行不同模块的测试
 ### 规范
  + **驼峰命名**
+ + 使用下划线而不是小驼峰法（camelCase）命名变量、函数及方法名（比如，poll.get_unique_voters()，不要使用 poll.getUniqueVoters）。
+
++ 使用首字母大写（InitialCaps）的方式命名类名（或能够返回类的工厂函数）。
 
 ### Push
 push的过程中不要带上

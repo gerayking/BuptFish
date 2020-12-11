@@ -60,9 +60,10 @@
         <div id="sidebar" class="nav-collapse ">
             <!-- sidebar menu start-->
             <ul class="sidebar-menu" id="nav-accordion">
-                <p class="centered"><img src={{ request.user.avatar }} class="img-circle" width="80" height="80">
-            </p>
-            <h5 class="centered">{{ request.user.username }}</h5>
+            <p class="centered"><a href="{% url 'user:userInfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80"></a>
+</p>
+                <h5 class="centered">{{ request.user.username }}</h5>
+
                 <li class="sub-menu">
                     <a class="active" href="javascript:;">
                         <span><a href="{% url 'user:index' %}"><h5>用户主页</h5></a></span>
@@ -131,23 +132,25 @@
         <span id="goodslist">
             <h4>推荐商品</h4>
             <div class="row mt">
-                {% for photo_path in photo_paths %}
+                {% for good in goods_recomand %}
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
                         <div class="project-wrapper">
                             <button class="btn-shopcart"><img class="shopping-cart" src="/static/img/shopping-cart.png"></button>
                             <button class="btn-collection"><img class="collection" src="/static/img/collection.png"></button>
-                            <button class="btn-showinfo"><img class="show-info" src="/static/img/more.png"></button>
+                            <a href="/user/item/{{ good.goods_id }}/">
+                            <button class="btn-showinfo" ><img class="show-info" src="/static/img/more.png"></button>
+                            </a>
                             <div class="project">
 
                                 <div class="photo-wrapper">
                                     <div class="photo">
-                                        <a class="fancybox" href={{ photo_path }} target="_blank">
-                                            <img class="img-responsive" src={{ photo_path }} alt=""></a>
+                                        <a class="fancybox" href={{ good.picture }} target="_blank">
+                                            <img class="img-responsive" src={{ good.picture }} alt=""></a>
                                     </div>
                                 </div>
-                                <h5>商品名称：</h5>
-                                <h5>成交价格：</h5>
-                                <h5>商品评价：</h5>
+                                <h5>商品名称：{{ good.goods_name }}</h5>
+
+                                <h5>商品描述：{{ good.description }}</h5>
                             </div>
                         </div>
                     </div>
@@ -192,6 +195,7 @@
             var type = $("#gtypes").find("option:selected").text();
             var price = $("#gprices").find("option:selected").text();
             alert("选中的商品类型是:" + type + "\n选中的商品价格是:" + price);
+
             $.post("{% url 'user:search_goods' %}", JSON.stringify({
                 type: type,
                 price: price,
