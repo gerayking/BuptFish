@@ -109,8 +109,27 @@
     <script>$("html").css("font-size", 20 * ($(window).width() / 640) + 'px');</script>
   <script>
     window.onload = function() {
-
-        var arrIcon = ['https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg', 'https://i.loli.net/2020/11/02/QpWvltj85E6uJia.jpg'];
+            var chatSocket = new WebSocket(
+              'ws://' + window.location.host + '/ws/chat/{{ room_name }}');
+          chatSocket.onclose = function (e) {
+              console.error('Chat socket closed unexpectedly');
+          }
+          chatSocket.sendMsg = function (){
+              if (chatSocket.readyState != 1) {
+                                    chatSocket = new WebSocket(
+              'ws://' + window.location.host + '/ws/chat/{{ room_name }}');
+              } else {
+                  var message = $('#text').html();
+                  chatSocket.send(JSON.stringify({
+                      'fromuser': '{{ from_user }}',
+                      'touser':'{{ to_user }}',
+                      'message': message
+                  }));
+                  console.log("还没有连接");
+              }
+          }
+        var arrIcon = ['https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg',
+            'https://i.loli.net/2020/11/02/QpWvltj85E6uJia.jpg'];
         var num = 0; //控制头像改变
         var iNow = -1; //用来累加改变左右浮动
         var icon = $('#user_face_icon')[0].getElementsByTagName('img');
@@ -129,27 +148,51 @@
                 num = 0;
             }
         }
-
-        btn.onclick = function() {
-            if (text.html() == '') {
-                alert('不能发送空消息');
+        btn.onclick = function () {
+            num = 0;
+        if (text.html() == '') {
+            alert('不能发送空消息');
+        } else {
+            chatSocket.sendMsg();
+            content.innerHTML += '<li><img src="{{ request.user.avatar }}"><span>' + text.html() + '</span><i>已读</i></li>';
+            iNow++;
+            if (num == 0) {
+                img[iNow].className += 'imgright';
+                span[iNow].className += 'spanright';
+                i[iNow].className += 'iright'
             } else {
-                content.innerHTML += '<li><img src="' + arrIcon[num] + '"><span>' + text.html() + '</span><i>已读</i></li>';
-                iNow++;
-                if (num == 0) {
-                    img[iNow].className += 'imgright';
-                    span[iNow].className += 'spanright';
-                    i[iNow].className += 'iright'
-                } else {
-                    img[iNow].className += 'imgleft';
-                    span[iNow].className += 'spanleft';
-                    i[iNow].className += 'ileft'
-                }
-                text.html('');
-                // 内容过多时,将滚动条放置到最底端
-                content.scrollTop = content.scrollHeight;
+                img[iNow].className += 'imgleft';
+                span[iNow].className += 'spanleft';
+                i[iNow].className += 'ileft'
+            }
+            text.html('');
+            // 内容过多时,将滚动条放置到最底端
+            content.scrollTop = content.scrollHeight;
             }
         }
+        chatSocket.onmessage = function (e) {
+              var data = JSON.parse(e.data);
+              var message = data['message'];
+              if(data['from_user'] == '{{ from_user }}' && data['from_user'] != ''){
+                  return ;
+              }
+              console.log(message);
+            num = 1;
+            content.innerHTML += '<li><img src="{{ request.user.avatar }}"><span>' + message + '</span><i>已读</i></li>';
+            iNow++;
+            if (num == 0) {
+                img[iNow].className += 'imgright';
+                span[iNow].className += 'spanright';
+                i[iNow].className += 'iright'
+            } else {
+                img[iNow].className += 'imgleft';
+                span[iNow].className += 'spanleft';
+                i[iNow].className += 'ileft'
+            }
+            // 内容过多时,将滚动条放置到最底端
+            content.scrollTop = content.scrollHeight;
+
+          }
     }
 </script>
 <!-- **********************************************************************************************************************************************************

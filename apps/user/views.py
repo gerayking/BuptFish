@@ -10,7 +10,6 @@ from django.urls import reverse
 from django.views import generic, View
 from apps.user.Service.ShopCartService import shopcartservice
 from apps.user.Service import GoodsService
-from apps.user.Service.UserService import getUserbyId
 from apps.user.Service.IndexService import indexview,countSelled,getincome,not_inorder
 from apps.user.Service.CollectService import collectview
 from apps.user.models import UserInfo as User, Collect, Shopcart, UserInfo
@@ -44,7 +43,8 @@ def index(request):
 
     return render(request, 'User/index.html', locals())
 
-def delShopCart(request:HttpRequest):
+
+def delShopCart(request: HttpRequest):
     goodsId = request.POST["goodsId"]
     userName = request.POST["userName"]
     if userName == None or userName == "" or userName != request.user.username:
@@ -54,6 +54,7 @@ def delShopCart(request:HttpRequest):
         item.delete()
         return rjson(500, "删除成功")
     return rjson(200, "不能删除不存在的物品")
+
 
 def delCollect(request: HttpRequest):
     goodsId = request.POST["goodsId"]
@@ -67,7 +68,6 @@ def delCollect(request: HttpRequest):
     return rjson(200, "不能删除不存在的物品")
 
 
-
 def addShopCart(request: HttpRequest):
     data = request.POST
     goodsId = data["goodsId"]
@@ -75,7 +75,7 @@ def addShopCart(request: HttpRequest):
     if userName == None or userName == "":
         return rjson(500, "用户未登录")
     item = Shopcart.objects.filter(Q(goods_id=goodsId) & Q(user_name=userName))
-    if item != None and len(item)!=0:
+    if item != None and len(item) != 0:
         return rjson(500, "购物车已存在")
     shopcart = Shopcart()
     shopcart.goods_id = goodsId
@@ -119,8 +119,14 @@ def containCollect(request: HttpRequest):
         return rjson(200, "False")
     return rjson(200, "True")
 
-def online_comm(request:HttpRequest):
+
+def online_comm(request: HttpRequest, from_user:str, to_user:str):
+    if from_user > to_user:
+        room_name = from_user+to_user
+    else:
+        room_name = to_user + from_user
     return render(request, 'User/online_comm.html', locals())
+
 
 class ShopCart(View):
     def get(self, request: HttpRequest):
@@ -170,6 +176,7 @@ class release_goods(View):
 def userInfo(request):
     return render(request, 'User/userInfo.html')
 
+
 def info_edit(request):
     if request.POST:
         name = request.POST['name']
@@ -178,7 +185,7 @@ def info_edit(request):
         print(email)
         Head = request.POST['Head']
         print(Head)
-        phone=request.POST['phone']
+        phone = request.POST['phone']
         print(phone)
         address = request.POST['address']
         print(address)
@@ -186,13 +193,16 @@ def info_edit(request):
         print(password1)
         password2 = request.POST['password2']
         print(password2)
+        avatart = request.POST['avatar']
     return render(request, 'User/info_edit.html', locals())
+
 
 def message(request):
     return render(request, 'User/message.html', locals())
 
+
 class search_goods(View):
-    def get(self, request: HttpRequest,):
+    def get(self, request: HttpRequest, ):
         searchservice = GoodsService.goodservice
         goodslist = Goods.objects.filter(state="not_in_order")#没有进行交易
         userlist_t=UserInfo.objects.all()
@@ -203,7 +213,7 @@ class search_goods(View):
         if 'keyword' in request.GET:
             keyword = request.GET['keyword']
             if keyword is not None and keyword != '':
-                goodslist = [item for item in goodslist if re.search(keyword,item.goods_name)]
+                goodslist = [item for item in goodslist if re.search(keyword, item.goods_name)]
         if 'minprice' in request.GET:
             minprice = str(request.GET['minprice'])
             if minprice is not None and minprice != '' and minprice.isdigit():
@@ -211,7 +221,7 @@ class search_goods(View):
                 goodslist = [item for item in goodslist if item.price >= minprice]
         if 'maxprice' in request.GET:
             maxprice = str(request.GET['maxprice'])
-            if   maxprice is not None and maxprice != '' and maxprice.isdigit():
+            if maxprice is not None and maxprice != '' and maxprice.isdigit():
                 maxprice = int(maxprice)
                 goodslist = [item for item in goodslist if item.price <= maxprice]
         if 'type' in request.GET:
@@ -274,10 +284,11 @@ def register(request, useremail: str, username: str, password: str):
 class userinfo(View):
     def get(self, request: HttpRequest):
         return render(request, "User/infoedit.html", locals())
-    def post(self,request:HttpRequest):
+
+    def post(self, request: HttpRequest):
         print(request.body)
         if not request.user.is_authenticated:
-            return rjson(500,"用户未登录")
+            return rjson(500, "用户未登录")
         userinfo = request.user
         if "avatar" in request.POST and request.POST["avatar"] != "":
             userinfo.avatar = request.POST["avatar"]
@@ -285,10 +296,10 @@ class userinfo(View):
             userinfo.address = request.POST["address"]
         if "password1" in request.POST and request.POST["password1"] != "":
             userinfo.set_password(request.POST["password1"])
-        if "phone" in request.POST and request.POST["phone"]!= "":
+        if "phone" in request.POST and request.POST["phone"] != "":
             userinfo.phone = request.POST["phone"]
         userinfo.save()
-        return rjson(200,"信息更新完成")
+        return rjson(200, "信息更新完成")
 
 
 # class IndexView(View):

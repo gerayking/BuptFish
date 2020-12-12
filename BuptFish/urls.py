@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.templatetags.static import static
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf.urls.static import static
 
 from BuptFish import settings
+from IChannel import consumers
 
 urlpatterns = [
     path('user/', include('apps.user.urls', 'user'), name='user'),

@@ -1,5 +1,8 @@
 from django.conf.urls import url
+from django.urls import path, re_path
 
+import IChannel
+from IChannel import consumers
 from . import views
 from .views import LoginView, RegisterView, LogoutView, search_goods, release_goods, collect, ShopCart, \
     userinfo,Userinfo_other
@@ -24,8 +27,8 @@ urlpatterns = [
     url(r"^delShopCart/$",views.delShopCart,name="delShopCart"),
     url(r'^message/$', views.message, name="message"),
     url(r'^Userinfo_other/(?P<uid>[\d+])/$', views.Userinfo_other, name="online_comm"),
-    url(r'^online_comm/$', views.online_comm, name="online_comm")
-
+    url(r'^online_comm/(?P<from_user>[a-z_A-Z0-9]+)/(?P<to_user>[a-z_A-Z0-9]+)/$', views.online_comm, name="online_comm"),  # consumers.Chatting 是该路由的消费者
+    url(r'^push/(?P<username>[a-zA-Z0-9]+)', IChannel.consumers.push,name="push")
     # url('<int:pk>/userinfo/', views.userinfo.as_view(), name='userinfo')
 
 ]

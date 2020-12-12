@@ -62,8 +62,7 @@
     <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-            <p class="centered"><a href="{% url 'user:userinfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80">
-            </p>
+            <p class="centered"><a href="{% url 'user:userinfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80"></a></p>
             <h5 class="centered">{{ request.user.username }}</h5>
 
             <li class="sub-menu">
@@ -82,10 +81,6 @@
 
 
 <script>
-                    window.onload = function (){
-                        containCollect();
-                        containShopCart();
-                    }
                     function containShopCart(){
                         $.ajax({
                             url:'/user/containShopCart/',
@@ -94,12 +89,14 @@
                                 "userName": "{{ request.user.username }}",
                             },
                             type : 'POST',
-                            async: 'false',
                             success : function (data){
                                 data = JSON.parse(data);
                                 if(data["msg"] == "True"){
                                     $("#addshopcart").attr("disabled","true");
                                 }
+                            },
+                            error : function (data){
+                                console.log(data);
                             }
                         });
                     }
@@ -111,12 +108,14 @@
                                 "userName": "{{ request.user.username }}",
                             },
                             type : 'POST',
-                            async: 'false',
                             success : function (data){
                                 data = JSON.parse(data);
                                 if(data["msg"]== "True" ){
                                     $("#addcollect").attr("disabled","true");
                                 }
+                            },
+                            error : function (data){
+                                console.log(data);
                             }
                         });
                     }
@@ -137,9 +136,10 @@
                             error : function (data){
                                 console.log(data);
                             }
+
                         });
-                        window.location.href="/user/item/{{ goods.goods_id }}";
-                    };
+                        containShopCart();
+                    }
                     function addCollect(){
                         $.ajax({
                             url : '/user/addCollect/',
@@ -157,8 +157,10 @@
                                 alert(data["msg"]);
                             }
                         });
-                        window.location.href="/user/item/{{ goods.goods_id }}";
+                        containCollect();
                     }
+                    containShopCart();
+                    containCollect();
                 </script>
 
 
@@ -205,8 +207,7 @@
                     <p><img src="{{ request.user.avatar }}" class="img-circle"></p>
                     <h3>{{ request.user.username }} </h3>
                     <h6>上次登陆时间:{{ request.user.last_login }}</h6>
-                    <p>
-                        <button class="btn btn-theme">私聊</button>
+                        <a href="{% url 'user:online_comm'  request.user.username goods.user_name %}"><button class="btn btn-theme">私聊</button></a>
                     </p>
 
             </div>
