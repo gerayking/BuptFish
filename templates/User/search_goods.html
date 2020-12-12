@@ -83,8 +83,8 @@
         <section class="wrapper site-min-height">
             <div class="container">
 
-        <span>
-            <div class="row">
+                <span>
+                 <div class="row">
                 <div class="showback">
                     <div class="row">
                         <div class="col-lg-6 col-lg-offset-3 p404 centered">
@@ -94,8 +94,27 @@
 {#                                    {% csrf_token %}#}
                                     <div class="col-md-8 col-md-offset-2">
                                         <div class="row">
-                                            <input type="text" class="form-control" id="keyword" name="keyword" placeholder="{{ placeholder }}"
-                   autofocus>
+                                            <input type="text" class="form-control" id="keyword" name="keyword" placeholder="{{ placeholder }}" autofocus>
+{#                                             <div class="panel-heading">#}
+{#                                                 <ul class="nav nav-tabs nav-justified">#}
+{#                                                     <li class="active">#}
+{#                                                         <a data-toggle="tab" href="#goods" id="history_sell">物品</a>#}
+{#                                                     </li>#}
+{#                                                     <li>#}
+{#                                                         <a data-toggle="tab" href="#users" class="contact-map" id="history_buy">用户</a>#}
+{#                                                     </li>#}
+{#                                                 </ul>#}
+{#                                             </div>#}
+                                            <div class="panel-heading">
+                                                 <ul class="nav nav-tabs nav-justified">
+                                                     <li class="active">
+                                                         <a data-toggle="tab" href="#goods" id="history_sell">物品</a>
+                                                     </li>
+                                                     <li>
+                                                         <a data-toggle="tab" href="#users" class="contact-map" id="history_buy">用户</a>
+                                                     </li>
+                                                 </ul>
+                                             </div>
                                             <button class="btn btn-theme mt" id="search_btn" type="submit">Search</button>
                                         </div>
                                     </div>
@@ -128,10 +147,13 @@
                     <button class="btn btn-info" type="submit"  id="submitSelect">筛选</button>
                 </div>
             </div>
-        </span>
-                <span id="goodslist"></span>
+               </span>
+
             <h4>推荐商品</h4>
-            <div class="row mt">
+
+           <div class="tab-content">
+            <div id="goods" class="tab-pane active">
+                <div class="row mt">
                 {% for good in goodslist %}
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
                         <div class="project-wrapper">
@@ -140,10 +162,10 @@
                             <a href="/user/item/{{ good.goods_id }}/"><button class="btn-showinfo" ><img class="show-info" src="/static/img/more.png"></button></a>
                             <div class="project">
                                 <div class="photo-wrapper">
-                                    <div class="photo">
-                                        <a class="fancybox" href={{ good.picture }} target="_blank">
-                                            <img class="img-responsive" src={{ good.picture }} alt=""></a>
-                                    </div>
+{#                                    <div class="photo" >#}
+{#                                        <a class="fancybox" href={{ good.picture }} target="_blank" >#}
+                                            <img  src={{ good.picture }} width="400" height="250" alt=""></a>
+{#                                    </div>#}
                                 </div>
                                 <h5>商品名称：{{ good.goods_name }}</h5>
                                 <h5>商品描述：{{ good.description }}</h5>
@@ -153,8 +175,34 @@
                 {% endfor %}
             </div></div>
 
-
-
+            <div id="users" class="tab-pane">
+                <div class="row mt">
+                {% for user in userlist %}
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
+                        <div class="project-wrapper">
+{#                            <button class="btn-shopcart"><img class="shopping-cart" src="/static/img/shopping-cart.png"></button>#}
+{#                            <button class="btn-collection"><img class="collection" src="/static/img/collection.png"></button>#}
+{#                            <a href="/user/Userinfo_other/{{ user.id }}/"><button class="btn-showinfo" ><img class="show-info" src="/static/img/more.png"></button></a>#}
+{#                            <div class="project">#}
+{#                                <div class="photo-wrapper">#}
+{#                                    <div class="photo" >#}
+{#                                        <a class="fancybox" href="{% url 'user:index' %}" target="_blank" >#}
+                                            <img  src={{ user.avatar}} class="img-circle" width="200" height="200" alt=""></a>
+{#                                    </div>#}
+{#                                </div>#}
+{#                            用户详情#}
+                                <a href="/user/Userinfo_other/{{ user.id }}/"><button class="btn-showinfo" ><img class="show-info" src="/static/img/more.png"></button></a>
+                                <h5>用户姓名：{{ user.id}}</h5>
+                                <h5>用户姓名：{{ user.username }}</h5>
+                                <h5>用户介绍：{{ user.user_des}}</h5>
+{#                            </div>#}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            </div>
+        </div>
+            </div>
         </section>
 
         <!-- /wrapper -->

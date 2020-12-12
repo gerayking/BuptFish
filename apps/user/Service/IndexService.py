@@ -1,4 +1,4 @@
-from apps.user.models import Orderdetail,Order,Goods
+from apps.user.models import Orderdetail,Order,Goods,UserInfo
 class object:
     picture = ''
     order = Orderdetail
@@ -15,7 +15,6 @@ class view:
          self.Ing=[]
          self.Buy=[]
          self.Sell=[]
-
 
 def indexview(c_id):
 
@@ -51,6 +50,19 @@ def indexview(c_id):
         t_object = object(picture, order)
         t_view.Ing.append(t_object)
     return t_view
+
+def countSelled(c_id):
+       return Order.objects.filter(seller_id=c_id).count()
+
+def not_inorder(name):
+    goods=Goods.objects.filter(user_name=name)
+    return goods.filter(state="not_in_order")
+def getincome(c_id):
+   income=0
+   for order in Order.objects.filter(seller_id=c_id):
+           income=income +order.cost
+   return income
+
 
 
 

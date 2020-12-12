@@ -10,7 +10,8 @@ from django.urls import reverse
 from django.views import generic, View
 from apps.user.Service.ShopCartService import shopcartservice
 from apps.user.Service import GoodsService
-from apps.user.Service.IndexService import indexview
+from apps.user.Service.UserService import getUserbyId
+from apps.user.Service.IndexService import indexview,countSelled,getincome,not_inorder
 from apps.user.Service.CollectService import collectview
 from apps.user.models import UserInfo as User, Collect, Shopcart, UserInfo
 from apps.user.models import Orderdetail, Goods
@@ -29,12 +30,18 @@ def rjson(status: int, msg: str) -> json:
 
 
 def index(request):
+
     c_id = request.user.id
+    name=request.user.username
+    s_count=countSelled(c_id)
+    income=getincome(c_id)
+    not_in=not_inorder(name)
     orderlist = indexview(c_id)
     s_orderlist = orderlist.Sell
     b_orderlist = orderlist.Buy
     I_orderlist = orderlist.Ing
     # 根据用户的历史卖出商品返回图片路径
+
     return render(request, 'User/index.html', locals())
 
 def delShopCart(request:HttpRequest):
@@ -187,7 +194,12 @@ def message(request):
 class search_goods(View):
     def get(self, request: HttpRequest,):
         searchservice = GoodsService.goodservice
-        goodslist = Goods.objects.all();
+        goodslist = Goods.objects.filter(state="not_in_order")#没有进行交易
+        userlist_t=UserInfo.objects.all()
+        if 'keyword' in request.GET:
+            keyword = request.GET['keyword']
+            if keyword is not None and keyword != '':
+                userlist = [item for item in userlist_t if re.search(keyword,item.username)]
         if 'keyword' in request.GET:
             keyword = request.GET['keyword']
             if keyword is not None and keyword != '':
@@ -222,6 +234,18 @@ class search_goods(View):
         goodslist = [str(item) for item in goodslist]
         return HttpResponse(json.dumps(str(goodslist)))
 
+def Userinfo_other(request, uid: int):
+    # user=getUserbyId(uid)
+    name = UserInfo.objects.get(id=uid).username
+    s_count = countSelled(uid)
+    income = getincome(uid)
+    not_in = not_inorder(name)
+    orderlist = indexview(uid)
+    s_orderlist = orderlist.Sell
+    b_orderlist = orderlist.Buy
+    I_orderlist = orderlist.Ing
+    # 根据用户的历史卖出商品返回图片路径
+    return render(request, 'User/Userinfo_other.html', locals())
 
 def item(request, gid: int):
     goods = goodservice.getGoodsById(gid)
@@ -267,18 +291,18 @@ class userinfo(View):
         return rjson(200,"信息更新完成")
 
 
-class IndexView(View):
-    def get(self, request: HttpRequest):
-        order = Orderdetail.objects.get(detail_id=1)
-        order1 = order[0]
-        photo_paths_sell = ["https://i.loli.net/2020/11/02/WxsILKP7kX9iTbZ.jpg",  # 图片port1
-                            "https://i.loli.net/2020/11/02/iGuQr6RgHoLE4UW.jpg",  # 图片port2
-                            "https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg",  # 图片port3
-                            "https://i.loli.net/2020/11/02/QpWvltj85E6uJia.jpg",  # 图片port4
-                            "https://i.loli.net/2020/11/02/7fpEKYHXjW36PMF.jpg",  # 图片port5
-                            "https://i.loli.net/2020/11/02/eqHvPVzDXjlNaK1.jpg"]  # 图片port6
-
-        return render(request, 'User/index.html', locals())
+# class IndexView(View):
+#     def get(self, request: HttpRequest):
+#         order = Orderdetail.objects.get(detail_id=1)
+#         order1 = order[0]
+#         photo_paths_sell = ["https://i.loli.net/2020/11/02/WxsILKP7kX9iTbZ.jpg",  # 图片port1
+#                             "https://i.loli.net/2020/11/02/iGuQr6RgHoLE4UW.jpg",  # 图片port2
+#                             "https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg",  # 图片port3
+#                             "https://i.loli.net/2020/11/02/QpWvltj85E6uJia.jpg",  # 图片port4
+#                             "https://i.loli.net/2020/11/02/7fpEKYHXjW36PMF.jpg",  # 图片port5
+#                             "https://i.loli.net/2020/11/02/eqHvPVzDXjlNaK1.jpg"]  # 图片port6
+#
+#         return render(request, 'User/index.html', locals())
 
 
 class LoginView(View):
@@ -329,3 +353,7 @@ class RegisterView(View):
         user.email = email
         user.save()
         return HttpResponse(json.dumps({"status": 200, "msg": "注册成功"}))
+
+
+# def IndexView(request):
+#     return None

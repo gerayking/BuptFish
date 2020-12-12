@@ -112,11 +112,11 @@
                 <h6>Main Administrator</h6>
                 <p>{{ request.user.user_des }}</p>
                 <br>
-                <p>
-                    <a class="btn btn-theme" href="{% url 'user:release_goods' %}">发布商品</a>
-                    <a class="btn btn-theme02" href="{% url 'user:message' %}">查看消息</a>
-
-                </p>
+{#                <p>#}
+{#                    <a class="btn btn-theme" href="{% url 'user:release_goods' %}">发布商品</a>#}
+{#                    <a class="btn btn-theme02" href="{% url 'user:message' %}">查看消息</a>#}
+{##}
+{#                </p>#}
 
             </div>
             <!-- /col-md-4 -->
@@ -132,8 +132,8 @@
                                          class="img-circle" width="80"></a>
                     {% endif %}
                     <p>
-                        <button class="btn btn-theme04" id="cavatar" onclick="changeavatar()">更换头像</button>
-                        <a class="btn btn-theme03" href="{% url 'user:userinfo' %}">编辑资料</a>
+{#                        <button class="btn btn-theme04" id="cavatar" onclick="changeavatar()">更换头像</button>#}
+                        <a class="btn btn-theme03" href="{% url 'user:online_comm' %}">发送私信</a>
 
                     </p>
                 </div>
@@ -158,12 +158,12 @@
                 <li class="active">
                     <a data-toggle="tab" href="#sell" id="history_sell">历史卖出</a>
                 </li>
-                <li>
-                    <a data-toggle="tab" href="#buy" class="contact-map" id="history_buy">历史买入</a>
-                </li>
-                <li>
-                    <a data-toggle="tab" href="#trade" class="contact-map" id="history_trade">正在交易</a>
-                </li>
+{#                <li>#}
+{#                    <a data-toggle="tab" href="#buy" class="contact-map" id="history_buy">历史买入</a>#}
+{#                </li>#}
+{#                <li>#}
+{#                    <a data-toggle="tab" href="#trade" class="contact-map" id="history_trade">正在交易</a>#}
+{#                </li>#}
                  <li>
                     <a data-toggle="tab" href="#unsold" class="contact-map" id="not_in_order">闲置物品</a>
                 </li>
@@ -214,48 +214,48 @@
                     </div>
                 </div>
 {#            </div>#}
-            <div id="buy" class="tab-pane">
-                <div class="row mt" id="goodslistbuy">
-                    {% for goods in b_orderlist %}
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
-                            <div class="project-wrapper">
-                                <div class="project">
-                                    <div class="photo-wrapper">
-                                        <div class="photo">
-                                            <a class="fancybox" href={{ goods.picture }} target="_blank">
-                                                <img class="img-responsive" src={{ goods.picture }} alt=""></a>
-                                        </div>
-                                    </div>
-                                    <h5>商品名称：{{ goods.order.goods_name }}</h5>
-                                    <h5>成交价格：{{ goods.order.goods_cost }}</h5>
-                                    <h5>商品评价：</h5>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-            <div id="trade" class="tab-pane">
-                <div class="row mt" id="goodslisttrade">
-                    {% for goods in I_orderlist %}
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
-                            <div class="project-wrapper">
-                                <div class="project">
-                                    <div class="photo-wrapper">
-                                        <div class="photo">
-                                            <a class="fancybox" href={{ goods.picture }} target="_blank">
-                                                <img class="img-responsive" src={{ goods.picture }} alt=""></a>
-                                        </div>
-                                    </div>
-                                    <h5>商品名称：{{ goods.order.goods_name }}</h5>
-                                    <h5>成交价格：{{ goods.order.goods_price }}</h5>
-                                    <h5>商品评价：</h5>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
+{#            <div id="buy" class="tab-pane">#}
+{#                <div class="row mt" id="goodslistbuy">#}
+{#                    {% for goods in b_orderlist %}#}
+{#                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">#}
+{#                            <div class="project-wrapper">#}
+{#                                <div class="project">#}
+{#                                    <div class="photo-wrapper">#}
+{#                                        <div class="photo">#}
+{#                                            <a class="fancybox" href={{ goods.picture }} target="_blank">#}
+{#                                                <img class="img-responsive" src={{ goods.picture }} alt=""></a>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <h5>商品名称：{{ goods.order.goods_name }}</h5>#}
+{#                                    <h5>成交价格：{{ goods.order.goods_cost }}</h5>#}
+{#                                    <h5>商品评价：</h5>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                </div>#}
+{#            </div>#}
+{#            <div id="trade" class="tab-pane">#}
+{#                <div class="row mt" id="goodslisttrade">#}
+{#                    {% for goods in I_orderlist %}#}
+{#                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">#}
+{#                            <div class="project-wrapper">#}
+{#                                <div class="project">#}
+{#                                    <div class="photo-wrapper">#}
+{#                                        <div class="photo">#}
+{#                                            <a class="fancybox" href={{ goods.picture }} target="_blank">#}
+{#                                                <img class="img-responsive" src={{ goods.picture }} alt=""></a>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <h5>商品名称：{{ goods.order.goods_name }}</h5>#}
+{#                                    <h5>成交价格：{{ goods.order.goods_price }}</h5>#}
+{#                                    <h5>商品评价：</h5>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                </div>#}
+{#            </div>#}
             <div id="unsold" class="tab-pane">
                 <div class="row mt" id="goodslistnotin">
                     {% for goods in not_in %}

@@ -1,8 +1,8 @@
 from django.conf.urls import url
 
 from . import views
-from .views import LoginView, IndexView, RegisterView, LogoutView, search_goods, release_goods, collect, ShopCart, \
-    userinfo
+from .views import LoginView, RegisterView, LogoutView, search_goods, release_goods, collect, ShopCart, \
+    userinfo,Userinfo_other
 
 app_name = "user"
 urlpatterns = [
@@ -23,6 +23,7 @@ urlpatterns = [
     url(r"^delCollect/$",views.delCollect,name="delCollect"),
     url(r"^delShopCart/$",views.delShopCart,name="delShopCart"),
     url(r'^message/$', views.message, name="message"),
+    url(r'^Userinfo_other/(?P<uid>[\d+])/$', views.Userinfo_other, name="online_comm"),
     url(r'^online_comm/$', views.online_comm, name="online_comm")
 
     # url('<int:pk>/userinfo/', views.userinfo.as_view(), name='userinfo')
