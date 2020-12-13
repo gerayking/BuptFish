@@ -154,7 +154,7 @@
             alert('不能发送空消息');
         } else {
             chatSocket.sendMsg();
-            content.innerHTML += '<li><img src="{{ request.user.avatar }}"><span>' + text.html() + '</span><i>已读</i></li>';
+            content.innerHTML += '<li><img src="{{ from_user_object.avatar }}"><span>' + text.html() + '</span><i>已读</i></li>';
             iNow++;
             if (num == 0) {
                 img[iNow].className += 'imgright';
@@ -178,7 +178,7 @@
               }
               console.log(message);
             num = 1;
-            content.innerHTML += '<li><img src="{{ request.user.avatar }}"><span>' + message + '</span><i>已读</i></li>';
+            content.innerHTML += '<li><img src="{{ to_user_object.avatar }}"><span>' + message + '</span><i>已读</i></li>';
             iNow++;
             if (num == 0) {
                 img[iNow].className += 'imgright';

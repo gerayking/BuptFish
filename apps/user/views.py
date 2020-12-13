@@ -1,16 +1,14 @@
 import json
-
 import regex as re
 from django.contrib.auth import authenticate, logout, login
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, HttpRequest, JsonResponse
 from django.shortcuts import render
-
 from django.urls import reverse
 from django.views import generic, View
 from apps.user.Service.ShopCartService import shopcartservice
 from apps.user.Service import GoodsService
-from apps.user.Service.IndexService import indexview,countSelled,getincome,not_inorder
+from apps.user.Service.IndexService import indexview, countSelled, getincome, not_inorder
 from apps.user.Service.CollectService import collectview
 from apps.user.models import UserInfo as User, Collect, Shopcart, UserInfo
 from apps.user.models import Orderdetail, Goods
@@ -29,12 +27,11 @@ def rjson(status: int, msg: str) -> json:
 
 
 def index(request):
-
     c_id = request.user.id
-    name=request.user.username
-    s_count=countSelled(c_id)
-    income=getincome(c_id)
-    not_in=not_inorder(name)
+    name = request.user.username
+    s_count = countSelled(c_id)
+    income = getincome(c_id)
+    not_in = not_inorder(name)
     orderlist = indexview(c_id)
     s_orderlist = orderlist.Sell
     b_orderlist = orderlist.Buy
@@ -120,11 +117,13 @@ def containCollect(request: HttpRequest):
     return rjson(200, "True")
 
 
-def online_comm(request: HttpRequest, from_user:str, to_user:str):
+def online_comm(request: HttpRequest, from_user: str, to_user: str):
     if from_user > to_user:
-        room_name = from_user+to_user
+        room_name = from_user + to_user
     else:
         room_name = to_user + from_user
+    from_user_object = UserInfo.objects.get(username = from_user)
+    to_user_object = UserInfo.objects.get(username = to_user)
     return render(request, 'User/online_comm.html', locals())
 
 
@@ -204,12 +203,12 @@ def message(request):
 class search_goods(View):
     def get(self, request: HttpRequest, ):
         searchservice = GoodsService.goodservice
-        goodslist = Goods.objects.filter(state="not_in_order")#没有进行交易
-        userlist_t=UserInfo.objects.all()
+        goodslist = Goods.objects.filter(state="not_in_order")  # 没有进行交易
+        userlist_t = UserInfo.objects.all()
         if 'keyword' in request.GET:
             keyword = request.GET['keyword']
             if keyword is not None and keyword != '':
-                userlist = [item for item in userlist_t if re.search(keyword,item.username)]
+                userlist = [item for item in userlist_t if re.search(keyword, item.username)]
         if 'keyword' in request.GET:
             keyword = request.GET['keyword']
             if keyword is not None and keyword != '':
@@ -244,6 +243,7 @@ class search_goods(View):
         goodslist = [str(item) for item in goodslist]
         return HttpResponse(json.dumps(str(goodslist)))
 
+
 def Userinfo_other(request, uid: int):
     # user=getUserbyId(uid)
     name = UserInfo.objects.get(id=uid).username
@@ -257,9 +257,11 @@ def Userinfo_other(request, uid: int):
     # 根据用户的历史卖出商品返回图片路径
     return render(request, 'User/Userinfo_other.html', locals())
 
+
 def item(request, gid: int):
     goods = goodservice.getGoodsById(gid)
     goodsClassName = goodsutils.getTypeNameById(goods.class_id)
+    goods_user = UserInfo.objects.get(username=goods.user_name)
     return render(request, 'User/item.html', locals())
 
 
@@ -364,7 +366,6 @@ class RegisterView(View):
         user.email = email
         user.save()
         return HttpResponse(json.dumps({"status": 200, "msg": "注册成功"}))
-
 
 # def IndexView(request):
 #     return None

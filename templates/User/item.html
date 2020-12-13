@@ -204,10 +204,10 @@
             <!-- /col-md-4 -->
             <div class="col-md-4 centered">
                 <div class="profile-pic">
-                    <p><img src="{{ request.user.avatar }}" class="img-circle"></p>
-                    <h3>{{ request.user.username }} </h3>
-                    <h6>上次登陆时间:{{ request.user.last_login }}</h6>
-                        <a href="{% url 'user:online_comm'  request.user.username goods.user_name %}"><button class="btn btn-theme">私聊</button></a>
+                    <p><img src="{{ goods_user.avatar }}" class="img-circle"></p>
+                    <h3>{{ goods_user.user_name }} </h3>
+                    <h6>上次登陆时间:{{ goods_user.last_login }}</h6>
+                        <a href="{% url 'user:online_comm'  request.user.username goods_user.username %}"><button class="btn btn-theme">私聊</button></a>
                     </p>
 
             </div>
