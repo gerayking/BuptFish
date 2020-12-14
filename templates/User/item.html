@@ -62,13 +62,22 @@
     <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-            <p class="centered"><a href="{% url 'user:userinfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80"></a></p>
+            {% if request.user.is_authenticated %}
+            <p class="centered"><a href="{% url 'user:userinfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80" height="80"></a>
+                    {% else %}
+                <p class="centered">
+                <a href="#"><img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" class="img-circle"
+                                 width="80"></a>
+            {% endif %}
+            </p>
             <h5 class="centered">{{ request.user.username }}</h5>
 
             <li class="sub-menu">
                 <a class="active" href="javascript:;">
                     <span><a href="{% url 'user:index' %}"><h5>用户主页</h5></a></span>
                     <span><a href="{% url 'user:search_goods' %}"><h5>搜索</h5></a></span>
+                    <span><a href="{% url 'user:shopping_cart' %}"><h5>购物车</h5></a></span>
+                    <span><a href="{% url 'user:collect' %}"><h5>收藏夹</h5></a></span>
                 </a>
             </li>
         </ul>
@@ -237,9 +246,7 @@
   <!--BACKSTRETCH-->
   <!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
  <script rel="stylesheet" src="/static/js/jquery.backstretch.min.js"></script>
-  <script>
 
-</script>
 
 </body>
 </html>

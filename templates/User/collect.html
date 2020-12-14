@@ -51,29 +51,33 @@
         </ul>
     </div>
 </header>
-
-
     <section id="container">
-         <aside>
-        <div id="sidebar" class="nav-collapse ">
-            <!-- sidebar menu start-->
-            <ul class="sidebar-menu" id="nav-accordion">
-            <p class="centered"><a href="{% url 'user:userinfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80"></a>
-</p>
-                <h5 class="centered">{{ request.user.username }}</h5>
+      <aside>
+    <div id="sidebar" class="nav-collapse ">
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu" id="nav-accordion">
+            {% if request.user.is_authenticated %}
+            <p class="centered"><a href="{% url 'user:userinfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80" height="80"></a>
+                    {% else %}
+                <p class="centered">
+                <a href="#"><img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" class="img-circle"
+                                 width="80"></a>
+            {% endif %}
+            </p>
+            <h5 class="centered">{{ request.user.username }}</h5>
 
-                <li class="sub-menu">
-                    <a class="active" href="javascript:;">
-                        <span><a href="{% url 'user:index' %}"><h5>用户主页</h5></a></span>
-                        <span><a href="{% url 'user:search_goods' %}"><h5>搜索</h5></a></span>
-                        <span><a href="{% url 'user:shopping_cart' %}"><h5>购物车</h5></a></span>
-                        <span><a href="{% url 'user:collect' %}"><h5>收藏夹</h5></a></span>
-                    </a>
-                </li>
-            </ul>
-            <!-- sidebar menu end-->
-        </div>
-    </aside>
+            <li class="sub-menu">
+                <a class="active" href="javascript:;">
+                    <span><a href="{% url 'user:index' %}"><h5>用户主页</h5></a></span>
+                    <span><a href="{% url 'user:search_goods' %}"><h5>搜索</h5></a></span>
+                    <span><a href="{% url 'user:shopping_cart' %}"><h5>购物车</h5></a></span>
+                    <span><a href="{% url 'user:collect' %}"><h5>收藏夹</h5></a></span>
+                </a>
+            </li>
+        </ul>
+        <!-- sidebar menu end-->
+    </div>
+</aside>
     <!--header end-->
         <!--sidebar start-->
 
@@ -117,11 +121,6 @@
                             <a href="/user/item/{{ goods.goods_id }}">商品名称：{{ goods.goods_name }}</a></br>
                             <a>商品属性：{{ goods.class_id }}</a>
                         </div>
-						<div class="m-num fl">
-							<span class="jian">-</span>
-							<input type="text" value="1" class="num" />
-							<span class="add">+</span>
-						</div>
 						<div class="price fr">￥<span data-price="100">{{ goods.price }}</span></div>
 					</div>
 				</div>
@@ -130,20 +129,7 @@
 		</ul>
 	</div>
             <div class="spacediv"></div>
-{#<div class="foot clearfix">#}
-{#		<!--全选-->#}
-{#		<div class="all-check">#}
-{#			全选#}
-{#			<div class="gap-check check"></div>#}
-{#		</div>#}
-{#		<!--总价-->#}
-{#		<div class="foot-box">#}
-{#			<div class=" itme all-price">总价：<span>2000</span></div>#}
-{#			<div class="itme"><input type="button" class="btn" value="加入购物车"  /></div>#}
-{#		</div>#}
-{#	</div>#}
-{##}
-{#</div>#}
+        </div>
 
     <!--footer end-->
   </section>

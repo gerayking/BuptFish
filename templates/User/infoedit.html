@@ -61,7 +61,13 @@
     <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-            <p class="centered"><a href="{% url 'user:userinfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80"></a>
+            {% if request.user.is_authenticated %}
+            <p class="centered"><a href="{% url 'user:userinfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80" height="80"></a>
+                    {% else %}
+                <p class="centered">
+                <a href="#"><img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" class="img-circle"
+                                 width="80"></a>
+            {% endif %}
             </p>
             <h5 class="centered">{{ request.user.username }}</h5>
 

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+        {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Dashboard">
+    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <title>BUPTFISH - Second-hand trading platform</title>
+    <!-- Favicons -->
+    <link href="{% static 'img/favicon.png' %}" rel="icon">
+    <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!--external css-->
+    <link href="{% static 'lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet"/>
+    <link href="{% static 'lib/fancybox/jquery.fancybox.css' %}" rel="stylesheet"/>
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style-responsive.css' %}" rel="stylesheet">
+    <script src="{% static 'lib/jquery/jquery.min.js' %}"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+
+    <!-- =======================================================
+      Template Name: Dashio
+      Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
+      Author: TemplateMag.com
+      License: https://templatemag.com/license/-->
+</head>
+<body>
+
+<header class="header black-bg">
+
+    <a href="{% url 'user:index' %}" class="logo"><b>BUPT<span>FISH</span></b></a>
+    <!--logo end-->
+    <div class="nav notify-row" id="top_menu">
+        <!--  notification start -->
+        <ul class="nav top-menu">
+
+        </ul>
+        <!--  notification end -->
+    </div>
+    <div class="top-menu">
+        <ul class="nav pull-right top-menu">
+            {% if request.user.is_authenticated %}
+                <li><a class="logout" href="{% url 'user:logout' %}">Logout</a></li>
+            {% else %}
+                <li><a class="logout" href="{% url 'user:login' %}">Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</header>
+
+<aside>
+    <div id="sidebar" class="nav-collapse ">
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu" id="nav-accordion">
+            {% if request.user.is_authenticated %}
+            <p class="centered"><a href="{% url 'user:userinfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80" height="80"></a>
+                    {% else %}
+                <p class="centered">
+                <a href="#"><img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" class="img-circle"
+                                 width="80"></a>
+            {% endif %}
+            </p>
+            <h5 class="centered">{{ request.user.username }}</h5>
+
+            <li class="sub-menu">
+                <a class="active" href="javascript:;">
+                    <span><a href="{% url 'user:index' %}"><h5>用户主页</h5></a></span>
+                    <span><a href="{% url 'user:search_goods' %}"><h5>搜索</h5></a></span>
+                    <span><a href="{% url 'user:shopping_cart' %}"><h5>购物车</h5></a></span>
+                    <span><a href="{% url 'user:collect' %}"><h5>收藏夹</h5></a></span>
+                </a>
+            </li>
+        </ul>
+        <!-- sidebar menu end-->
+    </div>
+</aside>
+{#确认收获#}
+<script>
+    function changeOrderstate() {
+        alert("是否确认收获？{{ order.id }}");
+        $.ajax({
+            url: '/user/changeOrderstate/',
+            data: {
+                "orderId": "{{ order.id }}",
+            },
+            type: 'POST',
+            success: function (data) {
+                alert("完成订单！");
+
+            },
+        });
+    }
+</script>
+<section id="main-content">
+<section class="wrapper site-min-height">
+      <div class="row content-panel">
+            <div class="col-md-4 profile-text mt mb centered">
+                <div class="right-divider hidden-sm hidden-xs">
+                     <h3>订单详情 </h3>
+                     <div class="photo">
+
+                         <img class="img-responsive" src="{{ good.picture }}" alt="">
+                         <h3>收款人姓名：{{ order.rec_name }}</h3>
+                         <h3>收款人地址 : {{order.address }}</h3>
+                         <h3>收款人联系方式 : {{order.tel }}</h3>
+                     </div>
+                </div>
+            </div>
+            <!-- /col-md-4 -->
+            <div class="col-md-4 profile-text">
+                <br>
+                <br>
+                <br>
+                <br>
+                <h3>商品名 : {{orderdetail.goods_name }}</h3>
+                <h3 style="color:#64f1b9">成交价格：{{ orderdetail.goods_cost }}</h3>
+                <h3 style="color:#64f1b9">分类：{{good.class_id }} </h3>
+                <h3 style="color:#64f1b9">数量:{{good.goods_num}}</h3>
+                <h3 style="color:#dc143c">订单状态：等待收获</h3>
+                <h3>
+                    产品描述：{{ good.description }}
+                </h3>
+                 <button class="btn"  style="background-color:#dc143c;width: 120px;height: 36px;color: #FFFFFF" type="button" onclick="changeOrderstate()" id="changeOrderstate" >确认收获</button>
+                </p>
+            </div>
+        </div>
+</section>
+ </div>
+</section>
+</section>
+
+<footer class="site-footer">
+    <div class="text-center">
+        <p>
+            &copy; Welcome to <strong>BUPTFISH</strong>
+        </p>
+    </div>
+</footer>
+
+<script rel="stylesheet" src="/static/js/html5shiv.min.js"></script>
+<script rel="stylesheet" src="/static/js/vue.js"></script>
+<script rel="stylesheet" src="/static/js/jquery-1.11.1.js"></script>
+<script rel="stylesheet" src="/static/js/login.js"></script>
+  <!-- js placed at the end of the document so the pages load faster -->
+  <script src="/static/jquery/jquery.min.js"></script>
+  <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+  <!--BACKSTRETCH-->
+  <!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
+ <script rel="stylesheet" src="/static/js/jquery.backstretch.min.js"></script>
+  <script>
+
+</script>
+
+</body>
+</html>

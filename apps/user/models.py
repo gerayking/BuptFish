@@ -19,6 +19,7 @@ class UserInfo(AbstractUser):
     avatar = models.ImageField('头像', upload_to=user_director_path,
                                default="https://i.loli.net/2020/11/08/KnofmQWD15BxcMu.jpg")
     user_des=models.CharField(max_length=100,default="null")
+    user_adr=models.CharField(max_length=100,default="null")
 
 class Shopcart(models.Model):
     user_name = models.CharField(null=False,max_length=150)

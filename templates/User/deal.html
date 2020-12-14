@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="Dashboard">
+  <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+  <title>BUPTFISH - Second-hand trading platform</title>
+        {% load  static %}
+  <!-- Favicons -->
+  <link href="{% static 'img/favicon.png' %}" rel="icon">
+  <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <!--external css-->
+  <link href="{% static 'lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet" />
+  <link href="{% static 'lib/fancybox/jquery.fancybox.css' %}" rel="stylesheet" />
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'css/style-responsive.css' %}" rel="stylesheet">
+  <script src="{%static 'lib/jquery/jquery.min.js' %}"></script>
+
+  <!-- =======================================================
+    Template Name: Dashio
+    Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
+    Author: TemplateMag.com
+    License: https://templatemag.com/license/
+  ======================================================= -->
+</head>
+
+<body>
+<header class="header black-bg">
+      <!-- <div class="sidebar-toggle-box">
+        <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+      </div> -->
+      <!--logo start-->
+      <a href="{%  url 'user:index' %}" class="logo"><b>BUPT<span>FISH</span></b></a>
+      <!--logo end-->
+      <div class="nav notify-row" id="top_menu">
+        <!--  notification start -->
+        <ul class="nav top-menu">
+
+        </ul>
+        <!--  notification end -->
+      </div>
+      <div class="top-menu">
+        <ul class="nav pull-right top-menu">
+            {% if request.user != None %}
+          <li><a class="logout" href="{% url 'user:login'%}">Logout</a></li>
+            {% endif %}
+        </ul>
+      </div>
+    </header> -->
+  <section id="container">
+    <!--sidebar start-->
+    <aside>
+    <div id="sidebar" class="nav-collapse ">
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu" id="nav-accordion">
+            <p class="centered"><a href="profile.html"><img src={{ request.user.avatar }} class="img-circle" width="80" height="80"></a>
+            </p>
+            <h5 class="centered">{{ request.user.username }}</h5>
+
+            <li class="sub-menu">
+                <a class="active" href="javascript:;">
+                    <span><a href="{% url 'user:index' %}"><h5>用户主页</h5></a></span>
+                    <span><a href="{% url 'user:search_goods' %}"><h5>搜索</h5></a></span>
+                    <span><a href="{% url 'user:shopping_cart' %}"><h5>购物车</h5></a></span>
+                    <span><a href="{% url 'user:collect' %}"><h5>收藏夹</h5></a></span>
+                </a>
+            </li>
+        </ul>
+        <!-- sidebar menu end-->
+    </div>
+</aside>
+    <!--sidebar end-->
+      <!--main content start-->
+
+{# <section id="main-content">#}
+      <section class="wrapper site-min-height">
+<div class="container">
+     <section class="wrapper site-min-height">
+            <div class="container">
+              <div class="col-md-12">
+              <div class="showback"  style="height: 150px;">
+{#{{% for address_path in address_paths %}}#}
+{#              <button style="width: 200px;height: 150px;text-align:left;" type="button" class="btn btn-info" >#}
+
+                  <h3>地址:{{ request.user.user_adr }}</h3>
+                  <h3>姓名: {{ request.user.username }}</h3>
+
+{#              </button>#}
+{#{{% endfor %}}#}
+            </div>
+              <div class="content-panel">
+              <h4>确认订单信息</h4>
+              <hr>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>商品序号</th>
+                        <th>卖家</th>
+                        <th>宝贝</th>
+                        <th>名称</th>
+                        <th>分类</th>
+                        <th>价格</th>
+                        <th>$</th>
+                    </tr>
+                    </thead>
+                    {% for good in goods %}
+                        <tbody>
+                        <tr>
+                        <td>1</td>
+                        <td>{{ good.user_name }}</td>
+                        <td>
+                            <img class="img-responsive" src={{good.picture }} alt="" width="100" height="100">
+                        </td>
+                        <td>{{ good.goods_name}}</td>
+                        <td>{{ good.class_id }}</td>
+                        <td>{{ good.price }}</td>
+                        <td></td>
+                    {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+              </div>
+                <div class="showback" >
+                    <p>{{ total_money}}</p>
+                    <button  type="button" onclick="changeGoodstate()" class="btn btn-danger" >
+                        <br>确认结算</br>
+                    </button>
+                </div>
+            </div>
+     </section>
+</div>
+      </section>
+      </div>
+      </div>
+  </section>
+</section>
+
+      <!-- /wrapper -->
+
+<footer class="site-footer">
+    <div class="text-center">
+        <p>
+            &copy; Welcome to <strong>BUPTFISH</strong>
+        </p>
+    </div>
+</footer>
+<!--footer end-->
+
+<!-- js placed at the end of the document so the pages load faster -->
+{#<script src="{% static 'lib/fancybox/jquery.fancybox.js' %}"></script>#}
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous">
+</script>
+<script type="text/javascript">
+  <!--script for this page-->
+  <script type="text/javascript">
+    $(function() {
+      //    fancybox
+      jQuery(".fancybox").fancybox();
+    });
+  </script>
+<script>
+
+    function getContent(value){
+
+}
+</script>
+{#生成订单成功#}
+<script>
+    function changeGoodstate(){
+                alert("是否确认结算？");
+        window.location.href = '/user/index';}
+</script>
+</body>
+</html>

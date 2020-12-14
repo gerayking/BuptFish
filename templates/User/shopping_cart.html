@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     {% load static %}
     <meta charset="utf-8">
@@ -30,7 +29,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/waiter.css">
 
 </head>
-
 <body>
 {#  <section id="container">#}
 <!-- **********************************************************************************************************************************************************
@@ -65,26 +63,32 @@
 
 <!--sidebar start-->
  <section id="container">
- <aside>
-        <div id="sidebar" class="nav-collapse ">
-            <!-- sidebar menu start-->
-            <ul class="sidebar-menu" id="nav-accordion">
-            <p class="centered"><a href="{% url 'user:userinfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80"></a>
-</p>
-                <h5 class="centered">{{ request.user.username }}</h5>
+<aside>
+    <div id="sidebar" class="nav-collapse ">
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu" id="nav-accordion">
+            {% if request.user.is_authenticated %}
+            <p class="centered"><a href="{% url 'user:userinfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80" height="80"></a>
+                    {% else %}
+                <p class="centered">
+                <a href="#"><img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" class="img-circle"
+                                 width="80"></a>
+            {% endif %}
+            </p>
+            <h5 class="centered">{{ request.user.username }}</h5>
 
-                <li class="sub-menu">
-                    <a class="active" href="javascript:;">
-                        <span><a href="{% url 'user:index' %}"><h5>用户主页</h5></a></span>
-                        <span><a href="{% url 'user:search_goods' %}"><h5>搜索</h5></a></span>
-                        <span><a href="{% url 'user:shopping_cart' %}"><h5>购物车</h5></a></span>
-                        <span><a href="{% url 'user:collect' %}"><h5>收藏夹</h5></a></span>
-                    </a>
-                </li>
-            </ul>
-            <!-- sidebar menu end-->
-        </div>
-    </aside>
+            <li class="sub-menu">
+                <a class="active" href="javascript:;">
+                    <span><a href="{% url 'user:index' %}"><h5>用户主页</h5></a></span>
+                    <span><a href="{% url 'user:search_goods' %}"><h5>搜索</h5></a></span>
+                    <span><a href="{% url 'user:shopping_cart' %}"><h5>购物车</h5></a></span>
+                    <span><a href="{% url 'user:collect' %}"><h5>收藏夹</h5></a></span>
+                </a>
+            </li>
+        </ul>
+        <!-- sidebar menu end-->
+    </div>
+</aside>
 <!--sidebar end-->
 
 <!-- **********************************************************************************************************************************************************
@@ -161,9 +165,14 @@
 	<!--底部-->
 	<div class="bar-wrapper">
 		<div class="bar-right" style="margin-right: 50px;">
-			<div class="totalMoney">共计: <strong class="total_text">0.00</strong></div>
-			<div class="calBtn"><a href="javascript:;">结算</a></div>
+			<select id="trade_method" value="1">
+                <option value="1">在线结算</option>
+                <option value="2">线下面交</option>
+            </select>
+            <div class="totalMoney" id="total_money">共计: <strong id="box" class="total_text">0.00</strong></div>
+            <a class="btn btn-theme" id="calBtn" href=" /user/deal">结算</a>
 		</div>
+
 	</div>
 </section>
 <section class="model_bg"></section>
@@ -189,7 +198,7 @@
 				<div class="waiter-title">个人主页</div>
 			</li>
 			<li class="wuyou-contact">
-				<a class="iconfont icon-aliww" href="{% url 'user:online_comm' %}" target="_blank"></a>
+				<a class="iconfont icon-aliww" href="/user/online_comm/zeo/xxx" target="_blank"></a>
 				<div class="waiter-title">联系客服</div>
 			</li>
 			<li class="wuyou-top">
@@ -270,6 +279,9 @@
         totalMoney();
         delShopCart(id);
     })
+
+
+
 </script>
 <script type="text/javascript">
 </script>

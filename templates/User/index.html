@@ -63,7 +63,7 @@
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
             {% if request.user.is_authenticated %}
-            <p class="centered"><a href="{% url 'user:userinfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80"></a>
+            <p class="centered"><a href="{% url 'user:userinfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80" height="80"></a>
                     {% else %}
                 <p class="centered">
                 <a href="#"><img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" class="img-circle"
@@ -96,10 +96,7 @@
         <div class="row content-panel">
             <div class="col-md-4 profile-text mt mb centered">
                 <div class="right-divider hidden-sm hidden-xs">
-{#                    <h4>1922</h4>#}
-{#                    <h6>FOLLOWERS</h6>#}
-{#                    <h4>290</h4>#}
-{#                    <h6>FOLLOWING</h6>#}
+
                     <h4>已出售{{ s_count }}件商品</h4>
                     <h6>TOTAL SALE</h6>
                     <h4>以获得${{ income }}收入</h4>
@@ -162,70 +159,40 @@
                     <a data-toggle="tab" href="#buy" class="contact-map" id="history_buy">历史买入</a>
                 </li>
                 <li>
-                    <a data-toggle="tab" href="#trade" class="contact-map" id="history_trade">正在交易</a>
+                    <a data-toggle="tab" href="#trade1" class="contact-map" id="history_trade">等待收款</a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#trade2" class="contact-map" id="history_trade">等待收获</a>
                 </li>
                  <li>
                     <a data-toggle="tab" href="#unsold" class="contact-map" id="not_in_order">闲置物品</a>
                 </li>
             </ul>
         </div>
-{#        <script>#}
-{#            window.onload(function () {#}
-{#                $("#history_buy").clicked();#}
-{#                $("#history_sell").click();#}
-{#            })#}
-{#        </script>#}
              <div class="tab-content">
              <div id="sell" class="tab-pane active">
                 <div class="row mt" id="goodslistsell">
                     {% for goods in s_orderlist %}
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
-                        {% comment %}
-        <script>
-            function changeavatar() {
-                console.log("here");
-                $("#change_avatar").click();
-            }
-            $("#change_avatar").change(function (){
-                console.log("here");
-                var file = $(this)[0].files[0];
-                var reader  = new FileReader();
-                console.log(file);
-            });
-        </script>
- {% endcomment %}
-{#                        <div class="project-wrapper">#}
                             <div class="project">
-                                <div class="photo-wrapper">
-                                    <div class="photo">
-                                        <a class="fancybox" href={{ goods.picture }} target="_blank">
-                                            <img class="img-responsive" src={{ goods.picture }} alt=""></a>
-                                    </div>
-                                </div>
+                                 <a href="/user/Order_details_3/{{ goods.order.order_id }}/"><button class="btn-showinfo" ><img class="show-info" src="/static/img/more.png"></button></a>
+                               <img src={{ goods.picture }} width="400" height="250" alt=""></a>
                                 <h5>商品名称：{{ goods.order.goods_name }}</h5>
                                 <h5>成交价格：{{ goods.order.goods_cost }}</h5>
-                                {#                        <h5>商品原价：{{ count}}</h5>#}
                             </div>
-{#                            <h5>商品名称：{{ order.order.goods_name }}</h5>#}
-{#                            <h5>成交价格：{{ order.order.goods_cost }}</h5>#}
-{#                            <h5>商品原价：</h5>#}
+
                         </div>
                     {% endfor %}
                     </div>
                 </div>
-{#            </div>#}
             <div id="buy" class="tab-pane">
                 <div class="row mt" id="goodslistbuy">
                     {% for goods in b_orderlist %}
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
                             <div class="project-wrapper">
                                 <div class="project">
-                                    <div class="photo-wrapper">
-                                        <div class="photo">
-                                            <a class="fancybox" href={{ goods.picture }} target="_blank">
-                                                <img class="img-responsive" src={{ goods.picture }} alt=""></a>
-                                        </div>
-                                    </div>
+                                     <a href="/user/Order_details_3/{{ goods.order.order_id }}/"><button class="btn-showinfo" ><img class="show-info" src="/static/img/more.png"></button></a>
+                                    <img class="img-responsive" src={{ goods.picture }} alt=""></a>
                                     <h5>商品名称：{{ goods.order.goods_name }}</h5>
                                     <h5>成交价格：{{ goods.order.goods_cost }}</h5>
                                     <h5>商品评价：</h5>
@@ -235,21 +202,32 @@
                     {% endfor %}
                 </div>
             </div>
-            <div id="trade" class="tab-pane">
+            <div id="trade1" class="tab-pane">
                 <div class="row mt" id="goodslisttrade">
-                    {% for goods in I_orderlist %}
+                    {% for goods in I_1_orderlist %}
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
                             <div class="project-wrapper">
                                 <div class="project">
-                                    <div class="photo-wrapper">
-                                        <div class="photo">
-                                            <a class="fancybox" href={{ goods.picture }} target="_blank">
-                                                <img class="img-responsive" src={{ goods.picture }} alt=""></a>
-                                        </div>
-                                    </div>
+                                      <a href="/user/Order_details_1/{{ goods.order.order_id }}/"><button class="btn-showinfo" ><img class="show-info" src="/static/img/more.png"></button></a>
+                                        <img class="img-responsive" src={{ goods.picture }} width="400" height="250" alt=""></a>
                                     <h5>商品名称：{{ goods.order.goods_name }}</h5>
                                     <h5>成交价格：{{ goods.order.goods_price }}</h5>
-                                    <h5>商品评价：</h5>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+             <div id="trade2" class="tab-pane">
+                <div class="row mt" id="goodslisttrade">
+                    {% for goods in I_2_orderlist %}
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
+                            <div class="project-wrapper">
+                                <div class="project">
+                                      <a href="/user/Order_details_2/{{ goods.order.order_id }}/"><button class="btn-showinfo" ><img class="show-info" src="/static/img/more.png"></button></a>
+                                        <img class="img-responsive" src={{ goods.picture }} width="400" height="250" alt=""></a>
+                                    <h5>商品名称：{{ goods.order.goods_name }}</h5>
+                                    <h5>成交价格：{{ goods.order.goods_price }}</h5>
                                 </div>
                             </div>
                         </div>
@@ -262,15 +240,11 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
                             <div class="project-wrapper">
                                 <div class="project">
-                                    <div class="photo-wrapper">
-                                        <div class="photo">
-                                            <a class="fancybox" href={{ goods.picture }} target="_blank">
-                                                <img class="img-responsive" src={{ goods.picture }} alt=""></a>
-                                        </div>
-                                    </div>
+                                    <a href="/user/item/{{ goods.goods_id }}/"><button class="btn-showinfo" ><img class="show-info" src="/static/img/more.png"></button></a>
+                                    <img class="img-responsive" src={{ goods.picture }} width="400" height="250" alt=""></a>
                                     <h5>商品名称：{{ goods.goods_name}}</h5>
                                     <h5>目前价格：{{ goods.price }}</h5>
-                                    <h5>商品评价：{{ goods.description }}</h5>
+                                    <h5>商品描述：{{ goods.description}}</h5>
                                 </div>
                             </div>
                         </div>

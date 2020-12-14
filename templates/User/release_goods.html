@@ -55,26 +55,32 @@
 <section id="container">
 
     <!--sidebar start-->
-    <aside>
-        <div id="sidebar" class="nav-collapse ">
-            <!-- sidebar menu start-->
-            <ul class="sidebar-menu" id="nav-accordion">
-            <p class="centered"><a href="{% url 'user:userinfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80"></a>
-</p>
-                <h5 class="centered">{{ request.user.username }}</h5>
+   <aside>
+    <div id="sidebar" class="nav-collapse ">
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu" id="nav-accordion">
+            {% if request.user.is_authenticated %}
+            <p class="centered"><a href="{% url 'user:userinfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80" height="80"></a>
+                    {% else %}
+                <p class="centered">
+                <a href="#"><img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" class="img-circle"
+                                 width="80"></a>
+            {% endif %}
+            </p>
+            <h5 class="centered">{{ request.user.username }}</h5>
 
-                <li class="sub-menu">
-                    <a class="active" href="javascript:;">
-                        <span><a href="{% url 'user:index' %}"><h5>用户主页</h5></a></span>
-                        <span><a href="{% url 'user:search_goods' %}"><h5>搜索</h5></a></span>
-                        <span><a href="{% url 'user:shopping_cart' %}"><h5>购物车</h5></a></span>
-                        <span><a href="{% url 'user:collect' %}"><h5>收藏夹</h5></a></span>
-                    </a>
-                </li>
-            </ul>
-            <!-- sidebar menu end-->
-        </div>
-    </aside>
+            <li class="sub-menu">
+                <a class="active" href="javascript:;">
+                    <span><a href="{% url 'user:index' %}"><h5>用户主页</h5></a></span>
+                    <span><a href="{% url 'user:search_goods' %}"><h5>搜索</h5></a></span>
+                    <span><a href="{% url 'user:shopping_cart' %}"><h5>购物车</h5></a></span>
+                    <span><a href="{% url 'user:collect' %}"><h5>收藏夹</h5></a></span>
+                </a>
+            </li>
+        </ul>
+        <!-- sidebar menu end-->
+    </div>
+</aside>
     <!--sidebar end-->
     <!--main content start-->
 
@@ -213,8 +219,7 @@
     }
     $(document).ready(function () {//ajax刷新图片
         $("#release_btn").click(function () {//点击筛选按钮后，获得两个下拉选择框的值，弹出框提示，利用post方法提交到search_goods函数
-            alert("新增的的商品名称是:" + name + "\n新增的的商品价格是:" + price+ "\n新增的的商品类型是:" +type+"\n新增的的商品评价是:" + describe);
-            console.log("123");
+
             var name=document.getElementById("goods_name").value;
             var price=document.getElementById("goods_price").value;
             var type = $("#goods_type").find("option:selected").text();
@@ -222,6 +227,8 @@
             var describe=document.getElementById("goods_describe").value;
             var pictureObject = document.querySelector('input[type=file]').files[0];
             var picture = uploadimg(pictureObject);
+             alert("新增的的商品名称是:" + name + "\n新增的的商品价格是:" + price+ "\n新增的的商品类型是:" +type+"\n新增的的商品评价是:" + describe);
+             console.log("123");
             {#console.log(picture);#}
             $.post("{% url 'user:release_goods' %}", JSON.stringify({
                 name:name,
@@ -230,7 +237,8 @@
                 describe:describe,
                 picture:picture,
                 goods_num : goods_num,
-                condition : "九成新",
+                condition : "new",
+                state:"not_in_order"
             }), function (ret) {//得到返回值后，将原有的goodslist清空，按照返回结果重新张贴所有图片
                 ret = JSON.parse(ret);
                 if(ret["status"] == 200) {

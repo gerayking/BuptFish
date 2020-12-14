@@ -63,7 +63,7 @@
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
             {% if request.user.is_authenticated %}
-            <p class="centered"><a href="{% url 'user:userinfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80"></a>
+            <p class="centered"><a href="{% url 'user:userinfo' %}"><img src={{ request.user.avatar }} class="img-circle" width="80" height="80"></a>
                     {% else %}
                 <p class="centered">
                 <a href="#"><img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" class="img-circle"
@@ -96,10 +96,6 @@
         <div class="row content-panel">
             <div class="col-md-4 profile-text mt mb centered">
                 <div class="right-divider hidden-sm hidden-xs">
-{#                    <h4>1922</h4>#}
-{#                    <h6>FOLLOWERS</h6>#}
-{#                    <h4>290</h4>#}
-{#                    <h6>FOLLOWING</h6>#}
                     <h4>已出售{{ s_count }}件商品</h4>
                     <h6>TOTAL SALE</h6>
                     <h4>以获得${{ income }}收入</h4>
@@ -108,15 +104,12 @@
             </div>
             <!-- /col-md-4 -->
             <div class="col-md-4 profile-text">
-                <h3>{{ request.user.username}}</h3>
+                <h2>用户简介</h2>
+                <h3>用户姓名：{{ user.username}}</h3>
                 <h6>Main Administrator</h6>
-                <p>{{ request.user.user_des }}</p>
+                <h4>个人描述：</h4>
+                <p>{{ user.user_des}}</p>
                 <br>
-{#                <p>#}
-{#                    <a class="btn btn-theme" href="{% url 'user:release_goods' %}">发布商品</a>#}
-{#                    <a class="btn btn-theme02" href="{% url 'user:message' %}">查看消息</a>#}
-{##}
-{#                </p>#}
 
             </div>
             <!-- /col-md-4 -->
@@ -124,7 +117,7 @@
                 <div class="profile-pic">
                     <input type="file" accept="image/*" style="display: none" id="change_avatar">
                     {% if request.user.is_authenticated %}
-                        <p class="centered"><a href="/user/userinfo/"><img src={{ request.user.avatar }} class="img-circle"
+                        <p class="centered"><a href="/user/userinfo/"><img src={{ user.avatar }} class="img-circle"
                                                              width="80"></a>
                             {% else %}
                         <p class="centered">
@@ -132,8 +125,8 @@
                                          class="img-circle" width="80"></a>
                     {% endif %}
                     <p>
-{#                        <button class="btn btn-theme04" id="cavatar" onclick="changeavatar()">更换头像</button>#}
-                        <a class="btn btn-theme03" href="{% url 'user:online_comm' %}">发送私信</a>
+
+                        <a class="btn btn-theme03" href="/user/online_comm/{{ request.user.username }}/{{user.username }}">发送私信</a>
 
                     </p>
                 </div>
@@ -158,43 +151,17 @@
                 <li class="active">
                     <a data-toggle="tab" href="#sell" id="history_sell">历史卖出</a>
                 </li>
-{#                <li>#}
-{#                    <a data-toggle="tab" href="#buy" class="contact-map" id="history_buy">历史买入</a>#}
-{#                </li>#}
-{#                <li>#}
-{#                    <a data-toggle="tab" href="#trade" class="contact-map" id="history_trade">正在交易</a>#}
-{#                </li>#}
                  <li>
                     <a data-toggle="tab" href="#unsold" class="contact-map" id="not_in_order">闲置物品</a>
                 </li>
             </ul>
         </div>
-{#        <script>#}
-{#            window.onload(function () {#}
-{#                $("#history_buy").clicked();#}
-{#                $("#history_sell").click();#}
-{#            })#}
-{#        </script>#}
+
              <div class="tab-content">
              <div id="sell" class="tab-pane active">
                 <div class="row mt" id="goodslistsell">
                     {% for goods in s_orderlist %}
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
-                        {% comment %}
-        <script>
-            function changeavatar() {
-                console.log("here");
-                $("#change_avatar").click();
-            }
-            $("#change_avatar").change(function (){
-                console.log("here");
-                var file = $(this)[0].files[0];
-                var reader  = new FileReader();
-                console.log(file);
-            });
-        </script>
- {% endcomment %}
-{#                        <div class="project-wrapper">#}
                             <div class="project">
                                 <div class="photo-wrapper">
                                     <div class="photo">
@@ -204,58 +171,13 @@
                                 </div>
                                 <h5>商品名称：{{ goods.order.goods_name }}</h5>
                                 <h5>成交价格：{{ goods.order.goods_cost }}</h5>
-                                {#                        <h5>商品原价：{{ count}}</h5>#}
+                                <h5>商品原价：{{ goods.order.goods_price}}</h5>
                             </div>
-{#                            <h5>商品名称：{{ order.order.goods_name }}</h5>#}
-{#                            <h5>成交价格：{{ order.order.goods_cost }}</h5>#}
-{#                            <h5>商品原价：</h5>#}
+
                         </div>
                     {% endfor %}
                     </div>
                 </div>
-{#            </div>#}
-{#            <div id="buy" class="tab-pane">#}
-{#                <div class="row mt" id="goodslistbuy">#}
-{#                    {% for goods in b_orderlist %}#}
-{#                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">#}
-{#                            <div class="project-wrapper">#}
-{#                                <div class="project">#}
-{#                                    <div class="photo-wrapper">#}
-{#                                        <div class="photo">#}
-{#                                            <a class="fancybox" href={{ goods.picture }} target="_blank">#}
-{#                                                <img class="img-responsive" src={{ goods.picture }} alt=""></a>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                    <h5>商品名称：{{ goods.order.goods_name }}</h5>#}
-{#                                    <h5>成交价格：{{ goods.order.goods_cost }}</h5>#}
-{#                                    <h5>商品评价：</h5>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    {% endfor %}#}
-{#                </div>#}
-{#            </div>#}
-{#            <div id="trade" class="tab-pane">#}
-{#                <div class="row mt" id="goodslisttrade">#}
-{#                    {% for goods in I_orderlist %}#}
-{#                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">#}
-{#                            <div class="project-wrapper">#}
-{#                                <div class="project">#}
-{#                                    <div class="photo-wrapper">#}
-{#                                        <div class="photo">#}
-{#                                            <a class="fancybox" href={{ goods.picture }} target="_blank">#}
-{#                                                <img class="img-responsive" src={{ goods.picture }} alt=""></a>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                    <h5>商品名称：{{ goods.order.goods_name }}</h5>#}
-{#                                    <h5>成交价格：{{ goods.order.goods_price }}</h5>#}
-{#                                    <h5>商品评价：</h5>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    {% endfor %}#}
-{#                </div>#}
-{#            </div>#}
             <div id="unsold" class="tab-pane">
                 <div class="row mt" id="goodslistnotin">
                     {% for goods in not_in %}

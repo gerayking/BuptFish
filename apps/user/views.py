@@ -7,11 +7,12 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic, View
 from apps.user.Service.ShopCartService import shopcartservice
+from apps.user.Service.OrderService import getOrderById
 from apps.user.Service import GoodsService
 from apps.user.Service.IndexService import indexview, countSelled, getincome, not_inorder
 from apps.user.Service.CollectService import collectview
 from apps.user.models import UserInfo as User, Collect, Shopcart, UserInfo
-from apps.user.models import Orderdetail, Goods
+from apps.user.models import Order, Goods,Orderdetail,Type_id
 from apps.user.utils import ClassTree
 from apps.user.utils.ClassTree import classtree
 
@@ -35,7 +36,8 @@ def index(request):
     orderlist = indexview(c_id)
     s_orderlist = orderlist.Sell
     b_orderlist = orderlist.Buy
-    I_orderlist = orderlist.Ing
+    I_1_orderlist = orderlist.Ing_1
+    I_2_orderlist=orderlist.Ing_2
     # 根据用户的历史卖出商品返回图片路径
 
     return render(request, 'User/index.html', locals())
@@ -63,6 +65,7 @@ def delCollect(request: HttpRequest):
         item.delete()
         return rjson(500, "删除成功")
     return rjson(200, "不能删除不存在的物品")
+
 
 
 def addShopCart(request: HttpRequest):
@@ -106,6 +109,15 @@ def containShopCart(request: HttpRequest):
         return rjson(200, "False")
     return rjson(200, "True")
 
+def changeOrderstate(request:HttpRequest):
+    data=request.POST
+    orderId=data["orderId"]
+    order=Order.objects.get(order_id=orderId)
+    order.state="finish"
+    order.save()
+    return rjson("True")
+
+
 
 def containCollect(request: HttpRequest):
     data = request.POST
@@ -135,6 +147,39 @@ class ShopCart(View):
         return render(request, 'User/shopping_cart.html', locals())
 
 
+def deal(request:HttpRequest):
+    shopcart=Shopcart.objects.filter(user_name=request.user.username)
+    goods=[]
+    for gid in shopcart:
+        temp=Goods.objects.get(goods_id=gid.goods_id)
+        goods.append(temp)
+        order=Order()#生成订单
+        order.order_id=8
+        User=UserInfo.objects.get(username=request.user.username)
+        User2=UserInfo.objects.get(username=temp.user_name)
+        order.rec_name=User.username
+        order.cost=temp.secprice
+        order.address=User.user_adr
+        order.buyer_id=User.id
+        order.seller_id=User2.id
+        order.email=User.email
+        order.tel='1222'
+        order.order_time='2020-12-13 11:00'
+        order.state="unfinish"
+        order.save()
+        orderdetail=Orderdetail()#生成订单详情
+        orderdetail.detail_id=8
+        orderdetail.order_id=order.order_id
+        orderdetail.goods_id=temp.goods_id
+        orderdetail.goods_num=temp.goods_num
+        orderdetail.goods_name=temp.goods_name
+        orderdetail.goods_cost=temp.secprice
+        orderdetail.goods_price=temp.price
+        orderdetail.save()
+        temp.state='in_order'#改变物品状态信息
+        temp.save()
+    return render(request, 'User/deal.html', locals())
+
 class collect(View):
     def get(self, request: HttpRequest):
         if request.user.is_authenticated:
@@ -161,16 +206,31 @@ class release_goods(View):
         goods.picture = str(data["picture"])
         goods.goods_num = int(data["goods_num"])
         goods.user_name = str(request.user.username)
+        goods.state = str(data["state"])
         goodstype = str(data["type"])
         goods.class_id = goodsutils.str2typeid(goodstype)
         goods.secprice = float(data["price"])
         goods.condition = str(data["condition"])
-        return goodservice.savagoods(goods)
+        return goodservice.releaseGoods(goods)
 
     def get(self, request: HttpRequest):
         goods_type = goodservice.get_goods_type()
         return render(request, 'User/release_goods.html', locals())
 
+def Order_details_1(request, oid : int):
+    order,orderdetail=getOrderById(oid)
+    good=Goods.objects.get(goods_id=orderdetail.goods_id)
+    return render(request,'User/Order_details_1.html', locals())
+
+def Order_details_2(request, oid : int):
+    order,orderdetail=getOrderById(oid)
+    good=Goods.objects.get(goods_id=orderdetail.goods_id)
+    return render(request,'User/Order_details_2.html', locals())
+
+def Order_details_3(request, oid : int):
+    order,orderdetail=getOrderById(oid)
+    good=Goods.objects.get(goods_id=orderdetail.goods_id)
+    return render(request,'User/Order_details_3.html', locals())
 
 def userInfo(request):
     return render(request, 'User/userInfo.html')
@@ -245,15 +305,14 @@ class search_goods(View):
 
 
 def Userinfo_other(request, uid: int):
-    # user=getUserbyId(uid)
-    name = UserInfo.objects.get(id=uid).username
+    user = UserInfo.objects.get(id=uid)
+    name=user.username
     s_count = countSelled(uid)
     income = getincome(uid)
     not_in = not_inorder(name)
     orderlist = indexview(uid)
     s_orderlist = orderlist.Sell
-    b_orderlist = orderlist.Buy
-    I_orderlist = orderlist.Ing
+
     # 根据用户的历史卖出商品返回图片路径
     return render(request, 'User/Userinfo_other.html', locals())
 
@@ -303,19 +362,6 @@ class userinfo(View):
         userinfo.save()
         return rjson(200, "信息更新完成")
 
-
-# class IndexView(View):
-#     def get(self, request: HttpRequest):
-#         order = Orderdetail.objects.get(detail_id=1)
-#         order1 = order[0]
-#         photo_paths_sell = ["https://i.loli.net/2020/11/02/WxsILKP7kX9iTbZ.jpg",  # 图片port1
-#                             "https://i.loli.net/2020/11/02/iGuQr6RgHoLE4UW.jpg",  # 图片port2
-#                             "https://i.loli.net/2020/11/02/AOcV49gWoNDRrlK.jpg",  # 图片port3
-#                             "https://i.loli.net/2020/11/02/QpWvltj85E6uJia.jpg",  # 图片port4
-#                             "https://i.loli.net/2020/11/02/7fpEKYHXjW36PMF.jpg",  # 图片port5
-#                             "https://i.loli.net/2020/11/02/eqHvPVzDXjlNaK1.jpg"]  # 图片port6
-#
-#         return render(request, 'User/index.html', locals())
 
 
 class LoginView(View):
@@ -367,5 +413,3 @@ class RegisterView(View):
         user.save()
         return HttpResponse(json.dumps({"status": 200, "msg": "注册成功"}))
 
-# def IndexView(request):
-#     return None
